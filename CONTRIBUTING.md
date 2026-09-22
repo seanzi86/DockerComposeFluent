@@ -14,10 +14,19 @@ dotnet test
 
 ## Workflow
 
-- Branch off `main`, open a pull request against `main`.
+- Branch off `main` using `Features/<ShortDescription>` naming (e.g. `Features/CoreModels`), open a pull request against `main`.
 - `main` is protected: PRs require the CI check to pass before merging, and merges are squash-only.
 - Keep PRs scoped to a single issue/concern where possible.
 - Reference the issue you're addressing in the PR description (e.g. `Closes #12`).
+
+## Coding standards
+
+Enforced via `.editorconfig` and `EnforceCodeStyleInBuild` (violations fail the build):
+
+- **Block-scoped namespaces** (`namespace X { ... }`), not file-scoped (`namespace X;`).
+- **No `var`** — always use the explicit type.
+- **XML `<summary>` doc comments on every public type and member** — this is a public package, so these become the IntelliSense docs consumers see. Missing docs fail the build (`CS1591`).
+- **Link each summary back to the relevant [compose-spec](https://github.com/compose-spec/compose-spec) section** via `<see href="..."/>`, pointing at `main` (the spec has no tagged releases). An established property's spec text is unlikely to change shape; if the spec does add something new, that's new scope for its own release anyway.
 
 ## API design conventions
 
