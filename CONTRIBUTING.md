@@ -25,6 +25,7 @@ Enforced via `.editorconfig` and `EnforceCodeStyleInBuild` (violations fail the 
 
 - **Block-scoped namespaces** (`namespace X { ... }`), not file-scoped (`namespace X;`).
 - **No `var`** — always use the explicit type.
+- **XML `<summary>` doc comments on every public type and member** — this is a public package, so these become the IntelliSense docs consumers see. Missing docs fail the build (`CS1591`).
 
 ## API design conventions
 
