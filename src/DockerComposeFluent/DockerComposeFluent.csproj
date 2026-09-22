@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>DockerComposeFluent</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Sean Carrington</Authors>
+    <Description>A fluent API for building and generating docker-compose.yml files in .NET.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/seanzi86/DockerComposeFluent</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/seanzi86/DockerComposeFluent</PackageProjectUrl>
+    <PackageTags>docker;docker-compose;fluent;yaml</PackageTags>
+  </PropertyGroup>
+
+</Project>
