@@ -8,6 +8,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment: release # must match the Environment set on the nuget.org Trusted Publishing policy
     permissions:
       id-token: write # required to request the GitHub OIDC token for NuGet Trusted Publishing
 
