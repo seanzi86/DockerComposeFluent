@@ -14,7 +14,7 @@ dotnet test
 
 ## Workflow
 
-- Branch off `main`, open a pull request against `main`.
+- Branch off `main` using `Features/<ShortDescription>` naming (e.g. `Features/CoreModels`), open a pull request against `main`.
 - `main` is protected: PRs require the CI check to pass before merging, and merges are squash-only.
 - Keep PRs scoped to a single issue/concern where possible.
 - Reference the issue you're addressing in the PR description (e.g. `Closes #12`).
