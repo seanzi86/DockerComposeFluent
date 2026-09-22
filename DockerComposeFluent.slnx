@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DockerComposeFluent/DockerComposeFluent.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/DockerComposeFluent.Tests.Unit/DockerComposeFluent.Tests.Unit.csproj" />
+  </Folder>
+</Solution>
