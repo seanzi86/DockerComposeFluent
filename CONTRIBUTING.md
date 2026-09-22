@@ -26,7 +26,7 @@ Enforced via `.editorconfig` and `EnforceCodeStyleInBuild` (violations fail the 
 - **Block-scoped namespaces** (`namespace X { ... }`), not file-scoped (`namespace X;`).
 - **No `var`** — always use the explicit type.
 - **XML `<summary>` doc comments on every public type and member** — this is a public package, so these become the IntelliSense docs consumers see. Missing docs fail the build (`CS1591`).
-- **Link each summary back to the relevant [compose-spec](https://github.com/compose-spec/compose-spec) section** via `<see href="..."/>`, pinned to a specific commit SHA (the spec has no tagged releases) rather than `main`, so links stay stable even if the spec is reorganized later.
+- **Link each summary back to the relevant [compose-spec](https://github.com/compose-spec/compose-spec) section** via `<see href="..."/>`, pointing at `main` (the spec has no tagged releases). An established property's spec text is unlikely to change shape; if the spec does add something new, that's new scope for its own release anyway.
 
 ## API design conventions
 
