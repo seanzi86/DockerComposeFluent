@@ -1,6 +1,7 @@
-namespace DockerComposeFluent.Models;
-
-public sealed record NetworkDefinition
+namespace DockerComposeFluent.Models
 {
-    public string? Driver { get; init; }
+    public sealed record NetworkDefinition
+    {
+        public string? Driver { get; init; }
+    }
 }

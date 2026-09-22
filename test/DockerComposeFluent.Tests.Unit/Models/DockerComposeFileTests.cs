@@ -1,38 +1,39 @@
 using System.Collections.Generic;
 using DockerComposeFluent.Models;
 
-namespace DockerComposeFluent.Tests.Unit.Models;
-
-public class DockerComposeFileTests
+namespace DockerComposeFluent.Tests.Unit.Models
 {
-    [Fact]
-    public void DefaultCollections_AreEmpty_NotNull()
+    public class DockerComposeFileTests
     {
-        DockerComposeFile file = new();
-
-        Assert.Empty(file.Services);
-        Assert.Empty(file.Networks);
-        Assert.Empty(file.Volumes);
-    }
-
-    [Fact]
-    public void With_ProducesNewInstance_LeavingOriginalUnchanged()
-    {
-        DockerComposeFile original = new() { Name = "original" };
-
-        DockerComposeFile updated = original with
+        [Fact]
+        public void DefaultCollections_AreEmpty_NotNull()
         {
-            Name = "updated",
-            Services = new Dictionary<string, ServiceDefinition>
+            DockerComposeFile file = new();
+
+            Assert.Empty(file.Services);
+            Assert.Empty(file.Networks);
+            Assert.Empty(file.Volumes);
+        }
+
+        [Fact]
+        public void With_ProducesNewInstance_LeavingOriginalUnchanged()
+        {
+            DockerComposeFile original = new() { Name = "original" };
+
+            DockerComposeFile updated = original with
             {
-                ["web"] = new ServiceDefinition { Image = "nginx" }
-            }
-        };
+                Name = "updated",
+                Services = new Dictionary<string, ServiceDefinition>
+                {
+                    ["web"] = new ServiceDefinition { Image = "nginx" }
+                }
+            };
 
-        Assert.Equal("original", original.Name);
-        Assert.Empty(original.Services);
+            Assert.Equal("original", original.Name);
+            Assert.Empty(original.Services);
 
-        Assert.Equal("updated", updated.Name);
-        Assert.Equal("nginx", updated.Services["web"].Image);
+            Assert.Equal("updated", updated.Name);
+            Assert.Equal("nginx", updated.Services["web"].Image);
+        }
     }
 }

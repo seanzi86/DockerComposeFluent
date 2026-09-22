@@ -19,6 +19,13 @@ dotnet test
 - Keep PRs scoped to a single issue/concern where possible.
 - Reference the issue you're addressing in the PR description (e.g. `Closes #12`).
 
+## Coding standards
+
+Enforced via `.editorconfig` and `EnforceCodeStyleInBuild` (violations fail the build):
+
+- **Block-scoped namespaces** (`namespace X { ... }`), not file-scoped (`namespace X;`).
+- **No `var`** — always use the explicit type.
+
 ## API design conventions
 
 This library follows a few consistent conventions across the whole fluent API — please follow them in new code rather than introducing a one-off shape:

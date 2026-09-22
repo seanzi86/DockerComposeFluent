@@ -1,6 +1,7 @@
-namespace DockerComposeFluent.Models;
-
-public sealed record VolumeDefinition
+namespace DockerComposeFluent.Models
 {
-    public string? Driver { get; init; }
+    public sealed record VolumeDefinition
+    {
+        public string? Driver { get; init; }
+    }
 }
