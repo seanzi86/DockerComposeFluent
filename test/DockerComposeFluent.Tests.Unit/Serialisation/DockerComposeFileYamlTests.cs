@@ -15,7 +15,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
 
             string yaml = Normalise(file.ToYaml());
 
-            Assert.Equal("{}\n", yaml);
+            Assert.Equal("{}", yaml);
         }
 
         [Fact]
@@ -31,7 +31,13 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
 
             string yaml = Normalise(file.ToYaml());
 
-            Assert.Equal("services:\n  \"web\":\n    image: \"nginx\"\n", yaml);
+            Assert.Equal(
+                """
+                services:
+                  "web":
+                    image: "nginx"
+                """,
+                yaml);
         }
 
         [Fact]
@@ -47,7 +53,12 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
 
             string yaml = Normalise(file.ToYaml());
 
-            Assert.Equal("networks:\n  \"default\": {}\n", yaml);
+            Assert.Equal(
+                """
+                networks:
+                  "default": {}
+                """,
+                yaml);
         }
 
         [Fact]
@@ -112,7 +123,11 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
         {
             DockerComposeFile file = new DockerComposeBuilder().WithName(value).Build();
 
-            Assert.Equal("name: \"" + value + "\"\n", Normalise(file.ToYaml()));
+            Assert.Equal(
+                $"""
+                name: "{value}"
+                """,
+                Normalise(file.ToYaml()));
         }
 
         [Theory]
@@ -132,9 +147,24 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
 
             string yaml = Normalise(file.ToYaml());
 
-            Assert.Contains("services:\n  \"" + name + "\":\n", yaml);
-            Assert.Contains("networks:\n  \"" + name + "\":\n", yaml);
-            Assert.Contains("volumes:\n  \"" + name + "\":\n", yaml);
+            Assert.Contains(
+                $"""
+                services:
+                  "{name}":
+                """,
+                yaml);
+            Assert.Contains(
+                $"""
+                networks:
+                  "{name}":
+                """,
+                yaml);
+            Assert.Contains(
+                $"""
+                volumes:
+                  "{name}":
+                """,
+                yaml);
         }
 
         [Fact]
@@ -144,12 +174,18 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
                 .WithService("app", service => service.WithCommand(new[] { "echo", "" }))
                 .Build();
 
-            Assert.Equal("services:\n  \"app\":\n    command: [\"echo\", \"\"]\n", Normalise(file.ToYaml()));
+            Assert.Equal(
+                """
+                services:
+                  "app":
+                    command: ["echo", ""]
+                """,
+                Normalise(file.ToYaml()));
         }
 
         private static string Normalise(string yaml)
         {
-            return yaml.Replace("\r\n", "\n");
+            return yaml.Replace("\r\n", "\n").TrimEnd('\n');
         }
     }
 }
