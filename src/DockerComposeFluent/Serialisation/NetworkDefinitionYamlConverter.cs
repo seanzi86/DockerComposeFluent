@@ -4,8 +4,12 @@ using YamlDotNet.Serialization;
 
 namespace DockerComposeFluent.Serialisation
 {
+    /// <summary>
+    /// Writes a <see cref="NetworkDefinition"/> as a network entry.
+    /// </summary>
     internal sealed class NetworkDefinitionYamlConverter : YamlConverter<NetworkDefinition>
     {
+        /// <inheritdoc />
         protected override void Write(IEmitter emitter, NetworkDefinition value, ObjectSerializer serialiser)
         {
             YamlWriting.StartMapping(emitter);

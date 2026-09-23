@@ -4,8 +4,12 @@ using YamlDotNet.Serialization;
 
 namespace DockerComposeFluent.Serialisation
 {
+    /// <summary>
+    /// Writes a <see cref="DockerComposeFile"/> as the root compose mapping.
+    /// </summary>
     internal sealed class DockerComposeFileYamlConverter : YamlConverter<DockerComposeFile>
     {
+        /// <inheritdoc />
         protected override void Write(IEmitter emitter, DockerComposeFile value, ObjectSerializer serialiser)
         {
             YamlWriting.StartMapping(emitter);
