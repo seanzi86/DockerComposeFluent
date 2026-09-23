@@ -12,10 +12,10 @@ namespace DockerComposeFluent.Serialisation
         /// <inheritdoc />
         protected override void Write(IEmitter emitter, ServiceDefinition value, ObjectSerializer serialiser)
         {
-            YamlWriting.StartMapping(emitter);
-            YamlWriting.WriteOptionalScalar(emitter, "container_name", value.ContainerName);
-            YamlWriting.WriteOptionalScalar(emitter, "image", value.Image);
-            YamlWriting.EndMapping(emitter);
+            emitter.StartMapping();
+            emitter.WriteOptionalScalar("container_name", value.ContainerName);
+            emitter.WriteOptionalScalar("image", value.Image);
+            emitter.EndMapping();
         }
     }
 }

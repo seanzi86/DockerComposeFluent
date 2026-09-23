@@ -6,15 +6,15 @@ using YamlDotNet.Serialization;
 namespace DockerComposeFluent.Serialisation
 {
     /// <summary>
-    /// Helpers for emitting the YAML events shared by all converters.
+    /// Extension methods for emitting the YAML events shared by all converters.
     /// </summary>
-    internal static class YamlWriting
+    internal static class EmitterExtensions
     {
         /// <summary>
         /// Starts a block-style mapping.
         /// </summary>
         /// <param name="emitter">The emitter to write to.</param>
-        internal static void StartMapping(IEmitter emitter)
+        internal static void StartMapping(this IEmitter emitter)
         {
             emitter.Emit(new MappingStart(null, null, true, MappingStyle.Block));
         }
@@ -23,7 +23,7 @@ namespace DockerComposeFluent.Serialisation
         /// Ends the current mapping.
         /// </summary>
         /// <param name="emitter">The emitter to write to.</param>
-        internal static void EndMapping(IEmitter emitter)
+        internal static void EndMapping(this IEmitter emitter)
         {
             emitter.Emit(new MappingEnd());
         }
@@ -33,7 +33,7 @@ namespace DockerComposeFluent.Serialisation
         /// </summary>
         /// <param name="emitter">The emitter to write to.</param>
         /// <param name="key">The key to write.</param>
-        internal static void WriteKey(IEmitter emitter, string key)
+        internal static void WriteKey(this IEmitter emitter, string key)
         {
             emitter.Emit(new Scalar(key));
         }
@@ -44,7 +44,7 @@ namespace DockerComposeFluent.Serialisation
         /// <param name="emitter">The emitter to write to.</param>
         /// <param name="key">The key to write.</param>
         /// <param name="value">The value to write, or <c>null</c> to omit the entry.</param>
-        internal static void WriteOptionalScalar(IEmitter emitter, string key, string? value)
+        internal static void WriteOptionalScalar(this IEmitter emitter, string key, string? value)
         {
             if (value == null)
             {
@@ -63,7 +63,7 @@ namespace DockerComposeFluent.Serialisation
         /// <param name="key">The key to write.</param>
         /// <param name="values">The named values to write.</param>
         /// <param name="serialiser">Serialises each value using the registered converters.</param>
-        internal static void WriteMap<T>(IEmitter emitter, string key, IReadOnlyDictionary<string, T> values, ObjectSerializer serialiser)
+        internal static void WriteMap<T>(this IEmitter emitter, string key, IReadOnlyDictionary<string, T> values, ObjectSerializer serialiser)
         {
             if (values.Count == 0)
             {

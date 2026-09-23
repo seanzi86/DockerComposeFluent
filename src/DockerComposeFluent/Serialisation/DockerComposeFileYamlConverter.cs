@@ -12,12 +12,12 @@ namespace DockerComposeFluent.Serialisation
         /// <inheritdoc />
         protected override void Write(IEmitter emitter, DockerComposeFile value, ObjectSerializer serialiser)
         {
-            YamlWriting.StartMapping(emitter);
-            YamlWriting.WriteOptionalScalar(emitter, "name", value.Name);
-            YamlWriting.WriteMap(emitter, "services", value.Services, serialiser);
-            YamlWriting.WriteMap(emitter, "networks", value.Networks, serialiser);
-            YamlWriting.WriteMap(emitter, "volumes", value.Volumes, serialiser);
-            YamlWriting.EndMapping(emitter);
+            emitter.StartMapping();
+            emitter.WriteOptionalScalar("name", value.Name);
+            emitter.WriteMap("services", value.Services, serialiser);
+            emitter.WriteMap("networks", value.Networks, serialiser);
+            emitter.WriteMap("volumes", value.Volumes, serialiser);
+            emitter.EndMapping();
         }
     }
 }
