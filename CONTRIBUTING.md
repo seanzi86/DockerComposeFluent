@@ -25,6 +25,7 @@ Enforced via `.editorconfig` and `EnforceCodeStyleInBuild` (violations fail the 
 
 - **Block-scoped namespaces** (`namespace X { ... }`), not file-scoped (`namespace X;`).
 - **No `var`** — always use the explicit type.
+- **Private fields use an underscore prefix** (`_camelCase`, e.g. `_services`).
 - **UK English** in identifiers, comments and docs (e.g. `Serialise`, `Normalise`), except where a third-party or compose-spec name dictates otherwise.
 - **XML `<summary>` doc comments on every public type and member** — this is a public package, so these become the IntelliSense docs consumers see. Missing docs on public members fail the build (`CS1591`); internal types and members should be documented too, but that is checked in review.
 - **Link each summary back to the relevant [compose-spec](https://github.com/compose-spec/compose-spec) section** via `<see href="..."/>`, pointing at `main` (the spec has no tagged releases). An established property's spec text is unlikely to change shape; if the spec does add something new, that's new scope for its own release anyway.

@@ -7,7 +7,7 @@ namespace DockerComposeFluent.Builders
     /// </summary>
     public sealed class VolumeBuilder
     {
-        private VolumeDefinition definition = new VolumeDefinition();
+        private VolumeDefinition _definition = new VolumeDefinition();
 
         /// <summary>
         /// Sets the volume driver.
@@ -17,7 +17,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public VolumeBuilder WithDriver(string driver)
         {
-            definition = definition with { Driver = Guard.NotNullOrWhiteSpace(driver, nameof(driver)) };
+            _definition = _definition with { Driver = Guard.NotNullOrWhiteSpace(driver, nameof(driver)) };
             return this;
         }
 
@@ -29,7 +29,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public VolumeBuilder WithName(string name)
         {
-            definition = definition with { Name = Guard.NotNullOrWhiteSpace(name, nameof(name)) };
+            _definition = _definition with { Name = Guard.NotNullOrWhiteSpace(name, nameof(name)) };
             return this;
         }
 
@@ -39,7 +39,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>An immutable <see cref="VolumeDefinition"/>.</returns>
         public VolumeDefinition Build()
         {
-            return definition;
+            return _definition;
         }
     }
 }

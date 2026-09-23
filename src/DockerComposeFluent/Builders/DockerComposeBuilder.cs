@@ -11,10 +11,10 @@ namespace DockerComposeFluent.Builders
     /// </summary>
     public sealed class DockerComposeBuilder
     {
-        private readonly Dictionary<string, ServiceDefinition> services = new Dictionary<string, ServiceDefinition>();
-        private readonly Dictionary<string, NetworkDefinition> networks = new Dictionary<string, NetworkDefinition>();
-        private readonly Dictionary<string, VolumeDefinition> volumes = new Dictionary<string, VolumeDefinition>();
-        private string? name;
+        private readonly Dictionary<string, ServiceDefinition> _services = new Dictionary<string, ServiceDefinition>();
+        private readonly Dictionary<string, NetworkDefinition> _networks = new Dictionary<string, NetworkDefinition>();
+        private readonly Dictionary<string, VolumeDefinition> _volumes = new Dictionary<string, VolumeDefinition>();
+        private string? _name;
 
         /// <summary>
         /// Sets the project name.
@@ -24,7 +24,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public DockerComposeBuilder WithName(string name)
         {
-            this.name = Guard.NotNullOrWhiteSpace(name, nameof(name));
+            _name = Guard.NotNullOrWhiteSpace(name, nameof(name));
             return this;
         }
 
@@ -37,7 +37,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public DockerComposeBuilder WithService(string name, ServiceDefinition service)
         {
-            services[Guard.NotNullOrWhiteSpace(name, nameof(name))] = Guard.NotNull(service, nameof(service));
+            _services[Guard.NotNullOrWhiteSpace(name, nameof(name))] = Guard.NotNull(service, nameof(service));
             return this;
         }
 
@@ -66,7 +66,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public DockerComposeBuilder WithNetwork(string name, NetworkDefinition network)
         {
-            networks[Guard.NotNullOrWhiteSpace(name, nameof(name))] = Guard.NotNull(network, nameof(network));
+            _networks[Guard.NotNullOrWhiteSpace(name, nameof(name))] = Guard.NotNull(network, nameof(network));
             return this;
         }
 
@@ -95,7 +95,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public DockerComposeBuilder WithVolume(string name, VolumeDefinition volume)
         {
-            volumes[Guard.NotNullOrWhiteSpace(name, nameof(name))] = Guard.NotNull(volume, nameof(volume));
+            _volumes[Guard.NotNullOrWhiteSpace(name, nameof(name))] = Guard.NotNull(volume, nameof(volume));
             return this;
         }
 
@@ -123,10 +123,10 @@ namespace DockerComposeFluent.Builders
         {
             return new DockerComposeFile
             {
-                Name = name,
-                Services = new Dictionary<string, ServiceDefinition>(services),
-                Networks = new Dictionary<string, NetworkDefinition>(networks),
-                Volumes = new Dictionary<string, VolumeDefinition>(volumes)
+                Name = _name,
+                Services = new Dictionary<string, ServiceDefinition>(_services),
+                Networks = new Dictionary<string, NetworkDefinition>(_networks),
+                Volumes = new Dictionary<string, VolumeDefinition>(_volumes)
             };
         }
     }

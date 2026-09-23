@@ -7,7 +7,7 @@ namespace DockerComposeFluent.Builders
     /// </summary>
     public sealed class NetworkBuilder
     {
-        private NetworkDefinition definition = new NetworkDefinition();
+        private NetworkDefinition _definition = new NetworkDefinition();
 
         /// <summary>
         /// Sets the network driver.
@@ -17,7 +17,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public NetworkBuilder WithDriver(string driver)
         {
-            definition = definition with { Driver = Guard.NotNullOrWhiteSpace(driver, nameof(driver)) };
+            _definition = _definition with { Driver = Guard.NotNullOrWhiteSpace(driver, nameof(driver)) };
             return this;
         }
 
@@ -29,7 +29,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public NetworkBuilder WithName(string name)
         {
-            definition = definition with { Name = Guard.NotNullOrWhiteSpace(name, nameof(name)) };
+            _definition = _definition with { Name = Guard.NotNullOrWhiteSpace(name, nameof(name)) };
             return this;
         }
 
@@ -39,7 +39,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>An immutable <see cref="NetworkDefinition"/>.</returns>
         public NetworkDefinition Build()
         {
-            return definition;
+            return _definition;
         }
     }
 }

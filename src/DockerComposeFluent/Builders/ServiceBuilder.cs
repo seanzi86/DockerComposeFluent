@@ -7,7 +7,7 @@ namespace DockerComposeFluent.Builders
     /// </summary>
     public sealed class ServiceBuilder
     {
-        private ServiceDefinition definition = new ServiceDefinition();
+        private ServiceDefinition _definition = new ServiceDefinition();
 
         /// <summary>
         /// Sets the image to start the container from.
@@ -17,7 +17,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public ServiceBuilder WithImage(string image)
         {
-            definition = definition with { Image = Guard.NotNullOrWhiteSpace(image, nameof(image)) };
+            _definition = _definition with { Image = Guard.NotNullOrWhiteSpace(image, nameof(image)) };
             return this;
         }
 
@@ -29,7 +29,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public ServiceBuilder WithContainerName(string containerName)
         {
-            definition = definition with { ContainerName = Guard.NotNullOrWhiteSpace(containerName, nameof(containerName)) };
+            _definition = _definition with { ContainerName = Guard.NotNullOrWhiteSpace(containerName, nameof(containerName)) };
             return this;
         }
 
@@ -39,7 +39,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>An immutable <see cref="ServiceDefinition"/>.</returns>
         public ServiceDefinition Build()
         {
-            return definition;
+            return _definition;
         }
     }
 }
