@@ -17,7 +17,8 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public ServiceBuilder WithImage(string image)
         {
-            _definition = _definition with { Image = Guard.NotNullOrWhiteSpace(image, nameof(image)) };
+            Guard.NotNullOrWhiteSpace(image, nameof(image));
+            _definition = _definition with { Image = image };
             return this;
         }
 
@@ -29,7 +30,8 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public ServiceBuilder WithContainerName(string containerName)
         {
-            _definition = _definition with { ContainerName = Guard.NotNullOrWhiteSpace(containerName, nameof(containerName)) };
+            Guard.NotNullOrWhiteSpace(containerName, nameof(containerName));
+            _definition = _definition with { ContainerName = containerName };
             return this;
         }
 

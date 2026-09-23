@@ -17,7 +17,8 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public VolumeBuilder WithDriver(string driver)
         {
-            _definition = _definition with { Driver = Guard.NotNullOrWhiteSpace(driver, nameof(driver)) };
+            Guard.NotNullOrWhiteSpace(driver, nameof(driver));
+            _definition = _definition with { Driver = driver };
             return this;
         }
 
@@ -29,7 +30,8 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public VolumeBuilder WithName(string name)
         {
-            _definition = _definition with { Name = Guard.NotNullOrWhiteSpace(name, nameof(name)) };
+            Guard.NotNullOrWhiteSpace(name, nameof(name));
+            _definition = _definition with { Name = name };
             return this;
         }
 
