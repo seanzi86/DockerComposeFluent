@@ -40,5 +40,53 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentException>(() => builder.WithImage(" "));
             Assert.Throws<ArgumentException>(() => builder.WithContainerName(""));
         }
+
+        [Fact]
+        public void WithCommand_String_UsesShellForm()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithCommand("npm start").Build();
+
+            Assert.Equal("npm start", service.Command!.Shell);
+            Assert.Null(service.Command.Arguments);
+        }
+
+        [Fact]
+        public void WithCommand_List_UsesExecForm()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithCommand(new[] { "npm", "start" }).Build();
+
+            Assert.Null(service.Command!.Shell);
+            Assert.Equal(new[] { "npm", "start" }, service.Command.Arguments);
+        }
+
+        [Fact]
+        public void WithEntrypoint_BothForms_SetEntrypoint()
+        {
+            ServiceDefinition shell = new ServiceBuilder().WithEntrypoint("/start.sh").Build();
+            ServiceDefinition exec = new ServiceBuilder().WithEntrypoint(new[] { "/start.sh", "--fast" }).Build();
+
+            Assert.Equal("/start.sh", shell.Entrypoint!.Shell);
+            Assert.Equal(new[] { "/start.sh", "--fast" }, exec.Entrypoint!.Arguments);
+        }
+
+        [Fact]
+        public void WithCommand_CalledTwice_LastFormWins()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithCommand("a").WithCommand(new[] { "b" }).Build();
+
+            Assert.Null(service.Command!.Shell);
+            Assert.Equal(new[] { "b" }, service.Command.Arguments);
+        }
+
+        [Fact]
+        public void BlankCommandAndNullArguments_Throw()
+        {
+            ServiceBuilder builder = new ServiceBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithCommand(" "));
+            Assert.Throws<ArgumentException>(() => builder.WithEntrypoint(""));
+            Assert.Throws<ArgumentNullException>(() => builder.WithCommand((string[])null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithEntrypoint((string[])null!));
+        }
     }
 }

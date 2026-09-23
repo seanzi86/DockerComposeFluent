@@ -13,7 +13,9 @@ namespace DockerComposeFluent.Serialisation
         protected override void Write(IEmitter emitter, ServiceDefinition value, ObjectSerializer serialiser)
         {
             emitter.StartMapping();
+            emitter.WriteOptionalValue("command", value.Command, serialiser);
             emitter.WriteOptionalScalar("container_name", value.ContainerName);
+            emitter.WriteOptionalValue("entrypoint", value.Entrypoint, serialiser);
             emitter.WriteOptionalScalar("image", value.Image);
             emitter.EndMapping();
         }

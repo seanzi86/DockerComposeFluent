@@ -13,9 +13,21 @@ namespace DockerComposeFluent.Models
         public string? Image { get; init; }
 
         /// <summary>
+        /// The command that overrides the image's default command, as specified by <c>command</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#command"/>
+        /// </summary>
+        public CommandLine? Command { get; init; }
+
+        /// <summary>
         /// The custom container name, as specified by <c>container_name</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#container_name"/>
         /// </summary>
         public string? ContainerName { get; init; }
+
+        /// <summary>
+        /// The entrypoint that overrides the image's default entrypoint, as specified by <c>entrypoint</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#entrypoint"/>
+        /// </summary>
+        public CommandLine? Entrypoint { get; init; }
     }
 }

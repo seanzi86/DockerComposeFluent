@@ -1,0 +1,9 @@
+services:
+  app:
+    command: [node, server.js, --port, '8080']
+    entrypoint: []
+    image: node:22
+  shell:
+    command: npm start
+    entrypoint: /docker-entrypoint.sh
+    image: node:22

@@ -1,6 +1,6 @@
 using System;
 
-namespace DockerComposeFluent.Builders
+namespace DockerComposeFluent
 {
     /// <summary>
     /// Argument validation shared by the builders.
