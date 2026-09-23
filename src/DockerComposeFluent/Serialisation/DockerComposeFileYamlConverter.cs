@@ -13,7 +13,7 @@ namespace DockerComposeFluent.Serialisation
         protected override void Write(IEmitter emitter, DockerComposeFile value, ObjectSerializer serialiser)
         {
             emitter.StartMapping();
-            emitter.WriteOptionalScalar("name", value.Name, serialiser);
+            emitter.WriteOptionalScalar("name", value.Name);
             emitter.WriteMap("services", value.Services, serialiser);
             emitter.WriteMap("networks", value.Networks, serialiser);
             emitter.WriteMap("volumes", value.Volumes, serialiser);

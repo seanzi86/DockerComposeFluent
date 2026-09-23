@@ -31,7 +31,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
 
             string yaml = Normalise(file.ToYaml());
 
-            Assert.Equal("services:\n  web:\n    image: \"nginx\"\n", yaml);
+            Assert.Equal("services:\n  \"web\":\n    image: \"nginx\"\n", yaml);
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
 
             string yaml = Normalise(file.ToYaml());
 
-            Assert.Equal("networks:\n  default: {}\n", yaml);
+            Assert.Equal("networks:\n  \"default\": {}\n", yaml);
         }
 
         [Fact]
@@ -115,6 +115,28 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
             Assert.Equal("name: \"" + value + "\"\n", Normalise(file.ToYaml()));
         }
 
+        [Theory]
+        [InlineData("web")]
+        [InlineData("123")]
+        [InlineData("true")]
+        [InlineData("null")]
+        [InlineData("1e3")]
+        [InlineData("2024-01-15")]
+        public void ToYaml_UserSuppliedNames_AreAlwaysDoubleQuoted(string name)
+        {
+            DockerComposeFile file = new DockerComposeBuilder()
+                .WithService(name, service => service.WithImage("nginx"))
+                .WithNetwork(name, network => network.WithDriver("bridge"))
+                .WithVolume(name, volume => volume.WithDriver("local"))
+                .Build();
+
+            string yaml = Normalise(file.ToYaml());
+
+            Assert.Contains("services:\n  \"" + name + "\":\n", yaml);
+            Assert.Contains("networks:\n  \"" + name + "\":\n", yaml);
+            Assert.Contains("volumes:\n  \"" + name + "\":\n", yaml);
+        }
+
         [Fact]
         public void ToYaml_EmptyArgument_IsWrittenAsEmptyString()
         {
@@ -122,7 +144,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
                 .WithService("app", service => service.WithCommand(new[] { "echo", "" }))
                 .Build();
 
-            Assert.Equal("services:\n  app:\n    command: [\"echo\", \"\"]\n", Normalise(file.ToYaml()));
+            Assert.Equal("services:\n  \"app\":\n    command: [\"echo\", \"\"]\n", Normalise(file.ToYaml()));
         }
 
         private static string Normalise(string yaml)
