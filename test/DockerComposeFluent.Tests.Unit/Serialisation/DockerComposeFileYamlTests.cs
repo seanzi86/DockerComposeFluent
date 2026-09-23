@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using DockerComposeFluent.Models;
 
-namespace DockerComposeFluent.Tests.Unit.Serialization
+namespace DockerComposeFluent.Tests.Unit.Serialisation
 {
     public class DockerComposeFileYamlTests
     {
@@ -11,7 +11,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialization
         {
             DockerComposeFile file = new();
 
-            string yaml = Normalize(file.ToYaml());
+            string yaml = Normalise(file.ToYaml());
 
             Assert.Equal("{}\n", yaml);
         }
@@ -27,7 +27,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialization
                 }
             };
 
-            string yaml = Normalize(file.ToYaml());
+            string yaml = Normalise(file.ToYaml());
 
             Assert.Equal("services:\n  web:\n    image: nginx\n", yaml);
         }
@@ -43,7 +43,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialization
                 }
             };
 
-            string yaml = Normalize(file.ToYaml());
+            string yaml = Normalise(file.ToYaml());
 
             Assert.Equal("networks:\n  default: {}\n", yaml);
         }
@@ -68,12 +68,12 @@ namespace DockerComposeFluent.Tests.Unit.Serialization
                 }
             };
 
-            string expected = Normalize(File.ReadAllText(Path.Combine("Serialization", "Fixtures", "basic.yml")));
+            string expected = Normalise(File.ReadAllText(Path.Combine("Serialisation", "Fixtures", "basic.yml")));
 
-            Assert.Equal(expected, Normalize(file.ToYaml()));
+            Assert.Equal(expected, Normalise(file.ToYaml()));
         }
 
-        private static string Normalize(string yaml)
+        private static string Normalise(string yaml)
         {
             return yaml.Replace("\r\n", "\n");
         }

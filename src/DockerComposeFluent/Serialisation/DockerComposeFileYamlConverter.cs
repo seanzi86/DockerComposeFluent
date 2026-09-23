@@ -3,13 +3,13 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using DockerComposeFluent.Models;
 
-namespace DockerComposeFluent.Serialization
+namespace DockerComposeFluent.Serialisation
 {
-    internal sealed class ServiceDefinitionYamlConverter : IYamlTypeConverter
+    internal sealed class DockerComposeFileYamlConverter : IYamlTypeConverter
     {
         public bool Accepts(Type type)
         {
-            return type == typeof(ServiceDefinition);
+            return type == typeof(DockerComposeFile);
         }
 
         public object? ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
@@ -19,11 +19,13 @@ namespace DockerComposeFluent.Serialization
 
         public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
         {
-            ServiceDefinition service = (ServiceDefinition)value!;
+            DockerComposeFile file = (DockerComposeFile)value!;
 
             YamlWriting.StartMapping(emitter);
-            YamlWriting.WriteOptionalScalar(emitter, "container_name", service.ContainerName);
-            YamlWriting.WriteOptionalScalar(emitter, "image", service.Image);
+            YamlWriting.WriteOptionalScalar(emitter, "name", file.Name);
+            YamlWriting.WriteMap(emitter, "services", file.Services, serializer);
+            YamlWriting.WriteMap(emitter, "networks", file.Networks, serializer);
+            YamlWriting.WriteMap(emitter, "volumes", file.Volumes, serializer);
             YamlWriting.EndMapping(emitter);
         }
     }

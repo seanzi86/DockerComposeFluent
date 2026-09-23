@@ -1,9 +1,9 @@
 using DockerComposeFluent.Models;
 using YamlDotNet.Serialization;
 
-namespace DockerComposeFluent.Serialization
+namespace DockerComposeFluent.Serialisation
 {
-    internal static class ComposeYamlSerializer
+    internal static class ComposeYamlSerialiser
     {
         private static readonly ISerializer Serializer = new SerializerBuilder()
             .WithTypeConverter(new DockerComposeFileYamlConverter())
@@ -12,7 +12,7 @@ namespace DockerComposeFluent.Serialization
             .WithTypeConverter(new VolumeDefinitionYamlConverter())
             .Build();
 
-        internal static string Serialize(DockerComposeFile file)
+        internal static string Serialise(DockerComposeFile file)
         {
             return Serializer.Serialize(file);
         }

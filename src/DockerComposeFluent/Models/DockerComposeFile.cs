@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using DockerComposeFluent.Serialization;
+using DockerComposeFluent.Serialisation;
 
 namespace DockerComposeFluent.Models
 {
@@ -34,12 +34,12 @@ namespace DockerComposeFluent.Models
         public IReadOnlyDictionary<string, VolumeDefinition> Volumes { get; init; } = new Dictionary<string, VolumeDefinition>();
 
         /// <summary>
-        /// Serializes this compose file to YAML.
+        /// Serialises this compose file to YAML.
         /// </summary>
         /// <returns>The compose file as a YAML string.</returns>
         public string ToYaml()
         {
-            return ComposeYamlSerializer.Serialize(this);
+            return ComposeYamlSerialiser.Serialise(this);
         }
     }
 }

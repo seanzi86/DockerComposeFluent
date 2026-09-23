@@ -3,7 +3,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using DockerComposeFluent.Models;
 
-namespace DockerComposeFluent.Serialization
+namespace DockerComposeFluent.Serialisation
 {
     internal sealed class NetworkDefinitionYamlConverter : IYamlTypeConverter
     {

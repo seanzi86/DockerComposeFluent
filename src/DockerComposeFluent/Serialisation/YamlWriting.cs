@@ -3,7 +3,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace DockerComposeFluent.Serialization
+namespace DockerComposeFluent.Serialisation
 {
     internal static class YamlWriting
     {
