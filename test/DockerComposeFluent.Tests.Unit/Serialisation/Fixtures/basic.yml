@@ -1,0 +1,12 @@
+name: demo
+services:
+  web:
+    container_name: web-container
+    image: nginx:latest
+networks:
+  frontend:
+    driver: bridge
+volumes:
+  data:
+    driver: local
+    name: demo_data

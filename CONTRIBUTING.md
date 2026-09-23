@@ -25,7 +25,8 @@ Enforced via `.editorconfig` and `EnforceCodeStyleInBuild` (violations fail the 
 
 - **Block-scoped namespaces** (`namespace X { ... }`), not file-scoped (`namespace X;`).
 - **No `var`** — always use the explicit type.
-- **XML `<summary>` doc comments on every public type and member** — this is a public package, so these become the IntelliSense docs consumers see. Missing docs fail the build (`CS1591`).
+- **UK English** in identifiers, comments and docs (e.g. `Serialise`, `Normalise`), except where a third-party or compose-spec name dictates otherwise.
+- **XML `<summary>` doc comments on every public type and member** — this is a public package, so these become the IntelliSense docs consumers see. Missing docs on public members fail the build (`CS1591`); internal types and members should be documented too, but that is checked in review.
 - **Link each summary back to the relevant [compose-spec](https://github.com/compose-spec/compose-spec) section** via `<see href="..."/>`, pointing at `main` (the spec has no tagged releases). An established property's spec text is unlikely to change shape; if the spec does add something new, that's new scope for its own release anyway.
 
 ## API design conventions
@@ -35,7 +36,7 @@ This library follows a few consistent conventions across the whole fluent API �
 1. **Every nested compose concept gets a `Definition` + `Builder` pair.** e.g. a new `HealthcheckDefinition` record should come with a `HealthcheckBuilder`, and the parent builder exposes both a raw-model overload and an `Action<HealthcheckBuilder>` overload.
 2. **Every property with multiple YAML shapes gets a matching overload set** on the same method name: a raw short-form value, a common-params overload for the typical case, and an `Action<XBuilder>` overload for full control. Add a plural `WithXs(IEnumerable<...>)` for bulk-add where it makes sense.
 3. **Models are immutable.** Records with init-only properties — fluent calls produce new values, not in-place mutation.
-4. **Serialization stays out of the models.** YAML conversion logic belongs in the `Serialization/` layer (`IYamlTypeConverter` implementations), not as attributes or interfaces on the model types.
+4. **Serialisation stays out of the models.** YAML conversion logic belongs in the `Serialisation/` layer (`IYamlTypeConverter` implementations), not as attributes or interfaces on the model types.
 
 ## Tests
 
