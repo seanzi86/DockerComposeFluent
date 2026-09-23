@@ -11,7 +11,7 @@ namespace DockerComposeFluent.Serialisation
     /// </summary>
     internal static class ComposeYamlSerialiser
     {
-        private static readonly ISerializer Serialiser = CreateSerialiser();
+        private static readonly ISerializer _serialiser = CreateSerialiser();
 
         /// <summary>
         /// Serialises a compose file to a YAML string.
@@ -20,7 +20,7 @@ namespace DockerComposeFluent.Serialisation
         /// <returns>The YAML representation of <paramref name="file"/>.</returns>
         internal static string Serialise(DockerComposeFile file)
         {
-            return Serialiser.Serialize(file);
+            return _serialiser.Serialize(file);
         }
 
         /// <summary>
