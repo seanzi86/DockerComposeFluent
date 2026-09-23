@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using DockerComposeFluent.Builders;
 using DockerComposeFluent.Models;
 
 namespace DockerComposeFluent.Tests.Unit.Serialisation
@@ -13,7 +15,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
 
             string yaml = Normalise(file.ToYaml());
 
-            Assert.Equal("{}\n", yaml);
+            Assert.Equal("{}", yaml);
         }
 
         [Fact]
@@ -29,7 +31,13 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
 
             string yaml = Normalise(file.ToYaml());
 
-            Assert.Equal("services:\n  web:\n    image: nginx\n", yaml);
+            Assert.Equal(
+                """
+                services:
+                  "web":
+                    image: "nginx"
+                """,
+                yaml);
         }
 
         [Fact]
@@ -45,7 +53,12 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
 
             string yaml = Normalise(file.ToYaml());
 
-            Assert.Equal("networks:\n  default: {}\n", yaml);
+            Assert.Equal(
+                """
+                networks:
+                  "default": {}
+                """,
+                yaml);
         }
 
         [Fact]
@@ -73,9 +86,106 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
             Assert.Equal(expected, Normalise(file.ToYaml()));
         }
 
+        [Fact]
+        public void ToYaml_CommandAndEntrypoint_MatchGoldenFixture()
+        {
+            DockerComposeFile file = new DockerComposeBuilder()
+                .WithService("app", service => service
+                    .WithImage("node:22")
+                    .WithCommand(new[] { "node", "server.js", "--port", "8080" })
+                    .WithEntrypoint(Array.Empty<string>()))
+                .WithService("shell", service => service
+                    .WithImage("node:22")
+                    .WithCommand("npm start")
+                    .WithEntrypoint("/docker-entrypoint.sh"))
+                .Build();
+
+            string expected = Normalise(File.ReadAllText(Path.Combine("Serialisation", "Fixtures", "commands.yml")));
+
+            Assert.Equal(expected, Normalise(file.ToYaml()));
+        }
+
+        [Theory]
+        [InlineData("true")]
+        [InlineData("False")]
+        [InlineData("yes")]
+        [InlineData("null")]
+        [InlineData("~")]
+        [InlineData("123")]
+        [InlineData("1.5")]
+        [InlineData("1e3")]
+        [InlineData("0x1F")]
+        [InlineData("2024-01-15")]
+        [InlineData("nginx")]
+        [InlineData("-g")]
+        [InlineData("v1.2.3")]
+        public void ToYaml_StringValues_AreAlwaysDoubleQuoted(string value)
+        {
+            DockerComposeFile file = new DockerComposeBuilder().WithName(value).Build();
+
+            Assert.Equal(
+                $"""
+                name: "{value}"
+                """,
+                Normalise(file.ToYaml()));
+        }
+
+        [Theory]
+        [InlineData("web")]
+        [InlineData("123")]
+        [InlineData("true")]
+        [InlineData("null")]
+        [InlineData("1e3")]
+        [InlineData("2024-01-15")]
+        public void ToYaml_UserSuppliedNames_AreAlwaysDoubleQuoted(string name)
+        {
+            DockerComposeFile file = new DockerComposeBuilder()
+                .WithService(name, service => service.WithImage("nginx"))
+                .WithNetwork(name, network => network.WithDriver("bridge"))
+                .WithVolume(name, volume => volume.WithDriver("local"))
+                .Build();
+
+            string yaml = Normalise(file.ToYaml());
+
+            Assert.Contains(
+                $"""
+                services:
+                  "{name}":
+                """,
+                yaml);
+            Assert.Contains(
+                $"""
+                networks:
+                  "{name}":
+                """,
+                yaml);
+            Assert.Contains(
+                $"""
+                volumes:
+                  "{name}":
+                """,
+                yaml);
+        }
+
+        [Fact]
+        public void ToYaml_EmptyArgument_IsWrittenAsEmptyString()
+        {
+            DockerComposeFile file = new DockerComposeBuilder()
+                .WithService("app", service => service.WithCommand(new[] { "echo", "" }))
+                .Build();
+
+            Assert.Equal(
+                """
+                services:
+                  "app":
+                    command: ["echo", ""]
+                """,
+                Normalise(file.ToYaml()));
+        }
+
         private static string Normalise(string yaml)
         {
-            return yaml.Replace("\r\n", "\n");
+            return yaml.Replace("\r\n", "\n").TrimEnd('\n');
         }
     }
 }
