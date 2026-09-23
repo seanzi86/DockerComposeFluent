@@ -14,14 +14,14 @@ namespace DockerComposeFluent.Serialisation
         {
             if (value.Shell != null)
             {
-                emitter.WriteScalar(value.Shell, serialiser);
+                emitter.WriteScalar(value.Shell);
                 return;
             }
 
             emitter.StartSequence();
             foreach (string argument in value.Arguments!)
             {
-                emitter.WriteScalar(argument, serialiser);
+                emitter.WriteScalar(argument);
             }
 
             emitter.EndSequence();

@@ -31,7 +31,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
 
             string yaml = Normalise(file.ToYaml());
 
-            Assert.Equal("services:\n  web:\n    image: nginx\n", yaml);
+            Assert.Equal("services:\n  web:\n    image: \"nginx\"\n", yaml);
         }
 
         [Fact]
@@ -95,22 +95,24 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
         }
 
         [Theory]
-        [InlineData("true", "\"true\"")]
-        [InlineData("False", "\"False\"")]
-        [InlineData("yes", "\"yes\"")]
-        [InlineData("null", "\"null\"")]
-        [InlineData("~", "\"~\"")]
-        [InlineData("123", "\"123\"")]
-        [InlineData("1.5", "\"1.5\"")]
-        [InlineData("0x1F", "\"0x1F\"")]
-        [InlineData("nginx", "nginx")]
-        [InlineData("-g", "-g")]
-        [InlineData("v1.2.3", "v1.2.3")]
-        public void ToYaml_StringsThatLookLikeOtherTypes_AreQuoted(string value, string expected)
+        [InlineData("true")]
+        [InlineData("False")]
+        [InlineData("yes")]
+        [InlineData("null")]
+        [InlineData("~")]
+        [InlineData("123")]
+        [InlineData("1.5")]
+        [InlineData("1e3")]
+        [InlineData("0x1F")]
+        [InlineData("2024-01-15")]
+        [InlineData("nginx")]
+        [InlineData("-g")]
+        [InlineData("v1.2.3")]
+        public void ToYaml_StringValues_AreAlwaysDoubleQuoted(string value)
         {
             DockerComposeFile file = new DockerComposeBuilder().WithName(value).Build();
 
-            Assert.Equal("name: " + expected + "\n", Normalise(file.ToYaml()));
+            Assert.Equal("name: \"" + value + "\"\n", Normalise(file.ToYaml()));
         }
 
         [Fact]
@@ -120,7 +122,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
                 .WithService("app", service => service.WithCommand(new[] { "echo", "" }))
                 .Build();
 
-            Assert.Equal("services:\n  app:\n    command: [echo, \"\"]\n", Normalise(file.ToYaml()));
+            Assert.Equal("services:\n  app:\n    command: [\"echo\", \"\"]\n", Normalise(file.ToYaml()));
         }
 
         private static string Normalise(string yaml)

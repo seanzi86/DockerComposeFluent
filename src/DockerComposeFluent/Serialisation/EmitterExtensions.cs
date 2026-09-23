@@ -47,35 +47,34 @@ namespace DockerComposeFluent.Serialisation
         }
 
         /// <summary>
-        /// Writes a string scalar through YamlDotNet's serialiser, which quotes it when a plain scalar
-        /// would be read back as something other than a string.
+        /// Writes a string value, always double-quoted so that no YAML reader can mistake it for a
+        /// boolean, number, date or null.
         /// </summary>
-        /// <param name="emitter">The emitter being written to.</param>
+        /// <param name="emitter">The emitter to write to.</param>
         /// <param name="value">The string to write.</param>
-        /// <param name="serialiser">Serialises the string using the registered converters and quoting rules.</param>
-        internal static void WriteScalar(this IEmitter emitter, string value, ObjectSerializer serialiser)
+        internal static void WriteScalar(this IEmitter emitter, string value)
         {
-            serialiser(value, typeof(string));
+            emitter.Emit(new Scalar(AnchorName.Empty, TagName.Empty, value, ScalarStyle.DoubleQuoted, false, true));
         }
 
         /// <summary>
-        /// Writes a mapping key.
+        /// Writes a mapping key, leaving any quoting to YamlDotNet's own rules.
         /// </summary>
         /// <param name="emitter">The emitter being written to.</param>
         /// <param name="key">The key to write.</param>
         /// <param name="serialiser">Serialises the key using the registered converters and quoting rules.</param>
         internal static void WriteKey(this IEmitter emitter, string key, ObjectSerializer serialiser)
         {
-            emitter.WriteScalar(key, serialiser);
+            serialiser(key, typeof(string));
         }
 
         /// <summary>
-        /// Writes a key and scalar value, or nothing when <paramref name="value"/> is <c>null</c>.
+        /// Writes a key and string value, or nothing when <paramref name="value"/> is <c>null</c>.
         /// </summary>
-        /// <param name="emitter">The emitter being written to.</param>
+        /// <param name="emitter">The emitter to write to.</param>
         /// <param name="key">The key to write.</param>
         /// <param name="value">The value to write, or <c>null</c> to omit the entry.</param>
-        /// <param name="serialiser">Serialises the strings using the registered converters and quoting rules.</param>
+        /// <param name="serialiser">Serialises the key using the registered converters and quoting rules.</param>
         internal static void WriteOptionalScalar(this IEmitter emitter, string key, string? value, ObjectSerializer serialiser)
         {
             if (value == null)
@@ -84,7 +83,7 @@ namespace DockerComposeFluent.Serialisation
             }
 
             emitter.WriteKey(key, serialiser);
-            emitter.WriteScalar(value, serialiser);
+            emitter.WriteScalar(value);
         }
 
         /// <summary>
