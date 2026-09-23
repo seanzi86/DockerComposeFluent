@@ -1,31 +1,18 @@
-using System;
+using DockerComposeFluent.Models;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
-using DockerComposeFluent.Models;
 
 namespace DockerComposeFluent.Serialisation
 {
-    internal sealed class DockerComposeFileYamlConverter : IYamlTypeConverter
+    internal sealed class DockerComposeFileYamlConverter : YamlConverter<DockerComposeFile>
     {
-        public bool Accepts(Type type)
+        protected override void Write(IEmitter emitter, DockerComposeFile value, ObjectSerializer serialiser)
         {
-            return type == typeof(DockerComposeFile);
-        }
-
-        public object? ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
-        {
-            throw new NotSupportedException("Reading compose files is not supported.");
-        }
-
-        public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
-        {
-            DockerComposeFile file = (DockerComposeFile)value!;
-
             YamlWriting.StartMapping(emitter);
-            YamlWriting.WriteOptionalScalar(emitter, "name", file.Name);
-            YamlWriting.WriteMap(emitter, "services", file.Services, serializer);
-            YamlWriting.WriteMap(emitter, "networks", file.Networks, serializer);
-            YamlWriting.WriteMap(emitter, "volumes", file.Volumes, serializer);
+            YamlWriting.WriteOptionalScalar(emitter, "name", value.Name);
+            YamlWriting.WriteMap(emitter, "services", value.Services, serialiser);
+            YamlWriting.WriteMap(emitter, "networks", value.Networks, serialiser);
+            YamlWriting.WriteMap(emitter, "volumes", value.Volumes, serialiser);
             YamlWriting.EndMapping(emitter);
         }
     }

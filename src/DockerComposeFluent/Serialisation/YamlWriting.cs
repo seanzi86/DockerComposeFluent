@@ -33,7 +33,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.Emit(new Scalar(value));
         }
 
-        internal static void WriteMap<T>(IEmitter emitter, string key, IReadOnlyDictionary<string, T> values, ObjectSerializer serializer)
+        internal static void WriteMap<T>(IEmitter emitter, string key, IReadOnlyDictionary<string, T> values, ObjectSerializer serialiser)
         {
             if (values.Count == 0)
             {
@@ -46,7 +46,7 @@ namespace DockerComposeFluent.Serialisation
             foreach (KeyValuePair<string, T> entry in values)
             {
                 WriteKey(emitter, entry.Key);
-                serializer(entry.Value, typeof(T));
+                serialiser(entry.Value, typeof(T));
             }
 
             EndMapping(emitter);

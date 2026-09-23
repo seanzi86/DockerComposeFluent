@@ -1,29 +1,16 @@
-using System;
+using DockerComposeFluent.Models;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
-using DockerComposeFluent.Models;
 
 namespace DockerComposeFluent.Serialisation
 {
-    internal sealed class ServiceDefinitionYamlConverter : IYamlTypeConverter
+    internal sealed class ServiceDefinitionYamlConverter : YamlConverter<ServiceDefinition>
     {
-        public bool Accepts(Type type)
+        protected override void Write(IEmitter emitter, ServiceDefinition value, ObjectSerializer serialiser)
         {
-            return type == typeof(ServiceDefinition);
-        }
-
-        public object? ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
-        {
-            throw new NotSupportedException("Reading compose files is not supported.");
-        }
-
-        public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
-        {
-            ServiceDefinition service = (ServiceDefinition)value!;
-
             YamlWriting.StartMapping(emitter);
-            YamlWriting.WriteOptionalScalar(emitter, "container_name", service.ContainerName);
-            YamlWriting.WriteOptionalScalar(emitter, "image", service.Image);
+            YamlWriting.WriteOptionalScalar(emitter, "container_name", value.ContainerName);
+            YamlWriting.WriteOptionalScalar(emitter, "image", value.Image);
             YamlWriting.EndMapping(emitter);
         }
     }
