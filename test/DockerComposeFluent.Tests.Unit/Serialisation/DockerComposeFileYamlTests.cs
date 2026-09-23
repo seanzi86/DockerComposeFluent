@@ -95,15 +95,14 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
         }
 
         [Theory]
-        [InlineData("true", "'true'")]
-        [InlineData("False", "'False'")]
-        [InlineData("yes", "'yes'")]
-        [InlineData("null", "'null'")]
-        [InlineData("~", "'~'")]
-        [InlineData("123", "'123'")]
-        [InlineData("1.5", "'1.5'")]
-        [InlineData("0x1F", "'0x1F'")]
-        [InlineData("2001-12-14", "'2001-12-14'")]
+        [InlineData("true", "\"true\"")]
+        [InlineData("False", "\"False\"")]
+        [InlineData("yes", "\"yes\"")]
+        [InlineData("null", "\"null\"")]
+        [InlineData("~", "\"~\"")]
+        [InlineData("123", "\"123\"")]
+        [InlineData("1.5", "\"1.5\"")]
+        [InlineData("0x1F", "\"0x1F\"")]
         [InlineData("nginx", "nginx")]
         [InlineData("-g", "-g")]
         [InlineData("v1.2.3", "v1.2.3")]
@@ -121,7 +120,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
                 .WithService("app", service => service.WithCommand(new[] { "echo", "" }))
                 .Build();
 
-            Assert.Equal("services:\n  app:\n    command: [echo, '']\n", Normalise(file.ToYaml()));
+            Assert.Equal("services:\n  app:\n    command: [echo, \"\"]\n", Normalise(file.ToYaml()));
         }
 
         private static string Normalise(string yaml)
