@@ -1,0 +1,45 @@
+services:
+  "web":
+    image: "nginx"
+    networks:
+      - "front"
+      - "back"
+  "app":
+    image: "busybox"
+    networks:
+      "front": {}
+      "back":
+        aliases:
+          - "db"
+          - "database"
+        driver_opts:
+          "foo": "bar"
+        ipv4_address: "172.16.238.10"
+        ipv6_address: "2001:3984:3989::10"
+        link_local_ips:
+          - "57.123.22.11"
+        mac_address: "02:42:ac:11:00:02"
+        priority: 100
+networks:
+  "front":
+    attachable: true
+    driver: "overlay"
+    driver_opts:
+      "com.docker.network.driver.mtu": "1400"
+    internal: false
+    name: "front_net"
+  "back":
+    enable_ipv6: true
+    ipam:
+      config:
+        - aux_addresses:
+            "host1": "172.16.238.5"
+          gateway: "172.16.238.254"
+          ip_range: "172.16.238.0/25"
+          subnet: "172.16.238.0/24"
+        - subnet: "2001:3984:3989::/64"
+      driver: "default"
+      options:
+        "foo": "bar"
+  "outside":
+    external: true

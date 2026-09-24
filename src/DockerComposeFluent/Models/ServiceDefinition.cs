@@ -34,6 +34,13 @@ namespace DockerComposeFluent.Models
         public CommandLine? Entrypoint { get; init; }
 
         /// <summary>
+        /// The networks the service joins and their settings, keyed by network name, as specified by
+        /// <c>networks</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, NetworkAttachment> Networks { get; init; } = Collections.EmptyDictionary<NetworkAttachment>();
+
+        /// <summary>
         /// The ports to expose, as specified by <c>ports</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
         /// </summary>

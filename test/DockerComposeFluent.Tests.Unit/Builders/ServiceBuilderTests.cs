@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DockerComposeFluent.Builders;
 using DockerComposeFluent.Models;
 
@@ -285,6 +286,68 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<InvalidOperationException>(() => builder.WithVolume(mount => mount.WithTarget("/x")));
             Assert.Throws<ArgumentNullException>(() => builder.WithVolumes((string[])null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithVolumes((MountDefinition[])null!));
+        }
+
+        [Fact]
+        public void WithNetwork_NameOnly_AttachesWithNoSettings()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithNetwork("front").Build();
+
+            Assert.True(service.Networks["front"].IsEmpty);
+        }
+
+        [Fact]
+        public void WithNetwork_Configure_AttachesWithSettings()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithNetwork("back", network => network.WithAlias("db").WithIpv4Address("172.16.238.10"))
+                .Build();
+
+            Assert.Equal(new[] { "db" }, service.Networks["back"].Aliases);
+            Assert.Equal("172.16.238.10", service.Networks["back"].Ipv4Address);
+        }
+
+        [Fact]
+        public void WithNetwork_RawAttachment_IsUsedAsGiven()
+        {
+            NetworkAttachment attachment = new NetworkAttachment { Priority = 5 };
+
+            ServiceDefinition service = new ServiceBuilder().WithNetwork("back", attachment).Build();
+
+            Assert.Same(attachment, service.Networks["back"]);
+        }
+
+        [Fact]
+        public void WithNetwork_SameNameAgain_ReplacesAndKeepsPosition()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithNetwork("a")
+                .WithNetwork("b")
+                .WithNetwork("a", network => network.WithPriority(1))
+                .Build();
+
+            Assert.Equal(new[] { "a", "b" }, new List<string>(service.Networks.Keys));
+            Assert.Equal(1, service.Networks["a"].Priority);
+        }
+
+        [Fact]
+        public void WithNetworks_AttachesEachName()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithNetworks(new[] { "front", "admin" }).Build();
+
+            Assert.Equal(new[] { "front", "admin" }, new List<string>(service.Networks.Keys));
+        }
+
+        [Fact]
+        public void InvalidNetworkArguments_Throw()
+        {
+            ServiceBuilder builder = new ServiceBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithNetwork(" "));
+            Assert.Throws<ArgumentException>(() => builder.WithNetwork("", new NetworkAttachment()));
+            Assert.Throws<ArgumentNullException>(() => builder.WithNetwork("a", (NetworkAttachment)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithNetwork("a", (Action<NetworkAttachmentBuilder>)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithNetworks(null!));
         }
     }
 }

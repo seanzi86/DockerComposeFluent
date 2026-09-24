@@ -165,6 +165,57 @@ namespace DockerComposeFluent.Serialisation
         }
 
         /// <summary>
+        /// Writes a fixed key and a block sequence of user-supplied strings, or nothing when
+        /// <paramref name="values"/> is empty.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="key">The fixed key to write.</param>
+        /// <param name="values">The strings to write.</param>
+        internal static void WriteOptionalStringSequence(this IEmitter emitter, string key, IReadOnlyList<string> values)
+        {
+            if (values.Count == 0)
+            {
+                return;
+            }
+
+            emitter.WriteKey(key);
+            emitter.StartSequence(SequenceStyle.Block);
+
+            foreach (string value in values)
+            {
+                emitter.WriteScalar(value);
+            }
+
+            emitter.EndSequence();
+        }
+
+        /// <summary>
+        /// Writes a fixed key and a mapping of user-supplied names to strings, or nothing when
+        /// <paramref name="values"/> is empty.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="key">The fixed key to write.</param>
+        /// <param name="values">The entries to write.</param>
+        internal static void WriteOptionalStringMap(this IEmitter emitter, string key, IReadOnlyDictionary<string, string> values)
+        {
+            if (values.Count == 0)
+            {
+                return;
+            }
+
+            emitter.WriteKey(key);
+            emitter.StartMapping();
+
+            foreach (KeyValuePair<string, string> entry in values)
+            {
+                emitter.WriteScalar(entry.Key);
+                emitter.WriteScalar(entry.Value);
+            }
+
+            emitter.EndMapping();
+        }
+
+        /// <summary>
         /// Writes a fixed key and a block sequence of values serialised by their own converters,
         /// or nothing when <paramref name="values"/> is empty.
         /// </summary>

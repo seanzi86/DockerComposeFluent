@@ -170,6 +170,70 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
             Assert.Equal(expected, Normalise(file.ToYaml()));
         }
 
+        [Fact]
+        public void ToYaml_Networks_MatchGoldenFixture()
+        {
+            DockerComposeFile file = new DockerComposeBuilder()
+                .WithService("web", service => service.WithImage("nginx").WithNetworks(new[] { "front", "back" }))
+                .WithService("app", service => service
+                    .WithImage("busybox")
+                    .WithNetwork("front")
+                    .WithNetwork("back", network => network
+                        .WithAliases(new[] { "db", "database" })
+                        .WithDriverOption("foo", "bar")
+                        .WithIpv4Address("172.16.238.10")
+                        .WithIpv6Address("2001:3984:3989::10")
+                        .WithLinkLocalIp("57.123.22.11")
+                        .WithMacAddress("02:42:ac:11:00:02")
+                        .WithPriority(100)))
+                .WithNetwork("front", network => network
+                    .WithAttachable(true)
+                    .WithDriver("overlay")
+                    .WithDriverOption("com.docker.network.driver.mtu", "1400")
+                    .WithInternal(false)
+                    .WithName("front_net"))
+                .WithNetwork("back", network => network
+                    .WithEnableIpv6(true)
+                    .WithIpam(ipam => ipam
+                        .WithDriver("default")
+                        .WithConfig(config => config
+                            .WithSubnet("172.16.238.0/24")
+                            .WithIpRange("172.16.238.0/25")
+                            .WithGateway("172.16.238.254")
+                            .WithAuxAddress("host1", "172.16.238.5"))
+                        .WithConfig("2001:3984:3989::/64")
+                        .WithOption("foo", "bar")))
+                .WithNetwork("outside", network => network.WithExternal(true))
+                .Build();
+
+            string expected = Normalise(File.ReadAllText(Path.Combine("Serialisation", "Fixtures", "networks.yml")));
+
+            Assert.Equal(expected, Normalise(file.ToYaml()));
+        }
+
+        [Fact]
+        public void ToYaml_NewerComposeNetworkFields_AreWritten()
+        {
+            DockerComposeFile file = new DockerComposeBuilder()
+                .WithService("app", service => service.WithNetwork("net", network => network.WithGatewayPriority(1).WithInterfaceName("eth0")))
+                .WithNetwork("net", network => network.WithEnableIpv4(false))
+                .Build();
+
+            Assert.Equal(
+                """
+                services:
+                  "app":
+                    networks:
+                      "net":
+                        gw_priority: 1
+                        interface_name: "eth0"
+                networks:
+                  "net":
+                    enable_ipv4: false
+                """,
+                Normalise(file.ToYaml()));
+        }
+
         [Theory]
         [InlineData("true")]
         [InlineData("False")]
