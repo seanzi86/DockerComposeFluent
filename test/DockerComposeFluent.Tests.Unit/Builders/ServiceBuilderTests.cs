@@ -99,6 +99,18 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         }
 
         [Fact]
+        public void WithPort_TargetOnly_UsesLongSyntaxWithoutPublishedPort()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithPort(80).Build();
+
+            PortDefinition port = service.Ports[0].Definition!;
+            Assert.Null(service.Ports[0].ShortSyntax);
+            Assert.Equal(80, port.Target);
+            Assert.Null(port.Published);
+            Assert.Null(port.Protocol);
+        }
+
+        [Fact]
         public void WithPort_PublishedAndTarget_UsesLongSyntax()
         {
             ServiceDefinition service = new ServiceBuilder().WithPort(8080, 80, PortProtocol.Udp).Build();
@@ -182,6 +194,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             ServiceBuilder builder = new ServiceBuilder();
 
             Assert.Throws<ArgumentException>(() => builder.WithPort(" "));
+            Assert.Throws<ArgumentOutOfRangeException>(() => builder.WithPort(0));
             Assert.Throws<ArgumentOutOfRangeException>(() => builder.WithPort(0, 80));
             Assert.Throws<ArgumentOutOfRangeException>(() => builder.WithPort(8080, 70000));
             Assert.Throws<ArgumentNullException>(() => builder.WithPort((PortDefinition)null!));

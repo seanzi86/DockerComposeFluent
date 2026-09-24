@@ -113,6 +113,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
                     .WithImage("nginx")
                     .WithPorts(new[] { "80", "8080:80" })
                     .WithPort("127.0.0.1:9000:90/udp")
+                    .WithPort(83)
                     .WithPort(8081, 81, PortProtocol.Udp)
                     .WithPort(port => port
                         .WithTarget(82)

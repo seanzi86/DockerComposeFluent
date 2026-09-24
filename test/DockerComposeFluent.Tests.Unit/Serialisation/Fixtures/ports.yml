@@ -5,6 +5,7 @@ services:
       - "80"
       - "8080:80"
       - "127.0.0.1:9000:90/udp"
+      - target: 83
       - protocol: "udp"
         published: "8081"
         target: 81

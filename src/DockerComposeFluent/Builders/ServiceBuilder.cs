@@ -100,6 +100,18 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Adds a container port with no published port, so the runtime assigns a host port, written to YAML
+        /// in long syntax. Each call adds another port.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
+        /// </summary>
+        /// <param name="target">The container port, from 1 to 65535.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPort(int target)
+        {
+            return AddPort(PortMapping.FromDefinition(new PortDefinition(target)));
+        }
+
+        /// <summary>
         /// Adds a port mapping from a published and a target port, written to YAML in long syntax.
         /// Each call adds another port.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
