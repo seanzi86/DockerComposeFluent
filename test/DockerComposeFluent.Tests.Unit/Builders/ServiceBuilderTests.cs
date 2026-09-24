@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Collections.Generic;
 using DockerComposeFluent.Builders;
 using DockerComposeFluent.Models;
@@ -348,6 +349,138 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentNullException>(() => builder.WithNetwork("a", (NetworkAttachment)null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithNetwork("a", (Action<NetworkAttachmentBuilder>)null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithNetworks(null!));
+        }
+
+        [Fact]
+        public void WithEnvironment_KeyAndValue_SetsAVariable()
+        {
+            EnvironmentVariables environment = new ServiceBuilder().WithEnvironment("RACK_ENV", "development").Build().Environment;
+
+            Assert.Equal("development", environment.Variables["RACK_ENV"]);
+            Assert.False(environment.UsesListSyntax);
+        }
+
+        [Fact]
+        public void WithEnvironment_KeyOnly_DeclaresAPassThroughVariable()
+        {
+            EnvironmentVariables environment = new ServiceBuilder().WithEnvironment("USER_INPUT").Build().Environment;
+
+            Assert.True(environment.Variables.ContainsKey("USER_INPUT"));
+            Assert.Null(environment.Variables["USER_INPUT"]);
+        }
+
+        [Fact]
+        public void WithEnvironment_EmptyValue_IsNotPassThrough()
+        {
+            EnvironmentVariables environment = new ServiceBuilder().WithEnvironment("EMPTY", "").Build().Environment;
+
+            Assert.Equal(string.Empty, environment.Variables["EMPTY"]);
+        }
+
+        [Fact]
+        public void WithEnvironment_TypedValues_AreWrittenAsStrings()
+        {
+            EnvironmentVariables environment = new ServiceBuilder()
+                .WithEnvironment("A", true)
+                .WithEnvironment("B", false)
+                .WithEnvironment("C", 8080)
+                .WithEnvironment("D", 5000000000L)
+                .WithEnvironment("E", 1.5)
+                .Build().Environment;
+
+            Assert.Equal("true", environment.Variables["A"]);
+            Assert.Equal("false", environment.Variables["B"]);
+            Assert.Equal("8080", environment.Variables["C"]);
+            Assert.Equal("5000000000", environment.Variables["D"]);
+            Assert.Equal("1.5", environment.Variables["E"]);
+        }
+
+        [Fact]
+        public void WithEnvironment_Double_UsesInvariantCulture()
+        {
+            CultureInfo original = CultureInfo.CurrentCulture;
+            try
+            {
+                CultureInfo.CurrentCulture = new CultureInfo("de-DE");
+
+                EnvironmentVariables environment = new ServiceBuilder().WithEnvironment("RATIO", 1.5).WithEnvironment("N", 1234567).Build().Environment;
+
+                Assert.Equal("1.5", environment.Variables["RATIO"]);
+                Assert.Equal("1234567", environment.Variables["N"]);
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = original;
+            }
+        }
+
+        [Fact]
+        public void WithEnvironment_Pairs_SetsEachVariableInMapForm()
+        {
+            EnvironmentVariables environment = new ServiceBuilder()
+                .WithEnvironment(new Dictionary<string, string> { ["A"] = "1", ["B"] = "2" })
+                .Build().Environment;
+
+            Assert.Equal(new[] { "A", "B" }, new List<string>(environment.Variables.Keys));
+            Assert.False(environment.UsesListSyntax);
+        }
+
+        [Fact]
+        public void WithEnvironment_Entries_AreSplitAtTheFirstEqualsAndUseListForm()
+        {
+            EnvironmentVariables environment = new ServiceBuilder()
+                .WithEnvironment(new[] { "A=1", "URL=http://x?a=b", "EMPTY=", "USER_INPUT" })
+                .Build().Environment;
+
+            Assert.Equal("1", environment.Variables["A"]);
+            Assert.Equal("http://x?a=b", environment.Variables["URL"]);
+            Assert.Equal(string.Empty, environment.Variables["EMPTY"]);
+            Assert.Null(environment.Variables["USER_INPUT"]);
+            Assert.True(environment.UsesListSyntax);
+        }
+
+        [Fact]
+        public void WithEnvironment_MixingForms_KeepsEveryVariableAndUsesListForm()
+        {
+            EnvironmentVariables environment = new ServiceBuilder()
+                .WithEnvironment("A", "1")
+                .WithEnvironment(new[] { "B=2" })
+                .WithEnvironment("C", "3")
+                .Build().Environment;
+
+            Assert.Equal(new[] { "A", "B", "C" }, new List<string>(environment.Variables.Keys));
+            Assert.True(environment.UsesListSyntax);
+        }
+
+        [Fact]
+        public void WithEnvironment_SameKeyAgain_ReplacesAndKeepsPosition()
+        {
+            EnvironmentVariables environment = new ServiceBuilder()
+                .WithEnvironment("A", "1")
+                .WithEnvironment("B", "2")
+                .WithEnvironment("A", "3")
+                .Build().Environment;
+
+            Assert.Equal(new[] { "A", "B" }, new List<string>(environment.Variables.Keys));
+            Assert.Equal("3", environment.Variables["A"]);
+        }
+
+        [Fact]
+        public void WithEnvironment_InvalidArguments_Throw()
+        {
+            ServiceBuilder builder = new ServiceBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithEnvironment(" "));
+            Assert.Throws<ArgumentException>(() => builder.WithEnvironment("", "x"));
+            Assert.Throws<ArgumentException>(() => builder.WithEnvironment("A=B", "x"));
+            Assert.Throws<ArgumentException>(() => builder.WithEnvironment("A=B"));
+            Assert.Throws<ArgumentException>(() => builder.WithEnvironment("A=B", 1));
+            Assert.Throws<ArgumentNullException>(() => builder.WithEnvironment("A", (string)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithEnvironment((IEnumerable<string>)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithEnvironment((IEnumerable<KeyValuePair<string, string>>)null!));
+            Assert.Throws<ArgumentException>(() => builder.WithEnvironment(new[] { "=x" }));
+            Assert.Throws<ArgumentException>(() => builder.WithEnvironment(new[] { " " }));
+            Assert.Throws<ArgumentException>(() => builder.WithEnvironment(new string[] { null! }));
         }
     }
 }

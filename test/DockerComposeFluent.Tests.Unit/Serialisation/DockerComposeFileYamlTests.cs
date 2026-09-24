@@ -234,6 +234,32 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
                 Normalise(file.ToYaml()));
         }
 
+        [Fact]
+        public void ToYaml_Environment_MatchGoldenFixture()
+        {
+            DockerComposeFile file = new DockerComposeBuilder()
+                .WithService("map", service => service
+                    .WithImage("nginx")
+                    .WithEnvironment("RACK_ENV", "development")
+                    .WithEnvironment("SHOW", true)
+                    .WithEnvironment("PORT", 8080)
+                    .WithEnvironment("EMPTY", "")
+                    .WithEnvironment("USER_INPUT"))
+                .WithService("list", service => service
+                    .WithImage("nginx")
+                    .WithEnvironment(new[] { "RACK_ENV=development", "SHOW=true", "URL=http://x?a=b", "EMPTY=", "USER_INPUT" }))
+                .WithService("mixed", service => service
+                    .WithImage("nginx")
+                    .WithEnvironment("A", "1")
+                    .WithEnvironment("B")
+                    .WithEnvironment(new[] { "C=3" }))
+                .Build();
+
+            string expected = Normalise(File.ReadAllText(Path.Combine("Serialisation", "Fixtures", "environment.yml")));
+
+            Assert.Equal(expected, Normalise(file.ToYaml()));
+        }
+
         [Theory]
         [InlineData("true")]
         [InlineData("False")]

@@ -1,0 +1,23 @@
+services:
+  "map":
+    environment:
+      "RACK_ENV": "development"
+      "SHOW": "true"
+      "PORT": "8080"
+      "EMPTY": ""
+      "USER_INPUT": null
+    image: "nginx"
+  "list":
+    environment:
+      - "RACK_ENV=development"
+      - "SHOW=true"
+      - "URL=http://x?a=b"
+      - "EMPTY="
+      - "USER_INPUT"
+    image: "nginx"
+  "mixed":
+    environment:
+      - "A=1"
+      - "B"
+      - "C=3"
+    image: "nginx"

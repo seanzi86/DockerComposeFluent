@@ -115,5 +115,21 @@ namespace DockerComposeFluent
             address = matches ? parsed : null;
             return matches;
         }
+
+        /// <summary>
+        /// Throws if <paramref name="value"/> is not usable as an environment variable name: it must not be
+        /// blank and must not contain <c>=</c>.
+        /// </summary>
+        /// <param name="value">The name to check.</param>
+        /// <param name="parameterName">The name of the parameter being checked.</param>
+        internal static void EnvironmentKey(string? value, string parameterName)
+        {
+            NotNullOrWhiteSpace(value, parameterName);
+
+            if (value!.IndexOf('=') >= 0)
+            {
+                throw new ArgumentException("An environment variable name must not contain '='.", parameterName);
+            }
+        }
     }
 }

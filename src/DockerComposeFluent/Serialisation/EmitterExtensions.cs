@@ -49,6 +49,16 @@ namespace DockerComposeFluent.Serialisation
         }
 
         /// <summary>
+        /// Writes a YAML null. YamlDotNet cannot write a truly empty plain value (it writes an empty string
+        /// instead), so the explicit <c>null</c> keyword is used.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        internal static void WriteNull(this IEmitter emitter)
+        {
+            emitter.Emit(new Scalar("null"));
+        }
+
+        /// <summary>
         /// Writes a user-supplied string (a value or a name), always double-quoted so that no YAML reader
         /// can mistake it for a boolean, number, date or null.
         /// </summary>

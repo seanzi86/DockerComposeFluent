@@ -26,6 +26,7 @@ namespace DockerComposeFluent.Tests.Unit.Models
             Assert.Equal(new ServiceDefinition(), new ServiceDefinition());
             Assert.Equal(new NetworkDefinition(), new NetworkDefinition());
             Assert.Equal(new DockerComposeFile(), new DockerComposeFile());
+            Assert.Equal(new EnvironmentVariables(), new EnvironmentVariables());
         }
     }
 }
