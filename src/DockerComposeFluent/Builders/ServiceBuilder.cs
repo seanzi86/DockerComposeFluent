@@ -351,6 +351,128 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets an environment variable. Setting the same name again replaces it.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// </summary>
+        /// <param name="key">The variable name, which must not contain <c>=</c>.</param>
+        /// <param name="value">The value, which may be empty.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithEnvironment(string key, string value)
+        {
+            Guard.NotNull(value, nameof(value));
+
+            return SetEnvironment(key, value, nameof(key));
+        }
+
+        /// <summary>
+        /// Sets an environment variable to <c>true</c> or <c>false</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// </summary>
+        /// <param name="key">The variable name, which must not contain <c>=</c>.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithEnvironment(string key, bool value)
+        {
+            return SetEnvironment(key, value ? "true" : "false", nameof(key));
+        }
+
+        /// <summary>
+        /// Sets an environment variable to a number.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// </summary>
+        /// <param name="key">The variable name, which must not contain <c>=</c>.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithEnvironment(string key, int value)
+        {
+            return SetEnvironment(key, value.ToString(CultureInfo.InvariantCulture), nameof(key));
+        }
+
+        /// <summary>
+        /// Sets an environment variable to a number.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// </summary>
+        /// <param name="key">The variable name, which must not contain <c>=</c>.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithEnvironment(string key, long value)
+        {
+            return SetEnvironment(key, value.ToString(CultureInfo.InvariantCulture), nameof(key));
+        }
+
+        /// <summary>
+        /// Sets an environment variable to a number, written with a <c>.</c> as the decimal separator.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// </summary>
+        /// <param name="key">The variable name, which must not contain <c>=</c>.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithEnvironment(string key, double value)
+        {
+            return SetEnvironment(key, value.ToString("R", CultureInfo.InvariantCulture), nameof(key));
+        }
+
+        /// <summary>
+        /// Declares an environment variable with no value, so Compose takes it from the environment of the
+        /// machine running it. If it is not set there, the variable is removed from the container.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// </summary>
+        /// <param name="key">The variable name, which must not contain <c>=</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithEnvironment(string key)
+        {
+            return SetEnvironment(key, null, nameof(key));
+        }
+
+        /// <summary>
+        /// Sets several environment variables from name and value pairs.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// </summary>
+        /// <param name="variables">The variables.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithEnvironment(IEnumerable<KeyValuePair<string, string>> variables)
+        {
+            Guard.NotNull(variables, nameof(variables));
+
+            foreach (KeyValuePair<string, string> variable in variables)
+            {
+                WithEnvironment(variable.Key, variable.Value);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets several environment variables from <c>KEY=value</c> strings, or a bare <c>KEY</c> for a
+        /// variable with no value. Giving a list makes the YAML use the list form (<c>- KEY=value</c>).
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// </summary>
+        /// <param name="entries">The entries, split at the first <c>=</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithEnvironment(IEnumerable<string> entries)
+        {
+            Guard.NotNull(entries, nameof(entries));
+
+            foreach (string entry in entries)
+            {
+                Guard.NotNullOrWhiteSpace(entry, nameof(entries));
+
+                int separator = entry.IndexOf('=');
+                if (separator < 0)
+                {
+                    SetEnvironment(entry, null, nameof(entries));
+                }
+                else
+                {
+                    SetEnvironment(entry.Substring(0, separator), entry.Substring(separator + 1), nameof(entries));
+                }
+            }
+
+            _definition = _definition with { Environment = _definition.Environment with { UsesListSyntax = true } };
+            return this;
+        }
+
+        /// <summary>
         /// Creates the service definition from the values set so far.
         /// </summary>
         /// <returns>An immutable <see cref="ServiceDefinition"/>.</returns>
@@ -378,6 +500,18 @@ namespace DockerComposeFluent.Builders
             Guard.NotNullOrWhiteSpace(name, nameof(name));
 
             _definition = _definition with { Networks = Collections.With(_definition.Networks, name, attachment) };
+            return this;
+        }
+
+        private ServiceBuilder SetEnvironment(string key, string? value, string parameterName)
+        {
+            Guard.EnvironmentKey(key, parameterName);
+
+            EnvironmentVariables environment = _definition.Environment;
+            _definition = _definition with
+            {
+                Environment = environment with { Variables = Collections.With(environment.Variables, key, value) }
+            };
             return this;
         }
     }

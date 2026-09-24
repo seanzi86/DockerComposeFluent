@@ -34,6 +34,12 @@ namespace DockerComposeFluent.Models
         public CommandLine? Entrypoint { get; init; }
 
         /// <summary>
+        /// The environment variables set in the container, as specified by <c>environment</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// </summary>
+        public EnvironmentVariables Environment { get; init; } = new EnvironmentVariables();
+
+        /// <summary>
         /// The networks the service joins and their settings, keyed by network name, as specified by
         /// <c>networks</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
