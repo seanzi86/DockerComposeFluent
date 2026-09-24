@@ -196,6 +196,99 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Adds a mount in short syntax, written to YAML as a string. Each call adds another mount.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+        /// </summary>
+        /// <param name="mount">The mount, for example <c>db-data:/var/lib/db</c> or <c>./src:/app:ro</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithVolume(string mount)
+        {
+            return AddVolume(MountMapping.FromShortSyntax(mount));
+        }
+
+        /// <summary>
+        /// Adds a mount from a source and a target, written to YAML in short syntax
+        /// (<c>source:target</c> or <c>source:target:ro</c>) so that Compose decides whether the source is a
+        /// named volume or a host path. Use <see cref="WithVolume(Action{MountBuilder})"/> to state the type.
+        /// Each call adds another mount.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+        /// </summary>
+        /// <param name="source">A volume name or a host path.</param>
+        /// <param name="target">The path in the container.</param>
+        /// <param name="readOnly"><c>true</c> to mount read-only.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithVolume(string source, string target, bool readOnly = false)
+        {
+            Guard.NotNullOrWhiteSpace(source, nameof(source));
+            Guard.NotNullOrWhiteSpace(target, nameof(target));
+
+            string mount = readOnly ? source + ":" + target + ":ro" : source + ":" + target;
+            return AddVolume(MountMapping.FromShortSyntax(mount));
+        }
+
+        /// <summary>
+        /// Adds a mount from an existing long-syntax definition. Each call adds another mount.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+        /// </summary>
+        /// <param name="mount">The mount definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithVolume(MountDefinition mount)
+        {
+            return AddVolume(MountMapping.FromDefinition(mount));
+        }
+
+        /// <summary>
+        /// Adds a mount configured through a <see cref="MountBuilder"/>. Each call adds another mount.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+        /// </summary>
+        /// <param name="configure">Configures the mount.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithVolume(Action<MountBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            MountBuilder builder = new MountBuilder();
+            configure(builder);
+            return AddVolume(MountMapping.FromDefinition(builder.Build()));
+        }
+
+        /// <summary>
+        /// Adds several mounts in short syntax.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+        /// </summary>
+        /// <param name="mounts">The mounts, for example <c>db-data:/var/lib/db</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithVolumes(IEnumerable<string> mounts)
+        {
+            Guard.NotNull(mounts, nameof(mounts));
+
+            foreach (string mount in mounts)
+            {
+                WithVolume(mount);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds several mounts from existing long-syntax definitions.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+        /// </summary>
+        /// <param name="mounts">The mount definitions.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithVolumes(IEnumerable<MountDefinition> mounts)
+        {
+            Guard.NotNull(mounts, nameof(mounts));
+
+            foreach (MountDefinition mount in mounts)
+            {
+                WithVolume(mount);
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Creates the service definition from the values set so far.
         /// </summary>
         /// <returns>An immutable <see cref="ServiceDefinition"/>.</returns>
@@ -208,6 +301,13 @@ namespace DockerComposeFluent.Builders
         {
             List<PortMapping> ports = new List<PortMapping>(_definition.Ports) { port };
             _definition = _definition with { Ports = ports.AsReadOnly() };
+            return this;
+        }
+
+        private ServiceBuilder AddVolume(MountMapping mount)
+        {
+            List<MountMapping> volumes = new List<MountMapping>(_definition.Volumes) { mount };
+            _definition = _definition with { Volumes = volumes.AsReadOnly() };
             return this;
         }
     }

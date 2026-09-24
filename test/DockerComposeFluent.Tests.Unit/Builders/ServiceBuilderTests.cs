@@ -203,5 +203,88 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentNullException>(() => builder.WithPorts((string[])null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithPorts((PortDefinition[])null!));
         }
+
+        [Fact]
+        public void WithVolume_String_UsesShortSyntax()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithVolume("db-data:/var/lib/db:ro").Build();
+
+            Assert.Equal("db-data:/var/lib/db:ro", service.Volumes[0].ShortSyntax);
+            Assert.Null(service.Volumes[0].Definition);
+        }
+
+        [Fact]
+        public void WithVolume_SourceAndTarget_WritesShortSyntax()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithVolume("db-data", "/data")
+                .WithVolume("./src", "/app", readOnly: true)
+                .Build();
+
+            Assert.Equal("db-data:/data", service.Volumes[0].ShortSyntax);
+            Assert.Equal("./src:/app:ro", service.Volumes[1].ShortSyntax);
+        }
+
+        [Fact]
+        public void WithVolume_Definition_AddsIt()
+        {
+            MountDefinition definition = new MountDefinition(MountType.Tmpfs, "/tmp");
+
+            ServiceDefinition service = new ServiceBuilder().WithVolume(definition).Build();
+
+            Assert.Same(definition, service.Volumes[0].Definition);
+        }
+
+        [Fact]
+        public void WithVolume_Configure_BuildsLongSyntax()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithVolume(mount => mount.WithType(MountType.Bind).WithSource("./conf").WithTarget("/etc/app"))
+                .Build();
+
+            MountDefinition mount = service.Volumes[0].Definition!;
+            Assert.Equal(MountType.Bind, mount.Type);
+            Assert.Equal("./conf", mount.Source);
+            Assert.Equal("/etc/app", mount.Target);
+        }
+
+        [Fact]
+        public void WithVolume_CalledRepeatedly_AppendsInOrder()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithVolume("a:/a").WithVolume("b", "/b").WithVolume(mount => mount.WithType(MountType.Tmpfs).WithTarget("/t")).Build();
+
+            Assert.Equal(3, service.Volumes.Count);
+            Assert.Equal("a:/a", service.Volumes[0].ShortSyntax);
+            Assert.Equal("b:/b", service.Volumes[1].ShortSyntax);
+            Assert.Equal(MountType.Tmpfs, service.Volumes[2].Definition!.Type);
+        }
+
+        [Fact]
+        public void WithVolumes_BothForms_AddEachMount()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithVolumes(new[] { "a:/a", "b:/b" })
+                .WithVolumes(new[] { new MountDefinition(MountType.Tmpfs, "/t") })
+                .Build();
+
+            Assert.Equal(3, service.Volumes.Count);
+            Assert.Equal("b:/b", service.Volumes[1].ShortSyntax);
+            Assert.Equal("/t", service.Volumes[2].Definition!.Target);
+        }
+
+        [Fact]
+        public void InvalidVolumeArguments_Throw()
+        {
+            ServiceBuilder builder = new ServiceBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithVolume(" "));
+            Assert.Throws<ArgumentException>(() => builder.WithVolume("", "/x"));
+            Assert.Throws<ArgumentException>(() => builder.WithVolume("x", " "));
+            Assert.Throws<ArgumentNullException>(() => builder.WithVolume((MountDefinition)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithVolume((Action<MountBuilder>)null!));
+            Assert.Throws<InvalidOperationException>(() => builder.WithVolume(mount => mount.WithTarget("/x")));
+            Assert.Throws<ArgumentNullException>(() => builder.WithVolumes((string[])null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithVolumes((MountDefinition[])null!));
+        }
     }
 }

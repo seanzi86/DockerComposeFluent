@@ -38,5 +38,11 @@ namespace DockerComposeFluent.Models
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
         /// </summary>
         public IReadOnlyList<PortMapping> Ports { get; init; } = Array.Empty<PortMapping>();
+
+        /// <summary>
+        /// The mounts (volumes, bind mounts and so on), as specified by <c>volumes</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+        /// </summary>
+        public IReadOnlyList<MountMapping> Volumes { get; init; } = Array.Empty<MountMapping>();
     }
 }
