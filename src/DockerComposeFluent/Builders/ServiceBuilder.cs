@@ -289,6 +289,68 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Attaches the service to a network with no settings. When no attached network has settings, the
+        /// networks are written to YAML as a plain list of names. Attaching the same network again replaces it.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
+        /// </summary>
+        /// <param name="name">The name of a network defined at the top level.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithNetwork(string name)
+        {
+            return AddNetwork(name, new NetworkAttachment());
+        }
+
+        /// <summary>
+        /// Attaches the service to a network with existing settings. Any network with settings makes the
+        /// networks be written to YAML as a mapping. Attaching the same network again replaces it.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
+        /// </summary>
+        /// <param name="name">The name of a network defined at the top level.</param>
+        /// <param name="attachment">The settings for this network.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithNetwork(string name, NetworkAttachment attachment)
+        {
+            Guard.NotNull(attachment, nameof(attachment));
+
+            return AddNetwork(name, attachment);
+        }
+
+        /// <summary>
+        /// Attaches the service to a network with settings configured through a
+        /// <see cref="NetworkAttachmentBuilder"/>. Attaching the same network again replaces it.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
+        /// </summary>
+        /// <param name="name">The name of a network defined at the top level.</param>
+        /// <param name="configure">Configures the settings for this network.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithNetwork(string name, Action<NetworkAttachmentBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            NetworkAttachmentBuilder builder = new NetworkAttachmentBuilder();
+            configure(builder);
+            return AddNetwork(name, builder.Build());
+        }
+
+        /// <summary>
+        /// Attaches the service to several networks with no settings.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
+        /// </summary>
+        /// <param name="names">The names of networks defined at the top level.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithNetworks(IEnumerable<string> names)
+        {
+            Guard.NotNull(names, nameof(names));
+
+            foreach (string name in names)
+            {
+                WithNetwork(name);
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Creates the service definition from the values set so far.
         /// </summary>
         /// <returns>An immutable <see cref="ServiceDefinition"/>.</returns>
@@ -308,6 +370,14 @@ namespace DockerComposeFluent.Builders
         {
             List<MountMapping> volumes = new List<MountMapping>(_definition.Volumes) { mount };
             _definition = _definition with { Volumes = volumes.AsReadOnly() };
+            return this;
+        }
+
+        private ServiceBuilder AddNetwork(string name, NetworkAttachment attachment)
+        {
+            Guard.NotNullOrWhiteSpace(name, nameof(name));
+
+            _definition = _definition with { Networks = Collections.With(_definition.Networks, name, attachment) };
             return this;
         }
     }

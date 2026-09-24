@@ -17,6 +17,12 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalScalar("container_name", value.ContainerName);
             emitter.WriteOptionalValue("entrypoint", value.Entrypoint, serialiser);
             emitter.WriteOptionalScalar("image", value.Image);
+
+            if (value.Networks.Count > 0)
+            {
+                emitter.WriteOptionalValue("networks", value.Networks, serialiser);
+            }
+
             emitter.WriteOptionalSequence("ports", value.Ports, serialiser);
             emitter.WriteOptionalSequence("volumes", value.Volumes, serialiser);
             emitter.EndMapping();
