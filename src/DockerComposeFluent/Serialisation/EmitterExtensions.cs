@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
@@ -29,12 +30,13 @@ namespace DockerComposeFluent.Serialisation
         }
 
         /// <summary>
-        /// Starts a flow-style sequence, for example <c>[a, b]</c>.
+        /// Starts a sequence.
         /// </summary>
         /// <param name="emitter">The emitter to write to.</param>
-        internal static void StartSequence(this IEmitter emitter)
+        /// <param name="style">Block style (one item per line) or flow style (<c>[a, b]</c>).</param>
+        internal static void StartSequence(this IEmitter emitter, SequenceStyle style)
         {
-            emitter.Emit(new SequenceStart(null, null, true, SequenceStyle.Flow));
+            emitter.Emit(new SequenceStart(null, null, true, style));
         }
 
         /// <summary>
@@ -103,6 +105,45 @@ namespace DockerComposeFluent.Serialisation
 
             emitter.WriteKey(key);
             serialiser(value, typeof(T));
+        }
+
+        /// <summary>
+        /// Writes a fixed key and an integer value as a plain (unquoted) number.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="key">The fixed key to write.</param>
+        /// <param name="value">The value to write.</param>
+        internal static void WriteInteger(this IEmitter emitter, string key, int value)
+        {
+            emitter.WriteKey(key);
+            emitter.Emit(new Scalar(value.ToString(CultureInfo.InvariantCulture)));
+        }
+
+        /// <summary>
+        /// Writes a fixed key and a block sequence of values serialised by their own converters,
+        /// or nothing when <paramref name="values"/> is empty.
+        /// </summary>
+        /// <typeparam name="T">The type of the values.</typeparam>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="key">The fixed key to write.</param>
+        /// <param name="values">The values to write.</param>
+        /// <param name="serialiser">Serialises each value using the registered converters.</param>
+        internal static void WriteOptionalSequence<T>(this IEmitter emitter, string key, IReadOnlyList<T> values, ObjectSerializer serialiser)
+        {
+            if (values.Count == 0)
+            {
+                return;
+            }
+
+            emitter.WriteKey(key);
+            emitter.StartSequence(SequenceStyle.Block);
+
+            foreach (T value in values)
+            {
+                serialiser(value, typeof(T));
+            }
+
+            emitter.EndSequence();
         }
 
         /// <summary>

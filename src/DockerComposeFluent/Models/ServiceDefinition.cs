@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace DockerComposeFluent.Models
 {
     /// <summary>
@@ -29,5 +32,11 @@ namespace DockerComposeFluent.Models
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#entrypoint"/>
         /// </summary>
         public CommandLine? Entrypoint { get; init; }
+
+        /// <summary>
+        /// The ports to expose, as specified by <c>ports</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
+        /// </summary>
+        public IReadOnlyList<PortMapping> Ports { get; init; } = Array.Empty<PortMapping>();
     }
 }
