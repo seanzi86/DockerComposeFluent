@@ -1,0 +1,35 @@
+services:
+  "app":
+    image: "nginx"
+    volumes:
+      - "db-data:/var/lib/db"
+      - "./src:/app:ro"
+      - bind:
+          create_host_path: false
+          propagation: "rshared"
+          selinux: "z"
+        source: "./conf"
+        target: "/etc/app"
+        type: "bind"
+      - read_only: true
+        source: "cache"
+        target: "/cache"
+        type: "volume"
+        volume:
+          nocopy: true
+          subpath: "sub"
+      - target: "/tmp"
+        tmpfs:
+          mode: 1023
+          size: "100m"
+        type: "tmpfs"
+      - image:
+          subpath: "static"
+        source: "example/assets:1"
+        target: "/assets"
+        type: "image"
+volumes:
+  "db-data":
+    driver: "local"
+  "cache":
+    name: "app_cache"

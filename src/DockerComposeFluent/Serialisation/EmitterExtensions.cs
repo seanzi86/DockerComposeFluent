@@ -71,6 +71,18 @@ namespace DockerComposeFluent.Serialisation
         }
 
         /// <summary>
+        /// Writes a fixed key and a string value that is always present.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="key">The fixed key to write.</param>
+        /// <param name="value">The value to write.</param>
+        internal static void WriteScalarEntry(this IEmitter emitter, string key, string value)
+        {
+            emitter.WriteKey(key);
+            emitter.WriteScalar(value);
+        }
+
+        /// <summary>
         /// Writes a fixed key and a string value, or nothing when <paramref name="value"/> is <c>null</c>.
         /// </summary>
         /// <param name="emitter">The emitter to write to.</param>
@@ -117,6 +129,39 @@ namespace DockerComposeFluent.Serialisation
         {
             emitter.WriteKey(key);
             emitter.Emit(new Scalar(value.ToString(CultureInfo.InvariantCulture)));
+        }
+
+        /// <summary>
+        /// Writes a fixed key and a boolean value, or nothing when <paramref name="value"/> is <c>null</c>.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="key">The fixed key to write.</param>
+        /// <param name="value">The value to write, or <c>null</c> to omit the entry.</param>
+        internal static void WriteOptionalBoolean(this IEmitter emitter, string key, bool? value)
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            emitter.WriteKey(key);
+            emitter.Emit(new Scalar(value.Value ? "true" : "false"));
+        }
+
+        /// <summary>
+        /// Writes a fixed key and an integer value, or nothing when <paramref name="value"/> is <c>null</c>.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="key">The fixed key to write.</param>
+        /// <param name="value">The value to write, or <c>null</c> to omit the entry.</param>
+        internal static void WriteOptionalInteger(this IEmitter emitter, string key, int? value)
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            emitter.WriteInteger(key, value.Value);
         }
 
         /// <summary>
