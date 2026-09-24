@@ -105,6 +105,31 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
             Assert.Equal(expected, Normalise(file.ToYaml()));
         }
 
+        [Fact]
+        public void ToYaml_Ports_MatchGoldenFixture()
+        {
+            DockerComposeFile file = new DockerComposeBuilder()
+                .WithService("web", service => service
+                    .WithImage("nginx")
+                    .WithPorts(new[] { "80", "8080:80" })
+                    .WithPort("127.0.0.1:9000:90/udp")
+                    .WithPort(83)
+                    .WithPort(8081, 81, PortProtocol.Udp)
+                    .WithPort(port => port
+                        .WithTarget(82)
+                        .WithPublished(8000, 9000)
+                        .WithHostIp("127.0.0.1")
+                        .WithMode(PortMode.Host)
+                        .WithAppProtocol("http")
+                        .WithName("web")))
+                .WithService("worker", service => service.WithImage("busybox"))
+                .Build();
+
+            string expected = Normalise(File.ReadAllText(Path.Combine("Serialisation", "Fixtures", "ports.yml")));
+
+            Assert.Equal(expected, Normalise(file.ToYaml()));
+        }
+
         [Theory]
         [InlineData("true")]
         [InlineData("False")]

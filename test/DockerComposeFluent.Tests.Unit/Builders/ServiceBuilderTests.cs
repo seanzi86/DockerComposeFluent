@@ -88,5 +88,120 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentNullException>(() => builder.WithCommand((string[])null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithEntrypoint((string[])null!));
         }
+
+        [Fact]
+        public void WithPort_String_UsesShortSyntax()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithPort("8080:80").Build();
+
+            Assert.Equal("8080:80", service.Ports[0].ShortSyntax);
+            Assert.Null(service.Ports[0].Definition);
+        }
+
+        [Fact]
+        public void WithPort_TargetOnly_UsesLongSyntaxWithoutPublishedPort()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithPort(80).Build();
+
+            PortDefinition port = service.Ports[0].Definition!;
+            Assert.Null(service.Ports[0].ShortSyntax);
+            Assert.Equal(80, port.Target);
+            Assert.Null(port.Published);
+            Assert.Null(port.Protocol);
+        }
+
+        [Fact]
+        public void WithPort_PublishedAndTarget_UsesLongSyntax()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithPort(8080, 80, PortProtocol.Udp).Build();
+
+            PortDefinition port = service.Ports[0].Definition!;
+            Assert.Null(service.Ports[0].ShortSyntax);
+            Assert.Equal(80, port.Target);
+            Assert.Equal("8080", port.Published);
+            Assert.Equal(PortProtocol.Udp, port.Protocol);
+        }
+
+        [Fact]
+        public void WithPort_PublishedAndTarget_ProtocolIsOptional()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithPort(8080, 80).Build();
+
+            Assert.Null(service.Ports[0].Definition!.Protocol);
+        }
+
+        [Fact]
+        public void WithPort_Definition_AddsIt()
+        {
+            PortDefinition definition = new PortDefinition(80);
+
+            ServiceDefinition service = new ServiceBuilder().WithPort(definition).Build();
+
+            Assert.Same(definition, service.Ports[0].Definition);
+        }
+
+        [Fact]
+        public void WithPort_Configure_BuildsLongSyntax()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithPort(port => port.WithTarget(80).WithPublished(8000, 8010).WithHostIp("127.0.0.1"))
+                .Build();
+
+            PortDefinition port = service.Ports[0].Definition!;
+            Assert.Equal(80, port.Target);
+            Assert.Equal("8000-8010", port.Published);
+            Assert.Equal("127.0.0.1", port.HostIp);
+        }
+
+        [Fact]
+        public void WithPort_CalledRepeatedly_AppendsInOrder()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithPort("80").WithPort(8443, 443).WithPort("53/udp").Build();
+
+            Assert.Equal(3, service.Ports.Count);
+            Assert.Equal("80", service.Ports[0].ShortSyntax);
+            Assert.Equal("8443", service.Ports[1].Definition!.Published);
+            Assert.Equal("53/udp", service.Ports[2].ShortSyntax);
+        }
+
+        [Fact]
+        public void WithPorts_BothForms_AddEachPort()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithPorts(new[] { "80", "443" })
+                .WithPorts(new[] { new PortDefinition(8080), new PortDefinition(9090) })
+                .Build();
+
+            Assert.Equal(4, service.Ports.Count);
+            Assert.Equal("443", service.Ports[1].ShortSyntax);
+            Assert.Equal(9090, service.Ports[3].Definition!.Target);
+        }
+
+        [Fact]
+        public void Build_ReturnsPortsSnapshot_UnaffectedByLaterChanges()
+        {
+            ServiceBuilder builder = new ServiceBuilder().WithPort("80");
+            ServiceDefinition first = builder.Build();
+
+            builder.WithPort("443");
+
+            Assert.Single(first.Ports);
+        }
+
+        [Fact]
+        public void InvalidPortArguments_Throw()
+        {
+            ServiceBuilder builder = new ServiceBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithPort(" "));
+            Assert.Throws<ArgumentOutOfRangeException>(() => builder.WithPort(0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => builder.WithPort(0, 80));
+            Assert.Throws<ArgumentOutOfRangeException>(() => builder.WithPort(8080, 70000));
+            Assert.Throws<ArgumentNullException>(() => builder.WithPort((PortDefinition)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithPort((Action<PortBuilder>)null!));
+            Assert.Throws<InvalidOperationException>(() => builder.WithPort(port => port.WithPublished(80)));
+            Assert.Throws<ArgumentNullException>(() => builder.WithPorts((string[])null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithPorts((PortDefinition[])null!));
+        }
     }
 }

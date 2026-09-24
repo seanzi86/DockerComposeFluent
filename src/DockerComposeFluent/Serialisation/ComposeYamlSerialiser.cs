@@ -28,7 +28,7 @@ namespace DockerComposeFluent.Serialisation
         /// </summary>
         private static ISerializer CreateSerialiser()
         {
-            SerializerBuilder builder = new SerializerBuilder();
+            SerializerBuilder builder = new SerializerBuilder().WithIndentedSequences();
 
             Type[] converterTypes = typeof(ComposeYamlSerialiser).Assembly
                 .GetTypes()

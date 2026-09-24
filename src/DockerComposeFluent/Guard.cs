@@ -32,5 +32,18 @@ namespace DockerComposeFluent
                 throw new ArgumentNullException(parameterName);
             }
         }
+
+        /// <summary>
+        /// Throws if <paramref name="value"/> is not a valid TCP or UDP port number (1 to 65535).
+        /// </summary>
+        /// <param name="value">The port number to check.</param>
+        /// <param name="parameterName">The name of the parameter being checked.</param>
+        internal static void ValidPort(int value, string parameterName)
+        {
+            if (value < 1 || value > 65535)
+            {
+                throw new ArgumentOutOfRangeException(parameterName, value, "A port must be between 1 and 65535.");
+            }
+        }
     }
 }

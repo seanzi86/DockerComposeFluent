@@ -1,5 +1,6 @@
 using DockerComposeFluent.Models;
 using YamlDotNet.Core;
+using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
 namespace DockerComposeFluent.Serialisation
@@ -18,7 +19,7 @@ namespace DockerComposeFluent.Serialisation
                 return;
             }
 
-            emitter.StartSequence();
+            emitter.StartSequence(SequenceStyle.Flow);
             foreach (string argument in value.Arguments!)
             {
                 emitter.WriteScalar(argument);
