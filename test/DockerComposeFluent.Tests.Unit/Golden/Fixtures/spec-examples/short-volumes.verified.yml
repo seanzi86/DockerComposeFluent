@@ -1,0 +1,11 @@
+services:
+  "backend":
+    image: "example/backend"
+    volumes:
+      - "/var/run/postgres/postgres.sock:/var/run/postgres/postgres.sock"
+      - "dbdata:/var/lib/postgresql/data"
+      - "./cache:/tmp/cache"
+      - "~/configs:/etc/configs/:ro"
+volumes:
+  "dbdata":
+    driver: "local"

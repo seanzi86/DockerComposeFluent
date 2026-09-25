@@ -1,0 +1,26 @@
+services:
+  "frontend":
+    image: "example/webapp"
+    networks:
+      - "front-tier"
+      - "back-tier"
+  "monitoring":
+    image: "example/monitoring"
+    networks:
+      - "admin"
+  "backend":
+    image: "example/backend"
+    networks:
+      "back-tier":
+        aliases:
+          - "database"
+      "admin":
+        aliases:
+          - "backend-admin"
+networks:
+  "front-tier":
+    driver: "bridge"
+  "back-tier":
+    driver: "bridge"
+  "admin":
+    driver: "bridge"

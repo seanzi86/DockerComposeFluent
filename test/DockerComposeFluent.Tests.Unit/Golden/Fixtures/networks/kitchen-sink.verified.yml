@@ -1,0 +1,66 @@
+services:
+  "list":
+    image: "nginx"
+    networks:
+      - "front"
+      - "back"
+  "single":
+    image: "nginx"
+    networks:
+      - "front"
+  "aliased":
+    image: "busybox"
+    networks:
+      "front":
+        aliases:
+          - "alias1"
+          - "alias3"
+      "back":
+        aliases:
+          - "alias2"
+  "addressed":
+    image: "busybox"
+    networks:
+      "back":
+        driver_opts:
+          "foo": "bar"
+          "baz": "1"
+        ipv4_address: "172.16.238.10"
+        ipv6_address: "2001:3984:3989::10"
+        link_local_ips:
+          - "57.123.22.11"
+          - "57.123.22.13"
+        mac_address: "02:42:ac:11:00:02"
+        priority: 1000
+  "ordered":
+    image: "busybox"
+    networks:
+      "front":
+        gw_priority: 1
+        interface_name: "eth0"
+      "back": {}
+networks:
+  "front":
+    attachable: true
+    driver: "overlay"
+    driver_opts:
+      "com.docker.network.driver.mtu": "1400"
+    name: "front_net"
+  "back":
+    enable_ipv4: true
+    enable_ipv6: true
+    internal: true
+    ipam:
+      config:
+        - aux_addresses:
+            "host1": "172.16.238.5"
+          gateway: "172.16.238.254"
+          ip_range: "172.16.238.0/25"
+          subnet: "172.16.238.0/24"
+        - subnet: "2001:3984:3989::/64"
+      driver: "default"
+      options:
+        "foo": "bar"
+  "outside":
+    external: true
+    name: "shared_outside"

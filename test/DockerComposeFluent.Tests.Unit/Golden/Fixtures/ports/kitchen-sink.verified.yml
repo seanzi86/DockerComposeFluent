@@ -1,0 +1,44 @@
+services:
+  "short":
+    image: "nginx"
+    ports:
+      - "3000"
+      - "3000-3005"
+      - "8000:8000"
+      - "9090-9091:8080-8081"
+      - "49100:22"
+      - "8000-9000:80"
+      - "127.0.0.1:8001:8001"
+      - "127.0.0.1:5000-5010:5000-5010"
+      - "6060:6060/udp"
+  "helpers":
+    image: "nginx"
+    ports:
+      - target: 80
+      - published: "8080"
+        target: 80
+      - protocol: "udp"
+        published: "5353"
+        target: 53
+      - protocol: "tcp"
+        published: "8443"
+        target: 443
+  "long":
+    image: "nginx"
+    ports:
+      - target: 80
+      - published: "8080"
+        target: 80
+      - host_ip: "127.0.0.1"
+        published: "8000-8010"
+        target: 80
+      - protocol: "udp"
+        published: "5353"
+        target: 53
+      - app_protocol: "https"
+        host_ip: "0.0.0.0"
+        mode: "ingress"
+        name: "secure"
+        protocol: "tcp"
+        published: "8443"
+        target: 443

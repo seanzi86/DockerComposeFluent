@@ -1,0 +1,44 @@
+services:
+  "typed":
+    environment:
+      "TEXT": "hello world"
+      "FLAG": "true"
+      "OFF": "false"
+      "COUNT": "8080"
+      "BIG": "9007199254740993"
+      "RATIO": "0.5"
+      "EMPTY": ""
+      "FROM_HOST": null
+    image: "nginx"
+  "lookalikes":
+    environment:
+      "YES": "yes"
+      "NULL": "null"
+      "TILDE": "~"
+      "SCIENTIFIC": "1e3"
+      "DATE": "2001-12-14"
+      "HEX": "0x10"
+      "COLON": "a: b"
+      "HASH": "a # b"
+      "QUOTES": "say \"hi\""
+      "NEWLINE": "line1\nline2"
+    image: "nginx"
+  "dictionary":
+    environment:
+      "RACK_ENV": "development"
+      "SHOW": "true"
+    image: "nginx"
+  "entries":
+    environment:
+      - "RACK_ENV=development"
+      - "URL=http://example.com?a=b"
+      - "EMPTY="
+      - "FROM_HOST"
+    image: "nginx"
+  "combined":
+    environment:
+      - "A=1"
+      - "B"
+      - "C=3"
+      - "D=4"
+    image: "nginx"
