@@ -12,8 +12,6 @@
 
   <PropertyGroup>
     <PackageId>DockerComposeFluent</PackageId>
-    <!-- Local default only: the release workflow sets the real version from the git tag. -->
-    <Version>0.0.0-dev</Version>
     <Authors>Sean Carrington</Authors>
     <Description>A fluent API for building and generating docker-compose.yml files in .NET.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -30,6 +28,8 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EnablePackageValidation>true</EnablePackageValidation>
+    <!-- Local default only: the release workflow overrides it with the version from the git tag. -->
+    <Version>0.0.0-dev</Version>
   </PropertyGroup>
 
   <ItemGroup>
