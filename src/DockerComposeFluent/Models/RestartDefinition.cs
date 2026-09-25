@@ -10,7 +10,7 @@ namespace DockerComposeFluent.Models
     /// </summary>
     public sealed record RestartDefinition
     {
-        private const string _onFailure = "on-failure";
+        private const string OnFailurePolicy = "on-failure";
 
         private RestartDefinition(RestartPolicy policy, int? maxRetries)
         {
@@ -78,11 +78,11 @@ namespace DockerComposeFluent.Models
                     return FromPolicy(RestartPolicy.Always);
                 case "unless-stopped":
                     return FromPolicy(RestartPolicy.UnlessStopped);
-                case _onFailure:
+                case OnFailurePolicy:
                     return FromPolicy(RestartPolicy.OnFailure);
             }
 
-            string prefix = _onFailure + ":";
+            string prefix = OnFailurePolicy + ":";
             if (value.StartsWith(prefix, StringComparison.Ordinal)
                 && int.TryParse(value.Substring(prefix.Length), NumberStyles.None, CultureInfo.InvariantCulture, out int maxRetries))
             {

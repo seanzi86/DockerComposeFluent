@@ -14,7 +14,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden
     /// </summary>
     internal static class GoldenScenarios
     {
-        private const string _classSuffix = "Scenarios";
+        private const string ClassSuffix = "Scenarios";
 
         /// <summary>
         /// Every scenario, keyed by its id (<c>&lt;feature&gt;/&lt;name&gt;</c>, for example <c>ports/forms</c>).
@@ -26,11 +26,11 @@ namespace DockerComposeFluent.Tests.Unit.Golden
             SortedDictionary<string, Func<DockerComposeFile>> scenarios = new SortedDictionary<string, Func<DockerComposeFile>>(StringComparer.Ordinal);
 
             IEnumerable<Type> classes = typeof(GoldenScenarios).Assembly.GetTypes()
-                .Where(type => type.IsClass && type.IsAbstract && type.IsSealed && type.Name.EndsWith(_classSuffix, StringComparison.Ordinal));
+                .Where(type => type.IsClass && type.IsAbstract && type.IsSealed && type.Name.EndsWith(ClassSuffix, StringComparison.Ordinal));
 
             foreach (Type type in classes)
             {
-                string feature = Kebab(type.Name.Substring(0, type.Name.Length - _classSuffix.Length));
+                string feature = Kebab(type.Name.Substring(0, type.Name.Length - ClassSuffix.Length));
                 IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
                     .Where(method => method.GetCustomAttribute<ScenarioAttribute>() != null);
 

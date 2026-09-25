@@ -25,7 +25,7 @@ Enforced via `.editorconfig` and `EnforceCodeStyleInBuild` (violations fail the 
 
 - **Block-scoped namespaces** (`namespace X { ... }`), not file-scoped (`namespace X;`).
 - **No `var`** — always use the explicit type.
-- **Private fields use an underscore prefix** (`_camelCase`, e.g. `_services`).
+- **Private fields use an underscore prefix** (`_camelCase`, e.g. `_services`), but **constants are PascalCase** whatever their accessibility (`OnFailurePolicy`), which is the .NET convention.
 - **UK English** in identifiers, comments and docs (e.g. `Serialise`, `Normalise`), except where a third-party or compose-spec name dictates otherwise.
 - **XML `<summary>` doc comments on every public type and member** — this is a public package, so these become the IntelliSense docs consumers see. Missing docs on public members fail the build (`CS1591`); internal types and members should be documented too, but that is checked in review.
 - **Note the minimum Compose version** when the spec marks a property with a version badge: add `<remarks>Requires Compose 2.35.0 or later.</remarks>` to the model property, its builder methods, and any type that only exists for that property. The target is the current Compose release, so only properties that need something newer than older releases carry a note.
