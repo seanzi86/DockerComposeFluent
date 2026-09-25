@@ -43,6 +43,7 @@ This library follows a few consistent conventions across the whole fluent API â€
 
 - Add object-graph unit tests for new builder methods (asserting on the resulting model).
 - Add or extend a golden-file scenario when changing what YAML gets emitted: add an entry to `GoldenScenarios` in `test/DockerComposeFluent.Tests.Unit/Golden`, then run `UPDATE_GOLDEN=1 dotnet test` to create or refresh its fixture in `Golden/Fixtures`, and review the diff before committing. The variable is refused on CI.
+- The README quick start is the `readme` golden scenario: its code sits between the `README:begin` and `README:end` markers in `GoldenScenarios.cs`, and its YAML is `Golden/Fixtures/readme.yml`. A test fails if `README.md` stops matching either, so change all three together. Update the short "What is supported" list in the README when a property is added.
 - CI runs `docker compose config` over every fixture with a pinned Docker Compose version (see `.github/workflows/ci.yml`), so the YAML must be accepted by the real tool, not just match a file. A fixture that uses a property from a newer Compose than the pinned one will fail there.
 
 ## Dependencies

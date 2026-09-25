@@ -1,0 +1,28 @@
+name: "shop"
+services:
+  "web":
+    image: "nginx:1.27"
+    networks:
+      - "front"
+    ports:
+      - published: "8080"
+        target: 80
+    volumes:
+      - "./site:/usr/share/nginx/html:ro"
+  "db":
+    environment:
+      "POSTGRES_DB": "shop"
+      "POSTGRES_PASSWORD": null
+    image: "postgres:17"
+    networks:
+      - "back"
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+networks:
+  "front":
+    driver: "bridge"
+  "back":
+    internal: true
+volumes:
+  "db-data":
+    driver: "local"
