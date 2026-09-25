@@ -482,5 +482,56 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentException>(() => builder.WithEnvironment(new[] { " " }));
             Assert.Throws<ArgumentException>(() => builder.WithEnvironment(new string[] { null! }));
         }
+
+        [Fact]
+        public void WithRestart_Policy_SetsRestart()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithRestart(RestartPolicy.UnlessStopped).Build();
+
+            Assert.Equal(RestartDefinition.FromPolicy(RestartPolicy.UnlessStopped), service.Restart);
+        }
+
+        [Fact]
+        public void WithRestart_Text_ParsesIt()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithRestart("on-failure:5").Build();
+
+            Assert.Equal(RestartDefinition.OnFailure(5), service.Restart);
+        }
+
+        [Fact]
+        public void WithRestart_Definition_SetsIt()
+        {
+            RestartDefinition restart = RestartDefinition.OnFailure(2);
+
+            Assert.Same(restart, new ServiceBuilder().WithRestart(restart).Build().Restart);
+        }
+
+        [Fact]
+        public void WithRestartOnFailure_SetsRetryLimit()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithRestartOnFailure(3).Build();
+
+            Assert.Equal(RestartPolicy.OnFailure, service.Restart!.Policy);
+            Assert.Equal(3, service.Restart.MaxRetries);
+        }
+
+        [Fact]
+        public void WithRestart_CalledTwice_LastWins()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithRestartOnFailure(3).WithRestart(RestartPolicy.Always).Build();
+
+            Assert.Equal(RestartDefinition.FromPolicy(RestartPolicy.Always), service.Restart);
+        }
+
+        [Fact]
+        public void WithRestart_InvalidInput_Throws()
+        {
+            ServiceBuilder builder = new ServiceBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithRestart("sometimes"));
+            Assert.Throws<ArgumentNullException>(() => builder.WithRestart((RestartDefinition)null!));
+            Assert.Throws<ArgumentOutOfRangeException>(() => builder.WithRestartOnFailure(-1));
+        }
     }
 }

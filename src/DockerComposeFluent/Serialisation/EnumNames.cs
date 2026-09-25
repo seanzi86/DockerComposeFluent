@@ -134,6 +134,28 @@ namespace DockerComposeFluent.Serialisation
             }
         }
 
+        /// <summary>
+        /// Gets the spelling of a restart policy.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The compose-spec spelling.</returns>
+        internal static string Of(RestartPolicy value)
+        {
+            switch (value)
+            {
+                case RestartPolicy.No:
+                    return "no";
+                case RestartPolicy.Always:
+                    return "always";
+                case RestartPolicy.OnFailure:
+                    return "on-failure";
+                case RestartPolicy.UnlessStopped:
+                    return "unless-stopped";
+                default:
+                    throw Unknown(value);
+            }
+        }
+
         private static ArgumentOutOfRangeException Unknown<T>(T value)
             where T : struct
         {
