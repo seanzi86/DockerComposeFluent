@@ -55,7 +55,7 @@ This library follows a few consistent conventions across the whole fluent API â€
 
 ## Releasing
 
-Releases are cut by pushing a tag, for example `git tag v0.1.0 && git push origin v0.1.0`. The release workflow then runs the tests, packs the library with the version taken from the tag (the `Version` in the csproj is only a `0.0.0-dev` default for local builds), publishes the package and its symbols to nuget.org using Trusted Publishing, and creates a GitHub Release with generated notes and the packages attached. A tag containing a hyphen (`v0.2.0-beta.1`) is published as a prerelease. Pushing a tag needs no secrets, but the `release` environment and the nuget.org Trusted Publishing policy must exist.
+Releases are cut by pushing a tag, for example `git tag v0.1.0 && git push origin v0.1.0`. The release workflow then runs the tests, packs the library with the version taken from the tag (the `Version` in the csproj is only a `0.0.0-dev` default for local builds), publishes the package and its symbols to nuget.org using Trusted Publishing, and creates a GitHub Release with generated notes and the packages attached. A tag containing a hyphen (`v0.2.0-beta.1`) is published as a prerelease. A release can also be published from the GitHub UI (Releases, then Draft a new release, with a new tag): that creates the tag and starts the same workflow, which then attaches the packages to the release you made instead of creating another. Pushing a tag needs no secrets, but the `release` environment and the nuget.org Trusted Publishing policy must exist.
 
 ## Issues and roadmap
 
