@@ -19,7 +19,7 @@
     <RepositoryUrl>https://github.com/seanzi86/DockerComposeFluent</RepositoryUrl>
     <PackageProjectUrl>https://github.com/seanzi86/DockerComposeFluent</PackageProjectUrl>
     <PackageTags>docker;docker-compose;compose;fluent;fluent-api;yaml;devops;infrastructure-as-code</PackageTags>
-    <Copyright>Copyright (c) 2025 Sean Carrington</Copyright>
+    <Copyright>Copyright (c) 2026 Sean Carrington</Copyright>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReleaseNotes>https://github.com/seanzi86/DockerComposeFluent/releases</PackageReleaseNotes>
