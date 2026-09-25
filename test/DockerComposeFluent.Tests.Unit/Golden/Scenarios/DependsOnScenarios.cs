@@ -44,7 +44,12 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                         .WithCondition(DependencyCondition.ServiceStarted)
                         .WithRestart(true)
                         .WithRequired(true)))
-                .WithService("db", service => service.WithImage("postgres"))
+                .WithService("db", service => service
+                    .WithImage("postgres")
+                    .WithHealthcheck(healthcheck => healthcheck
+                        .WithCommand(new[] { "pg_isready", "-U", "postgres" })
+                        .WithInterval("5s")
+                        .WithRetries(5)))
                 .WithService("migrate", service => service.WithImage("example/migrate"))
                 .WithService("cache", service => service.WithImage("redis"))
                 .WithService("proxy", service => service.WithImage("traefik"))

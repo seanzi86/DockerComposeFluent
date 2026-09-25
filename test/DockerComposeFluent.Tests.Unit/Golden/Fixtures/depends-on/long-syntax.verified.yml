@@ -18,6 +18,10 @@ services:
         restart: true
     image: "nginx"
   "db":
+    healthcheck:
+      interval: "5s"
+      retries: 5
+      test: ["CMD", "pg_isready", "-U", "postgres"]
     image: "postgres"
   "migrate":
     image: "example/migrate"

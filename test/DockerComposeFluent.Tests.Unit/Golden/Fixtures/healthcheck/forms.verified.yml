@@ -1,0 +1,38 @@
+services:
+  "shell":
+    healthcheck:
+      test: "curl -f http://localhost || exit 1"
+    image: "nginx"
+  "list":
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+    image: "nginx"
+  "command":
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+    image: "postgres"
+  "timespans":
+    healthcheck:
+      interval: "1m30s"
+      start_interval: "500ms"
+      start_period: "2m"
+      test: "curl -f http://localhost || exit 1"
+      timeout: "10s"
+    image: "nginx"
+  "everything":
+    healthcheck:
+      interval: "1m30s"
+      retries: 3
+      start_interval: "5s"
+      start_period: "40s"
+      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      timeout: "10s"
+    image: "nginx"
+  "none":
+    healthcheck:
+      test: ["NONE"]
+    image: "nginx"
+  "disabled":
+    healthcheck:
+      disable: true
+    image: "nginx"

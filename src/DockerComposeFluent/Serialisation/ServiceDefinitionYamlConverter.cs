@@ -28,6 +28,7 @@ namespace DockerComposeFluent.Serialisation
                 emitter.WriteOptionalValue("environment", value.Environment, serialiser);
             }
 
+            emitter.WriteOptionalValue("healthcheck", value.Healthcheck, serialiser);
             emitter.WriteOptionalScalar("image", value.Image);
 
             if (value.Networks.Count > 0)
