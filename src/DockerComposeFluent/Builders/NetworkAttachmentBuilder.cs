@@ -45,6 +45,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets a driver option. Setting the same key again replaces its value.
         /// </summary>
+        /// <remarks>Requires Compose 2.27.1 or later.</remarks>
         /// <param name="key">The option name.</param>
         /// <param name="value">The option value.</param>
         /// <returns>This builder.</returns>
@@ -60,6 +61,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets several driver options.
         /// </summary>
+        /// <remarks>Requires Compose 2.27.1 or later.</remarks>
         /// <param name="options">The options.</param>
         /// <returns>This builder.</returns>
         public NetworkAttachmentBuilder WithDriverOptions(IEnumerable<KeyValuePair<string, string>> options)
@@ -75,8 +77,9 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
-        /// Sets the priority for selecting this network as the default gateway. Requires Compose 2.33.0 or later.
+        /// Sets the priority for selecting this network as the default gateway.
         /// </summary>
+        /// <remarks>Requires Compose 2.33.0 or later.</remarks>
         /// <param name="gatewayPriority">The priority. The network with the highest value is used.</param>
         /// <returns>This builder.</returns>
         public NetworkAttachmentBuilder WithGatewayPriority(int gatewayPriority)
@@ -86,8 +89,9 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
-        /// Sets the network interface name used to connect to this network. Requires Compose 2.36.0 or later.
+        /// Sets the network interface name used to connect to this network.
         /// </summary>
+        /// <remarks>Requires Compose 2.36.0 or later.</remarks>
         /// <param name="interfaceName">The interface name, for example <c>eth0</c>.</param>
         /// <returns>This builder.</returns>
         public NetworkAttachmentBuilder WithInterfaceName(string interfaceName)
@@ -155,8 +159,9 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
-        /// Sets the MAC address used when connecting to this network. Requires Compose 2.24.0 or later.
+        /// Sets the MAC address used when connecting to this network.
         /// </summary>
+        /// <remarks>Requires Compose 2.24.0 or later.</remarks>
         /// <param name="macAddress">The MAC address.</param>
         /// <returns>This builder.</returns>
         public NetworkAttachmentBuilder WithMacAddress(string macAddress)

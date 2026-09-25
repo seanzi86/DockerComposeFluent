@@ -24,6 +24,7 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// The contents of an image (<c>image</c>).
         /// </summary>
+        /// <remarks>Requires Compose 2.35.0 or later.</remarks>
         Image,
 
         /// <summary>

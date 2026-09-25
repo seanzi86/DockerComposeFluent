@@ -18,18 +18,19 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// Driver-specific options as key-value pairs, as specified by <c>driver_opts</c>.
         /// </summary>
+        /// <remarks>Requires Compose 2.27.1 or later.</remarks>
         public IReadOnlyDictionary<string, string> DriverOptions { get; init; } = Collections.EmptyDictionary<string>();
 
         /// <summary>
         /// The priority for selecting this network as the default gateway, as specified by <c>gw_priority</c>.
-        /// Requires Compose 2.33.0 or later.
         /// </summary>
+        /// <remarks>Requires Compose 2.33.0 or later.</remarks>
         public int? GatewayPriority { get; init; }
 
         /// <summary>
         /// The network interface name used to connect to this network, as specified by <c>interface_name</c>.
-        /// Requires Compose 2.36.0 or later.
         /// </summary>
+        /// <remarks>Requires Compose 2.36.0 or later.</remarks>
         public string? InterfaceName { get; init; }
 
         /// <summary>
@@ -49,8 +50,8 @@ namespace DockerComposeFluent.Models
 
         /// <summary>
         /// The MAC address used when connecting to this network, as specified by <c>mac_address</c>.
-        /// Requires Compose 2.24.0 or later.
         /// </summary>
+        /// <remarks>Requires Compose 2.24.0 or later.</remarks>
         public string? MacAddress { get; init; }
 
         /// <summary>

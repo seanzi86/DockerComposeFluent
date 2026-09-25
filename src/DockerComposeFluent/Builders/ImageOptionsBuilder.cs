@@ -6,6 +6,7 @@ namespace DockerComposeFluent.Builders
     /// Fluently builds <see cref="ImageOptions"/>.
     /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
     /// </summary>
+    /// <remarks>Requires Compose 2.35.0 or later.</remarks>
     public sealed class ImageOptionsBuilder
     {
         private ImageOptions _options = new ImageOptions();
@@ -13,6 +14,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets a path inside the image to mount instead of the image root.
         /// </summary>
+        /// <remarks>Requires Compose 2.35.0 or later.</remarks>
         /// <param name="subpath">The path inside the image.</param>
         /// <returns>This builder.</returns>
         public ImageOptionsBuilder WithSubpath(string subpath)

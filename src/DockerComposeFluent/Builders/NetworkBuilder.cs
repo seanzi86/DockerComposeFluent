@@ -84,9 +84,10 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
-        /// Sets whether IPv4 address assignment is enabled. Requires Compose 2.33.1 or later.
+        /// Sets whether IPv4 address assignment is enabled.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/06-networks.md#enable_ipv4"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.33.1 or later.</remarks>
         /// <param name="enableIpv4"><c>true</c> to enable it.</param>
         /// <returns>This builder.</returns>
         public NetworkBuilder WithEnableIpv4(bool enableIpv4)

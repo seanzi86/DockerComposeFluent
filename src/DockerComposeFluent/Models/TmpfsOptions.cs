@@ -10,6 +10,7 @@ namespace DockerComposeFluent.Models
         /// The file mode as Unix permission bits, as specified by <c>mode</c>. This is the numeric value, so
         /// the octal mode <c>1777</c> is <c>Convert.ToInt32("1777", 8)</c>.
         /// </summary>
+        /// <remarks>Requires Compose 2.14.0 or later.</remarks>
         public int? Mode { get; init; }
 
         /// <summary>

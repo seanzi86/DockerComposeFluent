@@ -43,6 +43,7 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// Extra options for an image mount, as specified by <c>image</c>.
         /// </summary>
+        /// <remarks>Requires Compose 2.35.0 or later.</remarks>
         public ImageOptions? Image { get; init; }
 
         /// <summary>

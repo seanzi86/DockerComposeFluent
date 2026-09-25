@@ -29,9 +29,9 @@ namespace DockerComposeFluent.Models
 
         /// <summary>
         /// Whether IPv4 address assignment is enabled, as specified by <c>enable_ipv4</c>.
-        /// Requires Compose 2.33.1 or later.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/06-networks.md#enable_ipv4"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.33.1 or later.</remarks>
         public bool? EnableIpv4 { get; init; }
 
         /// <summary>

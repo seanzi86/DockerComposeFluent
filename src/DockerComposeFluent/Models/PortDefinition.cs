@@ -25,6 +25,7 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// The application protocol this port is used for, such as <c>http</c>, as specified by <c>app_protocol</c>.
         /// </summary>
+        /// <remarks>Requires Compose 2.26.0 or later.</remarks>
         public string? AppProtocol { get; init; }
 
         /// <summary>
