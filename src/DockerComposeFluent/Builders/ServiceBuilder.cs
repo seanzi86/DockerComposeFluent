@@ -196,6 +196,55 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets when the container is restarted, from a policy that has no retry limit. Use
+        /// <see cref="WithRestartOnFailure(int)"/> to give up after a number of retries.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#restart"/>
+        /// </summary>
+        /// <param name="policy">The restart policy.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithRestart(RestartPolicy policy)
+        {
+            return WithRestart(RestartDefinition.FromPolicy(policy));
+        }
+
+        /// <summary>
+        /// Sets when the container is restarted, from its compose-spec text.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#restart"/>
+        /// </summary>
+        /// <param name="restart">One of <c>no</c>, <c>always</c>, <c>on-failure</c>, <c>on-failure:5</c> or
+        /// <c>unless-stopped</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithRestart(string restart)
+        {
+            return WithRestart(RestartDefinition.Parse(restart));
+        }
+
+        /// <summary>
+        /// Sets when the container is restarted, from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#restart"/>
+        /// </summary>
+        /// <param name="restart">The restart definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithRestart(RestartDefinition restart)
+        {
+            Guard.NotNull(restart, nameof(restart));
+            _definition = _definition with { Restart = restart };
+            return this;
+        }
+
+        /// <summary>
+        /// Restarts the container when it exits with a non-zero exit code, giving up after a number of attempts
+        /// (written as <c>on-failure:&lt;maxRetries&gt;</c>).
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#restart"/>
+        /// </summary>
+        /// <param name="maxRetries">The maximum number of restart attempts, which must not be negative.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithRestartOnFailure(int maxRetries)
+        {
+            return WithRestart(RestartDefinition.OnFailure(maxRetries));
+        }
+
+        /// <summary>
         /// Adds a mount in short syntax, written to YAML as a string. Each call adds another mount.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
         /// </summary>

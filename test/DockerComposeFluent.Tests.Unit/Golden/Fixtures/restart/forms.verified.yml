@@ -1,0 +1,21 @@
+services:
+  "never":
+    image: "busybox"
+    restart: "no"
+  "always":
+    image: "busybox"
+    restart: "always"
+  "unless-stopped":
+    image: "busybox"
+    restart: "unless-stopped"
+  "on-failure":
+    image: "busybox"
+    restart: "on-failure"
+  "on-failure-limited":
+    image: "busybox"
+    restart: "on-failure:5"
+  "text":
+    image: "busybox"
+    restart: "on-failure:3"
+  "unset":
+    image: "busybox"

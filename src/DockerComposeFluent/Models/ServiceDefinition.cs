@@ -53,6 +53,12 @@ namespace DockerComposeFluent.Models
         public IReadOnlyList<PortMapping> Ports { get; init; } = Array.Empty<PortMapping>();
 
         /// <summary>
+        /// When the container is restarted, as specified by <c>restart</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#restart"/>
+        /// </summary>
+        public RestartDefinition? Restart { get; init; }
+
+        /// <summary>
         /// The mounts (volumes, bind mounts and so on), as specified by <c>volumes</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
         /// </summary>
