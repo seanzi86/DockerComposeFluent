@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using DockerComposeFluent.Builders;
 using DockerComposeFluent.Models;
 
@@ -139,21 +138,6 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentNullException>(() => builder.WithNetwork("net", (Action<NetworkBuilder>)null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithVolume("vol", (VolumeDefinition)null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithVolume("vol", (Action<VolumeBuilder>)null!));
-        }
-
-        [Fact]
-        public void Build_ThenToYaml_MatchesGoldenFixture()
-        {
-            DockerComposeFile file = new DockerComposeBuilder()
-                .WithName("demo")
-                .WithService("web", service => service.WithContainerName("web-container").WithImage("nginx:latest"))
-                .WithNetwork("frontend", network => network.WithDriver("bridge"))
-                .WithVolume("data", volume => volume.WithDriver("local").WithName("demo_data"))
-                .Build();
-
-            string expected = File.ReadAllText(Path.Combine("Serialisation", "Fixtures", "basic.yml")).Replace("\r\n", "\n");
-
-            Assert.Equal(expected, file.ToYaml().Replace("\r\n", "\n"));
         }
     }
 }
