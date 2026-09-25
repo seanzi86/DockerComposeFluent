@@ -28,6 +28,13 @@ namespace DockerComposeFluent.Models
         public string? ContainerName { get; init; }
 
         /// <summary>
+        /// The services this service depends on and their settings, keyed by service name, as specified by
+        /// <c>depends_on</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#depends_on"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, DependencyDefinition> DependsOn { get; init; } = Collections.EmptyDictionary<DependencyDefinition>();
+
+        /// <summary>
         /// The entrypoint that overrides the image's default entrypoint, as specified by <c>entrypoint</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#entrypoint"/>
         /// </summary>

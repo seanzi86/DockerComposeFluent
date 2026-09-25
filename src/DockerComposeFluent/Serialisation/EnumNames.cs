@@ -156,6 +156,26 @@ namespace DockerComposeFluent.Serialisation
             }
         }
 
+        /// <summary>
+        /// Gets the spelling of a dependency condition.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The compose-spec spelling.</returns>
+        internal static string Of(DependencyCondition value)
+        {
+            switch (value)
+            {
+                case DependencyCondition.ServiceStarted:
+                    return "service_started";
+                case DependencyCondition.ServiceHealthy:
+                    return "service_healthy";
+                case DependencyCondition.ServiceCompletedSuccessfully:
+                    return "service_completed_successfully";
+                default:
+                    throw Unknown(value);
+            }
+        }
+
         private static ArgumentOutOfRangeException Unknown<T>(T value)
             where T : struct
         {

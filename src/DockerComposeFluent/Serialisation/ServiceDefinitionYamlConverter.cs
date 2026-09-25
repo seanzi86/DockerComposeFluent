@@ -15,6 +15,12 @@ namespace DockerComposeFluent.Serialisation
             emitter.StartMapping();
             emitter.WriteOptionalValue("command", value.Command, serialiser);
             emitter.WriteOptionalScalar("container_name", value.ContainerName);
+
+            if (value.DependsOn.Count > 0)
+            {
+                emitter.WriteOptionalValue("depends_on", value.DependsOn, serialiser);
+            }
+
             emitter.WriteOptionalValue("entrypoint", value.Entrypoint, serialiser);
 
             if (value.Environment.Variables.Count > 0)

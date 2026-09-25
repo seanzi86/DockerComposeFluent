@@ -1,0 +1,13 @@
+services:
+  "web":
+    depends_on:
+      - "db"
+      - "redis"
+      - "queue"
+    image: "nginx"
+  "db":
+    image: "postgres"
+  "redis":
+    image: "redis"
+  "queue":
+    image: "rabbitmq"

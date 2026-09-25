@@ -1,0 +1,31 @@
+services:
+  "web":
+    depends_on:
+      "db":
+        condition: "service_healthy"
+      "migrate":
+        condition: "service_completed_successfully"
+      "cache":
+        condition: "service_started"
+      "proxy":
+        condition: "service_started"
+      "metrics":
+        condition: "service_started"
+        required: false
+      "config":
+        condition: "service_started"
+        required: true
+        restart: true
+    image: "nginx"
+  "db":
+    image: "postgres"
+  "migrate":
+    image: "example/migrate"
+  "cache":
+    image: "redis"
+  "proxy":
+    image: "traefik"
+  "metrics":
+    image: "prom/prometheus"
+  "config":
+    image: "example/config"
