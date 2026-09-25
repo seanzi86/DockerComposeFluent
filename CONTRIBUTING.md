@@ -45,6 +45,12 @@ This library follows a few consistent conventions across the whole fluent API â€
 - Add or extend a golden-file scenario when changing what YAML gets emitted: add an entry to `GoldenScenarios` in `test/DockerComposeFluent.Tests.Unit/Golden`, then run `UPDATE_GOLDEN=1 dotnet test` to create or refresh its fixture in `Golden/Fixtures`, and review the diff before committing. The variable is refused on CI.
 - CI runs `docker compose config` over every fixture with a pinned Docker Compose version (see `.github/workflows/ci.yml`), so the YAML must be accepted by the real tool, not just match a file. A fixture that uses a property from a newer Compose than the pinned one will fail there.
 
+## Dependencies
+
+- Dependabot opens a weekly pull request for NuGet packages and one for GitHub Actions (minor and patch updates grouped, major updates separate). They must pass CI like any other change.
+- The build fails on any known vulnerability in a NuGet package, direct or transitive (`NuGetAudit` in `Directory.Build.props`, warnings NU1901 to NU1904 as errors). CI also runs weekly, so a newly published advisory fails the build even when no PR is open. Fix it by updating the package; if no fixed version exists, suppress that one advisory with `NuGetAuditSuppress` and a comment explaining why and when to revisit it.
+- The Docker Compose version used to validate fixtures in `.github/workflows/ci.yml` is pinned and is not updated by Dependabot, so bump it by hand.
+
 ## Issues and roadmap
 
 Work is tracked via GitHub Issues and Milestones, grouped by release. Check the [milestones](../../milestones) page for the current roadmap and what's in scope for the next release.
