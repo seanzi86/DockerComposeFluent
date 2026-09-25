@@ -32,6 +32,10 @@ jobs:
       - name: Test
         run: dotnet test --no-build --configuration Release
 
+      # Packing runs package validation, which compares the public API with the last release.
+      - name: Pack
+        run: dotnet pack src/DockerComposeFluent/DockerComposeFluent.csproj --no-build --configuration Release
+
       # Pinned so the version the fixtures are validated against is recorded and reproducible.
       # Dependabot does not update this input, so bump it by hand when a newer Compose is released.
       - name: Set up Docker Compose
