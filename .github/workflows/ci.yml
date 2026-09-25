@@ -46,7 +46,7 @@ jobs:
       - name: Validate golden fixtures with Docker Compose
         run: |
           docker compose version
-          for fixture in test/DockerComposeFluent.Tests.Unit/Golden/Fixtures/*.verified.yml; do
+          find test/DockerComposeFluent.Tests.Unit/Golden/Fixtures -name '*.verified.yml' | sort | while read -r fixture; do
             echo "Validating $fixture"
-            docker compose -f "$fixture" config --quiet
+            docker compose -f "$fixture" config --quiet || exit 1
           done
