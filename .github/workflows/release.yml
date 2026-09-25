@@ -45,7 +45,7 @@ jobs:
             echo "Validating the public API against $baseline"
             baseline_args="-p:PackageValidationBaselineVersion=$baseline"
           else
-            echo "Could not find the latest release; using the baseline from the csproj"
+            echo "::warning::Could not find the latest release on nuget.org, so the public API was not compared with it."
           fi
           dotnet pack src/DockerComposeFluent/DockerComposeFluent.csproj --no-build --configuration Release -p:Version=${{ steps.version.outputs.version }} $baseline_args --output ./artifacts
 

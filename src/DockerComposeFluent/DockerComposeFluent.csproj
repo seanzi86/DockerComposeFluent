@@ -28,11 +28,9 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EnablePackageValidation>true</EnablePackageValidation>
-    <!-- The version to validate against for local packs. CI looks up the latest release on nuget.org instead. -->
-    <PackageValidationBaselineVersion>0.1.0</PackageValidationBaselineVersion>
-    <!-- Local default only, derived from the baseline so package validation accepts it. CI derives it from
-         the latest release and the release workflow overrides it with the version from the git tag. -->
-    <Version>$(PackageValidationBaselineVersion)-dev</Version>
+    <!-- Local default only. CI derives the version from the latest release and validates the public API
+         against it; the release workflow overrides the version with the one from the git tag. -->
+    <Version>0.0.0-dev</Version>
   </PropertyGroup>
 
   <ItemGroup>
