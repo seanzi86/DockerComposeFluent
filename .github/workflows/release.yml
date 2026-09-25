@@ -36,18 +36,8 @@ jobs:
       - name: Test
         run: dotnet test --no-build --configuration Release
 
-      # Validates the public API against the latest release already on nuget.org (this version is not pushed yet).
       - name: Pack
-        run: |
-          baseline=$(curl -fsS https://api.nuget.org/v3-flatcontainer/dockercomposefluent/index.json | jq -r '[.versions[] | select(contains("-") | not)] | last // empty' || true)
-          baseline_args=""
-          if [ -n "$baseline" ]; then
-            echo "Validating the public API against $baseline"
-            baseline_args="-p:PackageValidationBaselineVersion=$baseline"
-          else
-            echo "::warning::Could not find the latest release on nuget.org, so the public API was not compared with it."
-          fi
-          dotnet pack src/DockerComposeFluent/DockerComposeFluent.csproj --no-build --configuration Release -p:Version=${{ steps.version.outputs.version }} $baseline_args --output ./artifacts
+        run: dotnet pack src/DockerComposeFluent/DockerComposeFluent.csproj --no-build --configuration Release -p:Version=${{ steps.version.outputs.version }} --output ./artifacts
 
       - name: NuGet login (OIDC -> temp API key)
         uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0

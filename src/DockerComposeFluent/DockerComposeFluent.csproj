@@ -28,8 +28,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EnablePackageValidation>true</EnablePackageValidation>
-    <!-- Local default only. CI derives the version from the latest release and validates the public API
-         against it; the release workflow overrides the version with the one from the git tag. -->
+    <!-- Local default only: the release workflow overrides it with the version from the git tag. -->
     <Version>0.0.0-dev</Version>
   </PropertyGroup>
 
