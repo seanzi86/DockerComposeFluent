@@ -53,6 +53,10 @@ This library follows a few consistent conventions across the whole fluent API â€
 - The build fails on any known vulnerability in a NuGet package, direct or transitive (`NuGetAudit` in `Directory.Build.props`, warnings NU1901 to NU1904 as errors). CI also runs weekly, so a newly published advisory fails the build even when no PR is open. Fix it by updating the package; if no fixed version exists, suppress that one advisory with `NuGetAuditSuppress` and a comment explaining why and when to revisit it.
 - The Docker Compose version used to validate fixtures in `.github/workflows/ci.yml` is pinned and is not updated by Dependabot, so bump it by hand.
 
+## Releasing
+
+Releases are cut by pushing a tag, for example `git tag v0.1.0 && git push origin v0.1.0`. The release workflow then runs the tests, packs the library with the version taken from the tag, publishes the package and its symbols to nuget.org using Trusted Publishing, and creates a GitHub Release with generated notes and the packages attached. A tag containing a hyphen (`v0.2.0-beta.1`) is published as a prerelease. Pushing a tag needs no secrets, but the `release` environment and the nuget.org Trusted Publishing policy must exist.
+
 ## Issues and roadmap
 
 Work is tracked via GitHub Issues and Milestones, grouped by release. Check the [milestones](../../milestones) page for the current roadmap and what's in scope for the next release.
