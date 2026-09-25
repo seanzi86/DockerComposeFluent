@@ -16,15 +16,15 @@ namespace DockerComposeFluent.Tests.Unit.Golden
         /// Verify's scrubbers are disabled because the YAML must match verbatim: they would otherwise rewrite
         /// values such as <c>/tmp</c> (the temp path on Linux), GUIDs and the machine name.
         /// </summary>
-        /// <param name="name">The fixture name without its extension.</param>
+        /// <param name="name">The fixture path relative to <c>Golden/Fixtures</c>, without its extension (for example <c>ports/forms</c>).</param>
         /// <param name="yaml">The YAML to verify.</param>
         /// <returns>A task that completes when the comparison has finished.</returns>
         internal static Task Verify(string name, string yaml)
         {
             return Verifier.Verify(yaml, "yml")
                 .DisableScrubbers()
-                .UseDirectory(Path.Combine(SourceRoot(), "test", "DockerComposeFluent.Tests.Unit", "Golden", "Fixtures"))
-                .UseFileName(name);
+                .UseDirectory(Path.GetDirectoryName(Path.Combine(FixturesDirectory, name))!)
+                .UseFileName(Path.GetFileName(name));
         }
 
         /// <summary>

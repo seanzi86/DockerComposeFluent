@@ -32,8 +32,10 @@ namespace DockerComposeFluent.Tests.Unit.Golden
         public void EveryFixtureHasAScenario_AndEveryScenarioHasAFixture()
         {
             HashSet<string> fixtures = new HashSet<string>(
-                Directory.GetFiles(GoldenFile.FixturesDirectory, "*.verified.yml")
-                    .Select(path => Path.GetFileName(path).Replace(".verified.yml", string.Empty)));
+                Directory.GetFiles(GoldenFile.FixturesDirectory, "*.verified.yml", SearchOption.AllDirectories)
+                    .Select(path => Path.GetRelativePath(GoldenFile.FixturesDirectory, path)
+                        .Replace(Path.DirectorySeparatorChar, '/')
+                        .Replace(".verified.yml", string.Empty)));
             HashSet<string> scenarios = new HashSet<string>(GoldenScenarios.All.Keys);
 
             Assert.Empty(fixtures.Except(scenarios));

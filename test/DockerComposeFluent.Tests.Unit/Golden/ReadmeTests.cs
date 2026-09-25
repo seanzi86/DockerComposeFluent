@@ -13,18 +13,18 @@ namespace DockerComposeFluent.Tests.Unit.Golden
 
             Assert.True(
                 ReadmeText().Contains(snippet),
-                "README.md does not contain the quick-start code from the 'readme' scenario in GoldenScenarios.cs. "
+                "README.md does not contain the quick-start code from the 'readme/quick-start' scenario in ReadmeScenarios.cs. "
                 + "Update the README so the two match:\n" + snippet);
         }
 
         [Fact]
         public void QuickStartYaml_IsTheReadmeFixture()
         {
-            string yaml = GoldenFile.Normalise(File.ReadAllText(Path.Combine(GoldenFile.FixturesDirectory, "readme.verified.yml")));
+            string yaml = GoldenFile.Normalise(File.ReadAllText(Path.Combine(GoldenFile.FixturesDirectory, "readme", "quick-start.verified.yml")));
 
             Assert.True(
                 ReadmeText().Contains(yaml),
-                "README.md does not contain the YAML in Golden/Fixtures/readme.verified.yml. Update the README so the two match:\n" + yaml);
+                "README.md does not contain the YAML in Golden/Fixtures/readme/quick-start.verified.yml. Update the README so the two match:\n" + yaml);
         }
 
         private static string ReadmeText()
@@ -34,7 +34,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden
 
         private static string ReadmeSnippet()
         {
-            string[] lines = File.ReadAllText(Path.Combine(GoldenFile.SourceRoot(), "test", "DockerComposeFluent.Tests.Unit", "Golden", "GoldenScenarios.cs"))
+            string[] lines = File.ReadAllText(Path.Combine(GoldenFile.SourceRoot(), "test", "DockerComposeFluent.Tests.Unit", "Golden", "Scenarios", "ReadmeScenarios.cs"))
                 .Replace("\r\n", "\n")
                 .Split('\n');
 
@@ -42,7 +42,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden
             int end = Array.FindIndex(lines, line => line.Contains("// README:end"));
             if (begin < 0 || end < begin)
             {
-                throw new InvalidOperationException("The README:begin and README:end markers are missing from GoldenScenarios.cs.");
+                throw new InvalidOperationException("The README:begin and README:end markers are missing from ReadmeScenarios.cs.");
             }
 
             string[] code = lines.Skip(begin + 1).Take(end - begin - 1).ToArray();
