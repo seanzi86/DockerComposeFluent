@@ -5,6 +5,9 @@ on:
     branches: [main]
   push:
     branches: [main]
+  schedule:
+    # Weekly, so a newly published advisory for a dependency fails the build even when no PR is open.
+    - cron: "0 6 * * 1"
 
 jobs:
   build-and-test:
@@ -30,6 +33,7 @@ jobs:
         run: dotnet test --no-build --configuration Release
 
       # Pinned so the version the fixtures are validated against is recorded and reproducible.
+      # Dependabot does not update this input, so bump it by hand when a newer Compose is released.
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@54042514f505b273907334ae2b9cdbb9a0213c1a # v2.4.0
         with:
