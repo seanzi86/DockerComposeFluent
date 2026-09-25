@@ -608,5 +608,51 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentNullException>(() => builder.WithDependsOn("db", (DependencyDefinition)null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithDependsOn("db", (Action<DependencyBuilder>)null!));
         }
+
+        [Fact]
+        public void WithHealthcheck_String_SetsAShellTest()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithHealthcheck("curl -f http://localhost || exit 1").Build();
+
+            Assert.Equal("curl -f http://localhost || exit 1", service.Healthcheck!.Test!.Shell);
+        }
+
+        [Fact]
+        public void WithHealthcheck_Action_ConfiguresIt()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithHealthcheck(healthcheck => healthcheck.WithCommand(new[] { "pg_isready" }).WithRetries(5))
+                .Build();
+
+            Assert.Equal(new[] { "CMD", "pg_isready" }, service.Healthcheck!.Test!.Arguments);
+            Assert.Equal(5, service.Healthcheck.Retries);
+        }
+
+        [Fact]
+        public void WithHealthcheck_Definition_SetsIt()
+        {
+            HealthcheckDefinition healthcheck = new HealthcheckDefinition { Interval = "5s" };
+
+            Assert.Same(healthcheck, new ServiceBuilder().WithHealthcheck(healthcheck).Build().Healthcheck);
+        }
+
+        [Fact]
+        public void WithoutHealthcheck_Disables()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithoutHealthcheck().Build();
+
+            Assert.True(service.Healthcheck!.Disable);
+            Assert.Null(service.Healthcheck.Test);
+        }
+
+        [Fact]
+        public void WithHealthcheck_InvalidInput_Throws()
+        {
+            ServiceBuilder builder = new ServiceBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithHealthcheck(" "));
+            Assert.Throws<ArgumentNullException>(() => builder.WithHealthcheck((HealthcheckDefinition)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithHealthcheck((Action<HealthcheckBuilder>)null!));
+        }
     }
 }

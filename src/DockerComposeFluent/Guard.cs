@@ -37,6 +37,21 @@ namespace DockerComposeFluent
         }
 
         /// <summary>
+        /// Throws if <paramref name="value"/> is not a compose-spec duration such as <c>30s</c> or <c>1m30s</c>.
+        /// </summary>
+        /// <param name="value">The duration text to check.</param>
+        /// <param name="parameterName">The name of the parameter being checked.</param>
+        internal static void Duration(string? value, string parameterName)
+        {
+            if (!Durations.IsValid(value))
+            {
+                throw new ArgumentException(
+                    $"'{value}' is not a duration. Use whole numbers with the units us, ms, s, m or h, such as 30s or 1m30s.",
+                    parameterName);
+            }
+        }
+
+        /// <summary>
         /// Throws if <paramref name="value"/> is not a valid TCP or UDP port number (1 to 65535).
         /// </summary>
         /// <param name="value">The port number to check.</param>

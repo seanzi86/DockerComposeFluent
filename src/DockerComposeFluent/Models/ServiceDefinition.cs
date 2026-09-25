@@ -47,6 +47,13 @@ namespace DockerComposeFluent.Models
         public EnvironmentVariables Environment { get; init; } = new EnvironmentVariables();
 
         /// <summary>
+        /// The check that decides whether the service's containers are healthy, as specified by
+        /// <c>healthcheck</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// </summary>
+        public HealthcheckDefinition? Healthcheck { get; init; }
+
+        /// <summary>
         /// The networks the service joins and their settings, keyed by network name, as specified by
         /// <c>networks</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>

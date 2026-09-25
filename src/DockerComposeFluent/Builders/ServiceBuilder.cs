@@ -13,6 +13,56 @@ namespace DockerComposeFluent.Builders
         private ServiceDefinition _definition = new ServiceDefinition();
 
         /// <summary>
+        /// Sets the healthcheck to a shell-form command (Compose runs it with <c>CMD-SHELL</c>). Use
+        /// <see cref="WithHealthcheck(Action{HealthcheckBuilder})"/> to set the interval, timeout and so on.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// </summary>
+        /// <param name="test">The command, for example <c>curl -f http://localhost || exit 1</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithHealthcheck(string test)
+        {
+            return WithHealthcheck(new HealthcheckDefinition { Test = CommandLine.FromShell(test) });
+        }
+
+        /// <summary>
+        /// Sets the healthcheck from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// </summary>
+        /// <param name="healthcheck">The healthcheck definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithHealthcheck(HealthcheckDefinition healthcheck)
+        {
+            Guard.NotNull(healthcheck, nameof(healthcheck));
+            _definition = _definition with { Healthcheck = healthcheck };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the healthcheck, configured through a <see cref="HealthcheckBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// </summary>
+        /// <param name="configure">Configures the healthcheck.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithHealthcheck(Action<HealthcheckBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            HealthcheckBuilder builder = new HealthcheckBuilder();
+            configure(builder);
+            return WithHealthcheck(builder.Build());
+        }
+
+        /// <summary>
+        /// Disables the healthcheck set by the image (written as <c>healthcheck: disable: true</c>).
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// </summary>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithoutHealthcheck()
+        {
+            return WithHealthcheck(new HealthcheckDefinition { Disable = true });
+        }
+
+        /// <summary>
         /// Sets the image to start the container from.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#image"/>
         /// </summary>
