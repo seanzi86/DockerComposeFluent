@@ -533,5 +533,80 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentNullException>(() => builder.WithRestart((RestartDefinition)null!));
             Assert.Throws<ArgumentOutOfRangeException>(() => builder.WithRestartOnFailure(-1));
         }
+
+        [Fact]
+        public void WithDependsOn_Name_AddsADependencyWithNoSettings()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithDependsOn("db").Build();
+
+            Assert.True(service.DependsOn["db"].IsEmpty);
+        }
+
+        [Fact]
+        public void WithDependsOn_Names_AddsEachOne()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithDependsOn(new[] { "db", "cache" }).Build();
+
+            Assert.Equal(new[] { "db", "cache" }, service.DependsOn.Keys);
+            Assert.All(service.DependsOn.Values, dependency => Assert.True(dependency.IsEmpty));
+        }
+
+        [Fact]
+        public void WithDependsOn_Condition_SetsItEvenForTheDefault()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithDependsOn("db", DependencyCondition.ServiceHealthy)
+                .WithDependsOn("cache", DependencyCondition.ServiceStarted)
+                .Build();
+
+            Assert.Equal(DependencyCondition.ServiceHealthy, service.DependsOn["db"].Condition);
+            Assert.Equal(DependencyCondition.ServiceStarted, service.DependsOn["cache"].Condition);
+            Assert.False(service.DependsOn["cache"].IsEmpty);
+        }
+
+        [Fact]
+        public void WithDependsOn_Definition_SetsIt()
+        {
+            DependencyDefinition dependency = new DependencyDefinition { Required = false };
+
+            ServiceDefinition service = new ServiceBuilder().WithDependsOn("db", dependency).Build();
+
+            Assert.Same(dependency, service.DependsOn["db"]);
+        }
+
+        [Fact]
+        public void WithDependsOn_Action_ConfiguresTheDependency()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithDependsOn("db", dependency => dependency.WithCondition(DependencyCondition.ServiceCompletedSuccessfully).WithRestart(true))
+                .Build();
+
+            Assert.Equal(DependencyCondition.ServiceCompletedSuccessfully, service.DependsOn["db"].Condition);
+            Assert.True(service.DependsOn["db"].Restart);
+        }
+
+        [Fact]
+        public void WithDependsOn_SameServiceTwice_ReplacesIt()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithDependsOn("db", DependencyCondition.ServiceHealthy)
+                .WithDependsOn("db")
+                .Build();
+
+            Assert.Single(service.DependsOn);
+            Assert.True(service.DependsOn["db"].IsEmpty);
+        }
+
+        [Fact]
+        public void WithDependsOn_InvalidInput_Throws()
+        {
+            ServiceBuilder builder = new ServiceBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithDependsOn(" "));
+            Assert.Throws<ArgumentException>(() => builder.WithDependsOn("", DependencyCondition.ServiceStarted));
+            Assert.Throws<ArgumentNullException>(() => builder.WithDependsOn((string[])null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithDependsOn("db", (DependencyDefinition)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithDependsOn("db", (Action<DependencyBuilder>)null!));
+        }
     }
 }

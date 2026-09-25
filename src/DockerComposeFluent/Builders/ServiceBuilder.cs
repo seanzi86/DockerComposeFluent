@@ -64,6 +64,81 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Makes the service depend on another service with no settings. When no dependency has settings, they
+        /// are written to YAML as a plain list of names. Depending on the same service again replaces it.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#depends_on"/>
+        /// </summary>
+        /// <param name="service">The name of another service in the file.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithDependsOn(string service)
+        {
+            return AddDependency(service, new DependencyDefinition());
+        }
+
+        /// <summary>
+        /// Makes the service depend on several other services, each with no settings.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#depends_on"/>
+        /// </summary>
+        /// <param name="services">The names of other services in the file.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithDependsOn(IEnumerable<string> services)
+        {
+            Guard.NotNull(services, nameof(services));
+
+            foreach (string service in services)
+            {
+                WithDependsOn(service);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Makes the service depend on another service until a condition is met. Any dependency with settings
+        /// makes the dependencies be written to YAML as a mapping, including when the condition is
+        /// <see cref="DependencyCondition.ServiceStarted"/>, since it was asked for explicitly.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#long-syntax"/>
+        /// </summary>
+        /// <param name="service">The name of another service in the file.</param>
+        /// <param name="condition">When the dependency is considered satisfied.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithDependsOn(string service, DependencyCondition condition)
+        {
+            return AddDependency(service, new DependencyDefinition { Condition = condition });
+        }
+
+        /// <summary>
+        /// Makes the service depend on another service with existing settings.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#long-syntax"/>
+        /// </summary>
+        /// <param name="service">The name of another service in the file.</param>
+        /// <param name="dependency">The settings for this dependency.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithDependsOn(string service, DependencyDefinition dependency)
+        {
+            Guard.NotNull(dependency, nameof(dependency));
+
+            return AddDependency(service, dependency);
+        }
+
+        /// <summary>
+        /// Makes the service depend on another service, with settings configured through a
+        /// <see cref="DependencyBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#long-syntax"/>
+        /// </summary>
+        /// <param name="service">The name of another service in the file.</param>
+        /// <param name="configure">Configures the dependency.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithDependsOn(string service, Action<DependencyBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            DependencyBuilder builder = new DependencyBuilder();
+            configure(builder);
+            return AddDependency(service, builder.Build());
+        }
+
+        /// <summary>
         /// Sets the entrypoint as a single shell-form string, written to YAML as a string.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#entrypoint"/>
         /// </summary>
@@ -541,6 +616,14 @@ namespace DockerComposeFluent.Builders
         {
             List<MountMapping> volumes = new List<MountMapping>(_definition.Volumes) { mount };
             _definition = _definition with { Volumes = volumes.AsReadOnly() };
+            return this;
+        }
+
+        private ServiceBuilder AddDependency(string service, DependencyDefinition dependency)
+        {
+            Guard.NotNullOrWhiteSpace(service, nameof(service));
+
+            _definition = _definition with { DependsOn = Collections.With(_definition.DependsOn, service, dependency) };
             return this;
         }
 
