@@ -1,0 +1,52 @@
+services:
+  "short":
+    image: "nginx"
+    volumes:
+      - "/opt/data:/var/lib/mysql"
+      - "./cache:/tmp/cache"
+      - "~/configs:/etc/configs/:ro"
+      - "datavolume:/var/lib/mysql"
+      - "logs:/var/log"
+      - "./site:/usr/share/nginx/html:ro"
+  "long":
+    image: "nginx"
+    volumes:
+      - source: "datavolume"
+        target: "/data"
+        type: "volume"
+      - read_only: true
+        source: "datavolume"
+        target: "/data-nocopy"
+        type: "volume"
+        volume:
+          nocopy: true
+          subpath: "nested"
+      - source: "./static"
+        target: "/opt/app/static"
+        type: "bind"
+      - bind:
+          create_host_path: false
+          propagation: "rslave"
+          selinux: "Z"
+        consistency: "cached"
+        read_only: true
+        source: "./conf"
+        target: "/etc/app"
+        type: "bind"
+      - target: "/run"
+        type: "tmpfs"
+      - target: "/tmp"
+        tmpfs:
+          mode: 1023
+          size: "64m"
+        type: "tmpfs"
+      - image:
+          subpath: "static"
+        source: "example/assets:1"
+        target: "/assets"
+        type: "image"
+volumes:
+  "datavolume":
+    driver: "local"
+  "logs":
+    name: "shared_logs"
