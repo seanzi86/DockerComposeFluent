@@ -7,7 +7,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden
 {
     /// <summary>
     /// The catalogue of compose files whose YAML is checked against fixtures. To add one, add an entry here
-    /// and create its fixture by running the tests with <c>UPDATE_GOLDEN=1</c>.
+    /// and accept its Verify fixture (see CONTRIBUTING.md).
     /// </summary>
     internal static class GoldenScenarios
     {
