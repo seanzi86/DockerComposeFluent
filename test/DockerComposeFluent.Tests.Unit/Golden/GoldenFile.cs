@@ -76,7 +76,11 @@ namespace DockerComposeFluent.Tests.Unit.Golden
             File.WriteAllText(path, actual + "\n");
         }
 
-        private static string SourceRoot()
+        /// <summary>
+        /// Finds the repository root by looking upwards from the test assembly for the solution file.
+        /// </summary>
+        /// <returns>The repository root folder.</returns>
+        internal static string SourceRoot()
         {
             DirectoryInfo? directory = new DirectoryInfo(AppContext.BaseDirectory);
             while (directory != null && !File.Exists(Path.Combine(directory.FullName, "DockerComposeFluent.slnx")))
