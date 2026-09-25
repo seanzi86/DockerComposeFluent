@@ -20,11 +20,11 @@ namespace DockerComposeFluent.Tests.Unit.Golden
         [Fact]
         public void QuickStartYaml_IsTheReadmeFixture()
         {
-            string yaml = GoldenFile.Normalise(File.ReadAllText(Path.Combine(GoldenFile.FixturesDirectory, "readme.yml")));
+            string yaml = GoldenFile.Normalise(File.ReadAllText(Path.Combine(GoldenFile.FixturesDirectory, "readme.verified.yml")));
 
             Assert.True(
                 ReadmeText().Contains(yaml),
-                "README.md does not contain the YAML in Golden/Fixtures/readme.yml. Update the README so the two match:\n" + yaml);
+                "README.md does not contain the YAML in Golden/Fixtures/readme.verified.yml. Update the README so the two match:\n" + yaml);
         }
 
         private static string ReadmeText()

@@ -62,7 +62,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
         }
 
         [Fact]
-        public void ToYaml_RawModels_MatchGoldenFixture()
+        public void ToYaml_RawModels_MatchTheBasicScenario()
         {
             DockerComposeFile file = new()
             {
@@ -81,7 +81,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
                 }
             };
 
-            GoldenFile.AssertMatches("basic", file);
+            Assert.Equal(GoldenScenarios.All["basic"]().ToYaml(), file.ToYaml());
         }
 
         [Fact]
