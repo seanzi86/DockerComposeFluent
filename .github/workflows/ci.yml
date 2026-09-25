@@ -32,9 +32,18 @@ jobs:
       - name: Test
         run: dotnet test --no-build --configuration Release
 
-      # Packing runs package validation, which compares the public API with the last release.
+      # Packing runs package validation, which compares the public API with the latest release on nuget.org.
+      # The dev version is derived from that release because validation rejects a lower assembly version.
       - name: Pack
-        run: dotnet pack src/DockerComposeFluent/DockerComposeFluent.csproj --no-build --configuration Release
+        run: |
+          baseline=$(curl -fsS https://api.nuget.org/v3-flatcontainer/dockercomposefluent/index.json | jq -r '[.versions[] | select(contains("-") | not)] | last // empty' || true)
+          if [ -n "$baseline" ]; then
+            echo "Validating the public API against $baseline"
+            dotnet pack src/DockerComposeFluent/DockerComposeFluent.csproj --configuration Release -p:PackageValidationBaselineVersion="$baseline" -p:Version="$baseline-dev"
+          else
+            echo "Could not find the latest release; using the baseline from the csproj"
+            dotnet pack src/DockerComposeFluent/DockerComposeFluent.csproj --configuration Release
+          fi
 
       # Pinned so the version the fixtures are validated against is recorded and reproducible.
       # Dependabot does not update this input, so bump it by hand when a newer Compose is released.

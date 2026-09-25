@@ -59,7 +59,7 @@ Releases are cut by pushing a tag, for example `git tag v0.1.0 && git push origi
 
 ## Public API compatibility
 
-CI packs the library, which runs package validation: it compares the public API with the last released version (`PackageValidationBaselineVersion` in the library csproj) and fails on anything that was removed or changed incompatibly. Adding members is fine. If a breaking change is intentional (the API is still pre-1.0), rebuild with `dotnet pack -p:ApiCompatGenerateSuppressionFile=true`, review the generated `CompatibilitySuppressions.xml` and commit it with the change. After each release, bump `PackageValidationBaselineVersion` to the version just released.
+CI packs the library, which runs package validation: it compares the public API with the latest stable release on nuget.org (CI looks it up each run, so there is nothing to bump after a release) and fails on anything that was removed or changed incompatibly. Adding members is fine. If a breaking change is intentional (the API is still pre-1.0), rebuild with `dotnet pack -p:ApiCompatGenerateSuppressionFile=true`, review the generated `CompatibilitySuppressions.xml` and commit it with the change. `PackageValidationBaselineVersion` in the library csproj is only the fallback used for local packs and if nuget.org cannot be reached.
 
 ## Issues and roadmap
 
