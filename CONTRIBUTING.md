@@ -28,6 +28,7 @@ Enforced via `.editorconfig` and `EnforceCodeStyleInBuild` (violations fail the 
 - **Private fields use an underscore prefix** (`_camelCase`, e.g. `_services`).
 - **UK English** in identifiers, comments and docs (e.g. `Serialise`, `Normalise`), except where a third-party or compose-spec name dictates otherwise.
 - **XML `<summary>` doc comments on every public type and member** — this is a public package, so these become the IntelliSense docs consumers see. Missing docs on public members fail the build (`CS1591`); internal types and members should be documented too, but that is checked in review.
+- **Note the minimum Compose version** when the spec marks a property with a version badge: add `<remarks>Requires Compose 2.35.0 or later.</remarks>` to the model property, its builder methods, and any type that only exists for that property. The target is the current Compose release, so only properties that need something newer than older releases carry a note.
 - **Link each summary back to the relevant [compose-spec](https://github.com/compose-spec/compose-spec) section** via `<see href="..."/>`, pointing at `main` (the spec has no tagged releases). An established property's spec text is unlikely to change shape; if the spec does add something new, that's new scope for its own release anyway.
 
 ## API design conventions

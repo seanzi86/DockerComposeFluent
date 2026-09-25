@@ -166,6 +166,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the image options from an existing definition.
         /// </summary>
+        /// <remarks>Requires Compose 2.35.0 or later.</remarks>
         /// <param name="options">The options.</param>
         /// <returns>This builder.</returns>
         public MountBuilder WithImageOptions(ImageOptions options)
@@ -179,6 +180,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the image options through a <see cref="ImageOptionsBuilder"/>.
         /// </summary>
+        /// <remarks>Requires Compose 2.35.0 or later.</remarks>
         /// <param name="configure">Configures the options.</param>
         /// <returns>This builder.</returns>
         public MountBuilder WithImageOptions(Action<ImageOptionsBuilder> configure)

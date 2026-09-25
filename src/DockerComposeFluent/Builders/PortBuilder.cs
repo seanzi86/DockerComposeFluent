@@ -91,6 +91,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the application protocol this port is used for, such as <c>http</c>.
         /// </summary>
+        /// <remarks>Requires Compose 2.26.0 or later.</remarks>
         /// <param name="appProtocol">The application protocol.</param>
         /// <returns>This builder.</returns>
         public PortBuilder WithAppProtocol(string appProtocol)

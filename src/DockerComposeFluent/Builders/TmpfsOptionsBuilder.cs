@@ -44,6 +44,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the file mode as Unix permission bits.
         /// </summary>
+        /// <remarks>Requires Compose 2.14.0 or later.</remarks>
         /// <param name="mode">The numeric mode, from 0 to 4095. The octal mode <c>1777</c> is <c>Convert.ToInt32("1777", 8)</c>.</param>
         /// <returns>This builder.</returns>
         public TmpfsOptionsBuilder WithMode(int mode)
