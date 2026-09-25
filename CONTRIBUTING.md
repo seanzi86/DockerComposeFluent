@@ -42,7 +42,8 @@ This library follows a few consistent conventions across the whole fluent API â€
 ## Tests
 
 - Add object-graph unit tests for new builder methods (asserting on the resulting model).
-- Add or extend a golden-file test (`.yml` fixture comparison) when changing what YAML gets emitted.
+- Add or extend a golden-file scenario when changing what YAML gets emitted: add an entry to `GoldenScenarios` in `test/DockerComposeFluent.Tests.Unit/Golden`, then run `UPDATE_GOLDEN=1 dotnet test` to create or refresh its fixture in `Golden/Fixtures`, and review the diff before committing. The variable is refused on CI.
+- CI runs `docker compose config` over every fixture with a pinned Docker Compose version (see `.github/workflows/ci.yml`), so the YAML must be accepted by the real tool, not just match a file. A fixture that uses a property from a newer Compose than the pinned one will fail there.
 
 ## Issues and roadmap
 

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Serialisation\Fixtures\*.yml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Golden\Fixtures\*.yml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
