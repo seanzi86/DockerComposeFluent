@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
+using VerifyXunit;
 
 namespace DockerComposeFluent.Tests.Unit.Golden
 {
@@ -9,6 +11,22 @@ namespace DockerComposeFluent.Tests.Unit.Golden
     /// </summary>
     internal static class GoldenFile
     {
+        /// <summary>
+        /// Verifies <paramref name="yaml"/> against the fixture <c>Golden/Fixtures/&lt;name&gt;.verified.yml</c>.
+        /// Verify's scrubbers are disabled because the YAML must match verbatim: they would otherwise rewrite
+        /// values such as <c>/tmp</c> (the temp path on Linux), GUIDs and the machine name.
+        /// </summary>
+        /// <param name="name">The fixture name without its extension.</param>
+        /// <param name="yaml">The YAML to verify.</param>
+        /// <returns>A task that completes when the comparison has finished.</returns>
+        internal static Task Verify(string name, string yaml)
+        {
+            return Verifier.Verify(yaml, "yml")
+                .DisableScrubbers()
+                .UseDirectory(Path.Combine(SourceRoot(), "test", "DockerComposeFluent.Tests.Unit", "Golden", "Fixtures"))
+                .UseFileName(name);
+        }
+
         /// <summary>
         /// The folder the fixtures live in, in the source tree.
         /// </summary>

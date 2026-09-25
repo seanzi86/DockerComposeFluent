@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using DockerComposeFluent.Builders;
 using DockerComposeFluent.Models;
 using DockerComposeFluent.Tests.Unit.Golden;
-using VerifyXunit;
 
 namespace DockerComposeFluent.Tests.Unit.Serialisation
 {
@@ -64,7 +62,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
         }
 
         [Fact]
-        public Task ToYaml_RawModels_MatchGoldenFixture()
+        public void ToYaml_RawModels_MatchTheBasicScenario()
         {
             DockerComposeFile file = new()
             {
@@ -83,9 +81,7 @@ namespace DockerComposeFluent.Tests.Unit.Serialisation
                 }
             };
 
-            return Verifier.Verify(file.ToYaml(), "yml")
-                .UseDirectory("../Golden/Fixtures")
-                .UseFileName("basic");
+            Assert.Equal(GoldenScenarios.All["basic"]().ToYaml(), file.ToYaml());
         }
 
         [Fact]

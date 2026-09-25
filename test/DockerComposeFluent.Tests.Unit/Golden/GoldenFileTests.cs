@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using VerifyXunit;
 
 namespace DockerComposeFluent.Tests.Unit.Golden
 {
@@ -26,9 +25,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden
         [MemberData(nameof(ScenarioNames))]
         public Task Scenario_MatchesItsFixture(string name)
         {
-            return Verifier.Verify(GoldenScenarios.All[name]().ToYaml(), "yml")
-                .UseDirectory("Fixtures")
-                .UseFileName(name);
+            return GoldenFile.Verify(name, GoldenScenarios.All[name]().ToYaml());
         }
 
         [Fact]
