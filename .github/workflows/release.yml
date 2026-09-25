@@ -45,11 +45,9 @@ jobs:
         with:
           user: ${{ secrets.NUGET_USER }}
 
+      # Pushing the .nupkg also pushes the .snupkg symbols package next to it.
       - name: Push to NuGet
         run: dotnet nuget push "./artifacts/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
-
-      - name: Push symbols to NuGet
-        run: dotnet nuget push "./artifacts/*.snupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Create GitHub Release
         env:
@@ -58,4 +56,9 @@ jobs:
         run: |
           prerelease=""
           if [[ "$VERSION" == *-* ]]; then prerelease="--prerelease"; fi
-          gh release create "$GITHUB_REF_NAME" ./artifacts/*.nupkg ./artifacts/*.snupkg --title "$GITHUB_REF_NAME" --generate-notes --verify-tag $prerelease
+          # A release may already exist if it was published from the GitHub UI, which creates the tag.
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" ./artifacts/*.nupkg ./artifacts/*.snupkg --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" ./artifacts/*.nupkg ./artifacts/*.snupkg --title "$GITHUB_REF_NAME" --generate-notes --verify-tag $prerelease
+          fi
