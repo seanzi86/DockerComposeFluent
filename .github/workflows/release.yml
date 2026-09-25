@@ -11,6 +11,7 @@ jobs:
     environment: release # must match the Environment set on the nuget.org Trusted Publishing policy
     permissions:
       id-token: write # required to request the GitHub OIDC token for NuGet Trusted Publishing
+      contents: write # required to create the GitHub Release
 
     steps:
       - name: Checkout
@@ -46,3 +47,15 @@ jobs:
 
       - name: Push to NuGet
         run: dotnet nuget push "./artifacts/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Push symbols to NuGet
+        run: dotnet nuget push "./artifacts/*.snupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          prerelease=""
+          if [[ "$VERSION" == *-* ]]; then prerelease="--prerelease"; fi
+          gh release create "$GITHUB_REF_NAME" ./artifacts/*.nupkg ./artifacts/*.snupkg --title "$GITHUB_REF_NAME" --generate-notes --verify-tag $prerelease

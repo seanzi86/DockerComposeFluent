@@ -12,14 +12,30 @@
 
   <PropertyGroup>
     <PackageId>DockerComposeFluent</PackageId>
-    <Version>0.1.0</Version>
+    <!-- Local default only: the release workflow sets the real version from the git tag. -->
+    <Version>0.0.0-dev</Version>
     <Authors>Sean Carrington</Authors>
     <Description>A fluent API for building and generating docker-compose.yml files in .NET.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/seanzi86/DockerComposeFluent</RepositoryUrl>
     <PackageProjectUrl>https://github.com/seanzi86/DockerComposeFluent</PackageProjectUrl>
-    <PackageTags>docker;docker-compose;fluent;yaml</PackageTags>
+    <PackageTags>docker;docker-compose;compose;fluent;fluent-api;yaml;devops;infrastructure-as-code</PackageTags>
+    <Copyright>Copyright (c) 2026 Sean Carrington</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReleaseNotes>https://github.com/seanzi86/DockerComposeFluent/releases</PackageReleaseNotes>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\assets\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="YamlDotNet" Version="18.1.0" />

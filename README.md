@@ -4,7 +4,7 @@ A fluent .NET API for generating `docker-compose.yml` files.
 
 [![CI](https://github.com/seanzi86/DockerComposeFluent/actions/workflows/ci.yml/badge.svg)](https://github.com/seanzi86/DockerComposeFluent/actions/workflows/ci.yml)
 [![NuGet](https://img.shields.io/nuget/v/DockerComposeFluent.svg)](https://www.nuget.org/packages/DockerComposeFluent)
-[![License: MIT](https://img.shields.io/github/license/seanzi86/DockerComposeFluent)](LICENSE)
+[![License: MIT](https://img.shields.io/github/license/seanzi86/DockerComposeFluent)](https://github.com/seanzi86/DockerComposeFluent/blob/main/LICENSE)
 
 > **Status:** pre-1.0. The API may still change between minor versions.
 
@@ -89,8 +89,8 @@ The library targets the current Docker Compose, and the generated files are vali
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](https://github.com/seanzi86/DockerComposeFluent/blob/main/CONTRIBUTING.md).
 
 ## Licence
 
-[MIT](LICENSE)
+[MIT](https://github.com/seanzi86/DockerComposeFluent/blob/main/LICENSE)
