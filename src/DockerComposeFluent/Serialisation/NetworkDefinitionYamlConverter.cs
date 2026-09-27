@@ -21,6 +21,12 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalBoolean("external", value.External);
             emitter.WriteOptionalBoolean("internal", value.Internal);
             emitter.WriteOptionalValue("ipam", value.Ipam, serialiser);
+
+            if (value.Labels.Values.Count > 0)
+            {
+                emitter.WriteOptionalValue("labels", value.Labels, serialiser);
+            }
+
             emitter.WriteOptionalScalar("name", value.Name);
             emitter.EndMapping();
         }

@@ -54,6 +54,21 @@ namespace DockerComposeFluent.Models
         public EnvironmentVariables Environment { get; init; } = new EnvironmentVariables();
 
         /// <summary>
+        /// The labels attached to the service, as specified by <c>labels</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels"/>
+        /// </summary>
+        public Labels Labels { get; init; } = new Labels();
+
+        /// <summary>
+        /// The files to load labels from, as specified by <c>label_file</c>. Processed in order; a label in a
+        /// later file overrides the same label from an earlier one. A label set directly in <see cref="Labels"/>
+        /// takes precedence over one from these files. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#label_file"/>
+        /// </summary>
+        /// <remarks>Requires Compose 2.32.0 or later.</remarks>
+        public IReadOnlyList<string> LabelFiles { get; init; } = Array.Empty<string>();
+
+        /// <summary>
         /// The check that decides whether the service's containers are healthy, as specified by
         /// <c>healthcheck</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>

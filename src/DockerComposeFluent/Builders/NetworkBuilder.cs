@@ -12,6 +12,51 @@ namespace DockerComposeFluent.Builders
         private NetworkDefinition _definition = new NetworkDefinition();
 
         /// <summary>
+        /// Sets a label, keeping the mapping form. Setting the same key again replaces its value.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/06-networks.md#labels"/>
+        /// </summary>
+        /// <param name="key">The label key, which must not start with the reserved <c>com.docker.compose</c>
+        /// prefix.</param>
+        /// <param name="value">The label value, which may be empty.</param>
+        /// <returns>This builder.</returns>
+        public NetworkBuilder WithLabel(string key, string value)
+        {
+            _definition = _definition with { Labels = LabelsMutator.Set(_definition.Labels, key, value, nameof(key)) };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets several labels from key/value pairs, keeping the mapping form.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/06-networks.md#labels"/>
+        /// </summary>
+        /// <param name="labels">The labels.</param>
+        /// <returns>This builder.</returns>
+        public NetworkBuilder WithLabels(IEnumerable<KeyValuePair<string, string>> labels)
+        {
+            Guard.NotNull(labels, nameof(labels));
+
+            foreach (KeyValuePair<string, string> label in labels)
+            {
+                WithLabel(label.Key, label.Value);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets several labels from <c>KEY=value</c> strings, or a bare <c>KEY</c> for an empty value. Makes the
+        /// YAML use the list form (<c>- KEY=value</c>).
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/06-networks.md#labels"/>
+        /// </summary>
+        /// <param name="entries">The entries, split at the first <c>=</c>.</param>
+        /// <returns>This builder.</returns>
+        public NetworkBuilder WithLabels(IEnumerable<string> entries)
+        {
+            _definition = _definition with { Labels = LabelsMutator.SetFromEntries(_definition.Labels, entries, nameof(entries)) };
+            return this;
+        }
+
+        /// <summary>
         /// Sets the network driver.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/06-networks.md#driver"/>
         /// </summary>

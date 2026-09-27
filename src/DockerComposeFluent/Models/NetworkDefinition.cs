@@ -53,6 +53,12 @@ namespace DockerComposeFluent.Models
         public bool? Internal { get; init; }
 
         /// <summary>
+        /// The labels attached to the network, as specified by <c>labels</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/06-networks.md#labels"/>
+        /// </summary>
+        public Labels Labels { get; init; } = new Labels();
+
+        /// <summary>
         /// A custom IP address management configuration, as specified by <c>ipam</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/06-networks.md#ipam"/>
         /// </summary>
