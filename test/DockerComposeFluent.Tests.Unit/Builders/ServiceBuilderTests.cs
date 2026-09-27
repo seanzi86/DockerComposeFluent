@@ -729,5 +729,43 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentNullException>(() => builder.WithEnvFile((EnvFileEntry)null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithEnvFile((Action<EnvFileEntryBuilder>)null!));
         }
+
+        [Fact]
+        public void WithLogging_Driver_SetsItWithNoOptions()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithLogging("syslog").Build();
+
+            Assert.Equal("syslog", service.Logging!.Driver);
+            Assert.Empty(service.Logging.Options);
+        }
+
+        [Fact]
+        public void WithLogging_Definition_SetsIt()
+        {
+            LoggingDefinition logging = new LoggingDefinition { Driver = "json-file" };
+
+            Assert.Same(logging, new ServiceBuilder().WithLogging(logging).Build().Logging);
+        }
+
+        [Fact]
+        public void WithLogging_Action_ConfiguresIt()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithLogging(logging => logging.WithDriver("syslog").WithOption("syslog-address", "tcp://192.168.0.42:123"))
+                .Build();
+
+            Assert.Equal("syslog", service.Logging!.Driver);
+            Assert.Equal("tcp://192.168.0.42:123", service.Logging.Options["syslog-address"]);
+        }
+
+        [Fact]
+        public void WithLogging_InvalidInput_Throws()
+        {
+            ServiceBuilder builder = new ServiceBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithLogging(" "));
+            Assert.Throws<ArgumentNullException>(() => builder.WithLogging((LoggingDefinition)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithLogging((Action<LoggingBuilder>)null!));
+        }
     }
 }
