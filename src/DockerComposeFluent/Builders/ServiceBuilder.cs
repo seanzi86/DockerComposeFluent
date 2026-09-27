@@ -358,6 +358,21 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets when the container is restarted, configured through a <see cref="RestartBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#restart"/>
+        /// </summary>
+        /// <param name="configure">Configures the restart definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithRestart(Action<RestartBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            RestartBuilder builder = new RestartBuilder();
+            configure(builder);
+            return WithRestart(builder.Build());
+        }
+
+        /// <summary>
         /// Restarts the container when it exits with a non-zero exit code, giving up after a number of attempts
         /// (written as <c>on-failure:&lt;maxRetries&gt;</c>).
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#restart"/>

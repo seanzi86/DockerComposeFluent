@@ -525,12 +525,23 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         }
 
         [Fact]
+        public void WithRestart_Action_ConfiguresIt()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithRestart(restart => restart.WithPolicy(RestartPolicy.OnFailure).WithMaxRetries(4))
+                .Build();
+
+            Assert.Equal(RestartDefinition.OnFailure(4), service.Restart);
+        }
+
+        [Fact]
         public void WithRestart_InvalidInput_Throws()
         {
             ServiceBuilder builder = new ServiceBuilder();
 
             Assert.Throws<ArgumentException>(() => builder.WithRestart("sometimes"));
             Assert.Throws<ArgumentNullException>(() => builder.WithRestart((RestartDefinition)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithRestart((Action<RestartBuilder>)null!));
             Assert.Throws<ArgumentOutOfRangeException>(() => builder.WithRestartOnFailure(-1));
         }
 
