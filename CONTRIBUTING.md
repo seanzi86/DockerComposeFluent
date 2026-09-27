@@ -57,6 +57,14 @@ This library follows a few consistent conventions across the whole fluent API â€
 
 Releases are cut by pushing a tag, for example `git tag v0.1.0 && git push origin v0.1.0`. The release workflow then runs the tests, packs the library with the version taken from the tag (the csproj `Version` is only a local `0.0.0-dev` default), publishes the package and its symbols to nuget.org using Trusted Publishing, and creates a GitHub Release with generated notes and the packages attached. A tag containing a hyphen (`v0.2.0-beta.1`) is published as a prerelease. A release can also be published from the GitHub UI (Releases, then Draft a new release, with a new tag): that creates the tag and starts the same workflow, which then attaches the packages to the release you made instead of creating another. Pushing a tag needs no secrets, but the `release` environment and the nuget.org Trusted Publishing policy must exist.
 
+## Documentation site
+
+The docs site (`website/`) is a Docusaurus project, published at
+[seanzi86.github.io/DockerComposeFluent](https://seanzi86.github.io/DockerComposeFluent/). See
+[`website/README.md`](website/README.md) for local development. CI builds the site on any pull request that
+touches `website/`, failing on a broken internal link; only a push to `main` deploys it, via
+[`.github/workflows/docs.yml`](.github/workflows/docs.yml).
+
 ## Issues and roadmap
 
 Work is tracked via GitHub Issues and Milestones, grouped by release. Check the [milestones](../../milestones) page for the current roadmap and what's in scope for the next release.
