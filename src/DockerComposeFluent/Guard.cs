@@ -132,6 +132,38 @@ namespace DockerComposeFluent
         }
 
         /// <summary>
+        /// Throws if <paramref name="value"/> is not a valid compose-spec profile name: at least two characters,
+        /// starting with a letter or digit, and otherwise letters, digits, <c>_</c>, <c>.</c> or <c>-</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#profiles"/>
+        /// </summary>
+        /// <param name="value">The profile name to check.</param>
+        /// <param name="parameterName">The name of the parameter being checked.</param>
+        internal static void ProfileName(string? value, string parameterName)
+        {
+            if (value == null || value.Length < 2 || !IsProfileNameStart(value[0]))
+            {
+                throw new ArgumentException(
+                    $"'{value}' is not a valid profile name. Use at least two characters, starting with a letter or digit, and otherwise letters, digits, _, . or -.",
+                    parameterName);
+            }
+
+            for (int i = 1; i < value.Length; i++)
+            {
+                if (!IsProfileNameStart(value[i]) && value[i] != '_' && value[i] != '.' && value[i] != '-')
+                {
+                    throw new ArgumentException(
+                        $"'{value}' is not a valid profile name. Use at least two characters, starting with a letter or digit, and otherwise letters, digits, _, . or -.",
+                        parameterName);
+                }
+            }
+        }
+
+        private static bool IsProfileNameStart(char c)
+        {
+            return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
+        }
+
+        /// <summary>
         /// Throws if <paramref name="value"/> is not usable as an environment variable name: it must not be
         /// blank and must not contain <c>=</c>.
         /// </summary>
