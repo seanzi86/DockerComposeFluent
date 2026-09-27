@@ -1,0 +1,110 @@
+---
+sidebar_position: 1
+---
+
+# Web app with a database
+
+A front end, an API with a healthcheck, and a database it depends on — the front end waits for the API to be
+healthy, and the API waits for the database. Two networks separate what's reachable from the front end.
+
+```csharp
+using System;
+using DockerComposeFluent.Builders;
+using DockerComposeFluent.Models;
+
+DockerComposeFile file = new DockerComposeBuilder()
+    .WithName("shop")
+    .WithService("web", service => service
+        .WithImage("nginx:1.27")
+        .WithPort(8080, 80)
+        .WithDependsOn("api", DependencyCondition.ServiceHealthy)
+        .WithNetwork("front"))
+    .WithService("api", service => service
+        .WithImage("ghcr.io/example/api:2.4")
+        .WithEnvironment("DATABASE_URL", "postgres://app:app@db/app")
+        .WithHealthcheck(healthcheck => healthcheck
+            .WithCommand(new[] { "curl", "-f", "http://localhost:8080/health" })
+            .WithInterval(TimeSpan.FromSeconds(10))
+            .WithRetries(3))
+        .WithDependsOn("db", DependencyCondition.ServiceHealthy)
+        .WithNetwork("front")
+        .WithNetwork("back"))
+    .WithService("db", service => service
+        .WithImage("postgres:17")
+        .WithEnvironment("POSTGRES_DB", "app")
+        .WithEnvironment("POSTGRES_USER", "app")
+        .WithEnvironment("POSTGRES_PASSWORD")
+        .WithHealthcheck(healthcheck => healthcheck
+            .WithCommand(new[] { "pg_isready", "-U", "app" })
+            .WithInterval(TimeSpan.FromSeconds(5)))
+        .WithVolume("db-data", "/var/lib/postgresql/data")
+        .WithNetwork("back"))
+    .WithNetwork("front", network => network.WithDriver("bridge"))
+    .WithNetwork("back", network => network.WithInternal(true))
+    .WithVolume("db-data", volume => volume.WithDriver("local"))
+    .Build();
+
+string yaml = file.ToYaml();
+```
+
+`yaml` is (checked against `docker compose config`):
+
+```yaml
+name: "shop"
+services:
+  "web":
+    depends_on:
+      "api":
+        condition: "service_healthy"
+    image: "nginx:1.27"
+    networks:
+      - "front"
+    ports:
+      - published: "8080"
+        target: 80
+  "api":
+    depends_on:
+      "db":
+        condition: "service_healthy"
+    environment:
+      "DATABASE_URL": "postgres://app:app@db/app"
+    healthcheck:
+      interval: "10s"
+      retries: 3
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+    image: "ghcr.io/example/api:2.4"
+    networks:
+      - "front"
+      - "back"
+  "db":
+    environment:
+      "POSTGRES_DB": "app"
+      "POSTGRES_USER": "app"
+      "POSTGRES_PASSWORD": null
+    healthcheck:
+      interval: "5s"
+      test: ["CMD", "pg_isready", "-U", "app"]
+    image: "postgres:17"
+    networks:
+      - "back"
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+networks:
+  "front":
+    driver: "bridge"
+  "back":
+    internal: true
+volumes:
+  "db-data":
+    driver: "local"
+```
+
+A few things worth noticing:
+
+- **`web` only reaches `api`**, not `db` - `db` is only on the `back` network, which `web` never joins.
+- **`POSTGRES_PASSWORD` has no value** (`WithEnvironment("POSTGRES_PASSWORD")` with no second argument), so
+  Compose takes it from the shell environment running `docker compose` and errors if it isn't set there -
+  useful for secrets you never want written into the file.
+- **`WithHealthcheck` here takes an `Action<HealthcheckBuilder>`**, the full-control overload from
+  [API conventions](../api-conventions); `WithHealthcheck("pg_isready -U app")` would work too for the
+  simple, no-timing-settings case.

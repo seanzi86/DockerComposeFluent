@@ -151,7 +151,7 @@ async function main() {
     `${JSON.stringify(
       {
         label: "API reference",
-        position: 4,
+        position: 5,
         link: { type: "doc", id: "api-reference/index" },
       },
       null,

@@ -61,11 +61,13 @@ Releases are cut by pushing a tag, for example `git tag v0.1.0 && git push origi
 
 The docs site (`website/`) is a Docusaurus project, published at
 [seanzi86.github.io/DockerComposeFluent](https://seanzi86.github.io/DockerComposeFluent/). See
-[`website/README.md`](website/README.md) for local development. The API reference under `docs/api-reference/`
-is entirely generated from XML doc comments and is git-ignored; run `npm run docs:api` in `website/` after
-changing one. CI builds the site (regenerating the API reference first) on any pull request that touches
-`website/`, the library's source, or the generator script, failing on a broken internal link; only a push to
-`main` deploys it, via [`.github/workflows/docs.yml`](.github/workflows/docs.yml).
+[`website/README.md`](website/README.md) for local development. Two things are generated from source rather
+than hand-written: the API reference under `docs/api-reference/` (entirely generated and git-ignored; run
+`npm run docs:api` in `website/` after changing a doc comment) and the tables in `docs/supported-properties.md`
+(committed, but only the tables between its markers are generated; run `npm run docs:supported` and commit the
+result). CI regenerates both on any pull request that touches `website/`, the library's source, or a generator
+script, failing on a broken internal link or a stale supported-properties table; only a push to `main` deploys
+the site, via [`.github/workflows/docs.yml`](.github/workflows/docs.yml).
 
 ## Issues and roadmap
 
