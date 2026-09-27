@@ -1,0 +1,22 @@
+services:
+  "plain":
+    image: "nginx"
+    logging:
+      driver: "json-file"
+  "syslog":
+    image: "nginx"
+    logging:
+      driver: "syslog"
+      options:
+        "syslog-address": "tcp://192.168.0.42:123"
+  "bulk":
+    image: "nginx"
+    logging:
+      driver: "json-file"
+      options:
+        "max-size": "10m"
+        "max-file": "3"
+  "existing":
+    image: "nginx"
+    logging:
+      driver: "none"

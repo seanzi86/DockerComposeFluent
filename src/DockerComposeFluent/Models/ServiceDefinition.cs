@@ -80,6 +80,12 @@ namespace DockerComposeFluent.Models
         public RestartDefinition? Restart { get; init; }
 
         /// <summary>
+        /// The logging configuration, as specified by <c>logging</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging"/>
+        /// </summary>
+        public LoggingDefinition? Logging { get; init; }
+
+        /// <summary>
         /// The mounts (volumes, bind mounts and so on), as specified by <c>volumes</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
         /// </summary>

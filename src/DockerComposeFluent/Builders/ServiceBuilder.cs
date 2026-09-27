@@ -549,6 +549,47 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets the logging driver, with no options. Use
+        /// <see cref="WithLogging(Action{LoggingBuilder})"/> to also set options.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging"/>
+        /// </summary>
+        /// <param name="driver">The driver name, for example <c>json-file</c> or <c>syslog</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithLogging(string driver)
+        {
+            Guard.NotNullOrWhiteSpace(driver, nameof(driver));
+            return WithLogging(new LoggingDefinition { Driver = driver });
+        }
+
+        /// <summary>
+        /// Sets the logging configuration from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging"/>
+        /// </summary>
+        /// <param name="logging">The logging definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithLogging(LoggingDefinition logging)
+        {
+            Guard.NotNull(logging, nameof(logging));
+            _definition = _definition with { Logging = logging };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the logging configuration, configured through a <see cref="LoggingBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging"/>
+        /// </summary>
+        /// <param name="configure">Configures the logging definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithLogging(Action<LoggingBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            LoggingBuilder builder = new LoggingBuilder();
+            configure(builder);
+            return WithLogging(builder.Build());
+        }
+
+        /// <summary>
         /// Attaches the service to a network with no settings. When no attached network has settings, the
         /// networks are written to YAML as a plain list of names. Attaching the same network again replaces it.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
