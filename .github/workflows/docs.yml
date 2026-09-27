@@ -12,11 +12,6 @@ on:
       - "website/**"
       - ".github/workflows/docs.yml"
 
-# Only one deploy at a time; a newer push cancels an in-flight one rather than racing it.
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -65,6 +60,11 @@ jobs:
     permissions:
       pages: write
       id-token: write
+    # Scoped to this job, not the whole workflow: an unrelated pull request's build must never cancel a
+    # deploy in progress. A second push to main queues behind the first rather than racing it.
+    concurrency:
+      group: "pages-deploy"
+      cancel-in-progress: false
 
     steps:
       - name: Deploy to GitHub Pages
