@@ -13,6 +13,86 @@ namespace DockerComposeFluent.Builders
         private ServiceDefinition _definition = new ServiceDefinition();
 
         /// <summary>
+        /// Sets a label, keeping the mapping form. Setting the same key again replaces its value.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels"/>
+        /// </summary>
+        /// <param name="key">The label key, which must not start with the reserved <c>com.docker.compose</c>
+        /// prefix.</param>
+        /// <param name="value">The label value, which may be empty.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithLabel(string key, string value)
+        {
+            _definition = _definition with { Labels = LabelsMutator.Set(_definition.Labels, key, value, nameof(key)) };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets several labels from key/value pairs, keeping the mapping form.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels"/>
+        /// </summary>
+        /// <param name="labels">The labels.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithLabels(IEnumerable<KeyValuePair<string, string>> labels)
+        {
+            Guard.NotNull(labels, nameof(labels));
+
+            foreach (KeyValuePair<string, string> label in labels)
+            {
+                WithLabel(label.Key, label.Value);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets several labels from <c>KEY=value</c> strings, or a bare <c>KEY</c> for an empty value. Makes the
+        /// YAML use the list form (<c>- KEY=value</c>).
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels"/>
+        /// </summary>
+        /// <param name="entries">The entries, split at the first <c>=</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithLabels(IEnumerable<string> entries)
+        {
+            _definition = _definition with { Labels = LabelsMutator.SetFromEntries(_definition.Labels, entries, nameof(entries)) };
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a file to load labels from. Files are read in the order added; a later file overrides values
+        /// from an earlier one, and a label set directly with <see cref="WithLabel(string, string)"/> overrides
+        /// either.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#label_file"/>
+        /// </summary>
+        /// <remarks>Requires Compose 2.32.0 or later.</remarks>
+        /// <param name="path">The path, resolved relative to the Compose file's folder.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithLabelFile(string path)
+        {
+            Guard.NotNullOrWhiteSpace(path, nameof(path));
+            _definition = _definition with { LabelFiles = Collections.Append(_definition.LabelFiles, path) };
+            return this;
+        }
+
+        /// <summary>
+        /// Adds several files to load labels from.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#label_file"/>
+        /// </summary>
+        /// <remarks>Requires Compose 2.32.0 or later.</remarks>
+        /// <param name="paths">The paths, resolved relative to the Compose file's folder.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithLabelFiles(IEnumerable<string> paths)
+        {
+            Guard.NotNull(paths, nameof(paths));
+
+            foreach (string path in paths)
+            {
+                WithLabelFile(path);
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Sets the healthcheck to a shell-form command (Compose runs it with <c>CMD-SHELL</c>). Use
         /// <see cref="WithHealthcheck(Action{HealthcheckBuilder})"/> to set the interval, timeout and so on.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>

@@ -14,6 +14,12 @@ namespace DockerComposeFluent.Serialisation
         {
             emitter.StartMapping();
             emitter.WriteOptionalScalar("driver", value.Driver);
+
+            if (value.Labels.Values.Count > 0)
+            {
+                emitter.WriteOptionalValue("labels", value.Labels, serialiser);
+            }
+
             emitter.WriteOptionalScalar("name", value.Name);
             emitter.EndMapping();
         }

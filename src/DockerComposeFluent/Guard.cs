@@ -132,6 +132,27 @@ namespace DockerComposeFluent
         }
 
         /// <summary>
+        /// Throws if <paramref name="value"/> is not usable as a label key: it must not be blank, and must not
+        /// start with the reserved <c>com.docker.compose</c> prefix, which Compose sets itself and rejects at
+        /// runtime if the file also sets it.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels"/>
+        /// </summary>
+        /// <param name="value">The key to check.</param>
+        /// <param name="parameterName">The name of the parameter being checked.</param>
+        internal static void LabelKey(string? value, string parameterName)
+        {
+            NotNullOrWhiteSpace(value, parameterName);
+
+            const string reservedPrefix = "com.docker.compose";
+            if (value!.StartsWith(reservedPrefix, StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ArgumentException(
+                    $"'{value}' starts with the reserved '{reservedPrefix}' label prefix, which Compose sets itself and rejects at runtime.",
+                    parameterName);
+            }
+        }
+
+        /// <summary>
         /// Throws if <paramref name="value"/> is not a valid compose-spec profile name: at least two characters,
         /// starting with a letter or digit, and otherwise letters, digits, <c>_</c>, <c>.</c> or <c>-</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#profiles"/>

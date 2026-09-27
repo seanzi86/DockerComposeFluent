@@ -1,0 +1,32 @@
+services:
+  "map":
+    image: "nginx"
+    labels:
+      com.example.description: "Accounting webapp"
+      com.example.label-with-empty-value: ""
+  "list":
+    image: "nginx"
+    labels:
+      - "com.example.description=Accounting webapp"
+      - "com.example.label-with-empty-value="
+  "bulk":
+    image: "nginx"
+    labels:
+      com.example.department: "Finance"
+  "single-file":
+    image: "nginx"
+    label_file:
+      - "./app.labels"
+  "multiple-files":
+    image: "nginx"
+    label_file:
+      - "./app.labels"
+      - "./additional.labels"
+networks:
+  "front":
+    labels:
+      com.example.description: "Financial transaction network"
+volumes:
+  "db-data":
+    labels:
+      com.example.description: "Database volume"

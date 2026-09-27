@@ -13,6 +13,12 @@ namespace DockerComposeFluent.Models
         public string? Driver { get; init; }
 
         /// <summary>
+        /// The labels attached to the volume, as specified by <c>labels</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#labels"/>
+        /// </summary>
+        public Labels Labels { get; init; } = new Labels();
+
+        /// <summary>
         /// The actual Docker volume name to use, overriding the default name generated from the
         /// project name and the key this volume is defined under, as specified by <c>name</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#name"/>

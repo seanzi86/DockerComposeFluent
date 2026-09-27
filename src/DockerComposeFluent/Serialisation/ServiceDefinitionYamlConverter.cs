@@ -32,6 +32,13 @@ namespace DockerComposeFluent.Serialisation
 
             emitter.WriteOptionalValue("healthcheck", value.Healthcheck, serialiser);
             emitter.WriteOptionalScalar("image", value.Image);
+            emitter.WriteOptionalStringSequence("label_file", value.LabelFiles);
+
+            if (value.Labels.Values.Count > 0)
+            {
+                emitter.WriteOptionalValue("labels", value.Labels, serialiser);
+            }
+
 
             if (value.Networks.Count > 0)
             {
