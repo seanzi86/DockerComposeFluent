@@ -7,6 +7,7 @@ on:
       - "website/**"
       - "src/DockerComposeFluent/**"
       - "scripts/generate-api-reference.sh"
+      - "scripts/generate-supported-properties.sh"
       - ".config/dotnet-tools.json"
       - ".github/workflows/docs.yml"
   push:
@@ -15,6 +16,7 @@ on:
       - "website/**"
       - "src/DockerComposeFluent/**"
       - "scripts/generate-api-reference.sh"
+      - "scripts/generate-supported-properties.sh"
       - ".config/dotnet-tools.json"
       - ".github/workflows/docs.yml"
 
@@ -49,6 +51,16 @@ jobs:
       # git-ignored (see website/.gitignore) since it's fully generated.
       - name: Generate API reference
         run: bash scripts/generate-api-reference.sh
+
+      # Unlike the API reference, supported-properties.md IS committed, so a stale copy (a doc comment
+      # changed without re-running the generator) fails the build here instead of silently drifting.
+      - name: Generate supported properties
+        run: |
+          bash scripts/generate-supported-properties.sh
+          git diff --exit-code -- website/docs/supported-properties.md || {
+            echo "::error::website/docs/supported-properties.md is out of date. Run 'npm run docs:supported' in website/ and commit the result."
+            exit 1
+          }
 
       # onBrokenLinks and onBrokenMarkdownLinks are both set to "throw" in docusaurus.config.ts,
       # so a broken internal link fails this step, on a pull request as much as on main.

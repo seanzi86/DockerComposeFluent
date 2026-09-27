@@ -1,0 +1,70 @@
+---
+sidebar_position: 2
+---
+
+# Dependency conditions
+
+`depends_on` has three conditions, plus an optional dependency. This example uses all of them: a one-shot
+migration job, a service that waits for it to finish, a database with a healthcheck, and an optional cache.
+
+```csharp
+using DockerComposeFluent.Builders;
+using DockerComposeFluent.Models;
+
+DockerComposeFile file = new DockerComposeBuilder()
+    .WithService("migrate", service => service
+        .WithImage("example/migrate")
+        .WithDependsOn("db", DependencyCondition.ServiceHealthy))
+    .WithService("web", service => service
+        .WithImage("nginx")
+        .WithDependsOn("migrate", DependencyCondition.ServiceCompletedSuccessfully)
+        .WithDependsOn("db", DependencyCondition.ServiceHealthy)
+        .WithDependsOn("cache", dependency => dependency.WithRequired(false)))
+    .WithService("db", service => service
+        .WithImage("postgres:17")
+        .WithHealthcheck(healthcheck => healthcheck.WithCommand(new[] { "pg_isready" })))
+    .WithService("cache", service => service.WithImage("redis:7"))
+    .Build();
+
+string yaml = file.ToYaml();
+```
+
+`yaml` is (checked against `docker compose config`):
+
+```yaml
+services:
+  "migrate":
+    depends_on:
+      "db":
+        condition: "service_healthy"
+    image: "example/migrate"
+  "web":
+    depends_on:
+      "migrate":
+        condition: "service_completed_successfully"
+      "db":
+        condition: "service_healthy"
+      "cache":
+        condition: "service_started"
+        required: false
+    image: "nginx"
+  "db":
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+    image: "postgres:17"
+  "cache":
+    image: "redis:7"
+```
+
+The three conditions:
+
+- **`ServiceHealthy`** (`migrate` and `web` waiting on `db`) - only usable when the dependency has a
+  `healthcheck`, since that's what Compose checks.
+- **`ServiceCompletedSuccessfully`** (`web` waiting on `migrate`) - the dependency has to run to completion
+  and exit `0` before `web` starts. A natural fit for a one-shot migration or seed job.
+- **`ServiceStarted`** (`web` waiting on `cache`, written explicitly here by
+  `dependency => dependency.WithRequired(false)`) - just "the container has started", Compose's default when
+  no condition is given. It's written out here because `required: false` is set, which needs the long form.
+
+`required: false` means Compose only warns if `cache` is missing or fails to start, rather than refusing to
+start `web` at all - useful for a dependency that's genuinely optional at runtime.

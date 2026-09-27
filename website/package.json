@@ -5,6 +5,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "docs:api": "bash ../scripts/generate-api-reference.sh",
+    "docs:supported": "bash ../scripts/generate-supported-properties.sh",
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",

@@ -1,0 +1,102 @@
+---
+sidebar_position: 2
+---
+
+# API conventions
+
+DockerComposeFluent follows a few consistent conventions across the whole fluent API. Once you've seen one
+property use them, every other property reads the same way. This page shows what each one looks like in
+real code; the rules themselves are also written down in
+[CONTRIBUTING.md](https://github.com/seanzi86/DockerComposeFluent/blob/main/CONTRIBUTING.md#api-design-conventions)
+for anyone contributing a new property.
+
+## Every nested concept gets a Definition + Builder pair
+
+A compose concept with its own settings — a healthcheck, a mount, a network attachment — is modelled as an
+immutable `XDefinition` record with a matching `XBuilder`. The parent builder always gives you three ways to
+set it:
+
+```csharp
+// 1. Full control, through the builder:
+service.WithHealthcheck(healthcheck => healthcheck
+    .WithCommand(new[] { "pg_isready", "-U", "postgres" })
+    .WithInterval(TimeSpan.FromSeconds(30)));
+
+// 2. An existing definition, built or reused elsewhere:
+HealthcheckDefinition healthcheck = new HealthcheckDefinition { Interval = "30s" };
+service.WithHealthcheck(healthcheck);
+
+// 3. A raw short-form value, for the common case:
+service.WithHealthcheck("pg_isready -U postgres");
+```
+
+Every `Definition` gets a `Builder`, with no exception for a small one: `RestartDefinition` has only two
+fields (a policy and an optional retry count), and it still has a `RestartBuilder`. A flat record with no
+builder was tried once and reverted for consistency — see
+[the design conversation](https://github.com/seanzi86/DockerComposeFluent/pull/69) if you're curious why.
+
+## Every property with more than one YAML shape gets the same overload set
+
+Compose often accepts a short form and a long form for the same property — sometimes several. Each one gets
+its own overload, under the same method name, rather than one method with a mode flag or an "options" object:
+
+```csharp
+// Short syntax: a single string, in whichever form Compose accepts.
+service.WithPort("8080:80");
+
+// Common-params overload: the typical case, without building a definition.
+service.WithPort(8080, 80);
+
+// Full control, through the builder, for anything the shortcuts don't cover.
+service.WithPort(port => port
+    .WithTarget(80)
+    .WithPublished(8000, 9000)
+    .WithHostIp("127.0.0.1"));
+```
+
+A property that can repeat also gets a plural `WithXs(IEnumerable<...>)` for adding several at once:
+
+```csharp
+service.WithPorts(new[] { "80", "8080:80" });
+```
+
+## Models are immutable; builders are mutable
+
+Every `XDefinition` is a `record` with `init`-only properties. A builder holds one in a private field and
+replaces it wholesale on each call (`_definition = _definition with { ... }`), so the object you get from
+`Build()` can never change under you, and two builders can never see each other's edits:
+
+```csharp
+ServiceDefinition service = new ServiceBuilder()
+    .WithImage("nginx")
+    .WithContainerName("web")
+    .Build();
+
+// `service` is a plain value - two services built the same way, from scalar properties, are equal.
+Assert.Equal(service, new ServiceBuilder().WithImage("nginx").WithContainerName("web").Build());
+```
+
+:::info[A limit worth knowing]
+
+Record equality is structural for scalar properties, but a list-typed property (`Ports`, `Volumes`, and so
+on) is a plain array under the hood, and C# records don't deep-compare those - two services built with the
+same ports are `Equals`-equal only if it's the very same array instance. Don't rely on `Equals` once a
+`Definition` has any list-typed property set; compare the properties you care about instead.
+
+:::
+
+## Serialisation stays out of the models
+
+A `Definition` never knows how to write itself as YAML. That logic lives entirely in the `Serialisation/`
+layer, as an `IYamlTypeConverter` per type, discovered automatically by reflection - there's no attribute or
+interface on the models themselves to keep in sync. This is what keeps a `Definition` a plain, testable value
+object: asserting on one is just comparing properties, never inspecting emitted text.
+
+## Where to see this in practice
+
+- The [`restart` design PR](https://github.com/seanzi86/DockerComposeFluent/pull/63) and its
+  [consistency follow-up](https://github.com/seanzi86/DockerComposeFluent/pull/69) show the Definition +
+  Builder rule being applied, then corrected when it wasn't.
+- The [worked examples](./examples/web-app-with-a-database) show the overload sets used together in a
+  realistic file.
+- The [supported properties](./supported-properties) page lists every property these conventions apply to.
