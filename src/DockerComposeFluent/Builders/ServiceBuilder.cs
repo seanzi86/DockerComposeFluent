@@ -590,6 +590,39 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Adds a profile the service is enabled under. A service with no profiles is always started; one with
+        /// profiles only starts when one of them is activated. Each call adds another profile.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#profiles"/>
+        /// </summary>
+        /// <param name="profile">The profile name: at least two characters, starting with a letter or digit, and
+        /// otherwise letters, digits, <c>_</c>, <c>.</c> or <c>-</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithProfile(string profile)
+        {
+            Guard.ProfileName(profile, nameof(profile));
+            _definition = _definition with { Profiles = Collections.Append(_definition.Profiles, profile) };
+            return this;
+        }
+
+        /// <summary>
+        /// Adds several profiles the service is enabled under.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#profiles"/>
+        /// </summary>
+        /// <param name="profiles">The profile names.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithProfiles(IEnumerable<string> profiles)
+        {
+            Guard.NotNull(profiles, nameof(profiles));
+
+            foreach (string profile in profiles)
+            {
+                WithProfile(profile);
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Attaches the service to a network with no settings. When no attached network has settings, the
         /// networks are written to YAML as a plain list of names. Attaching the same network again replaces it.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>

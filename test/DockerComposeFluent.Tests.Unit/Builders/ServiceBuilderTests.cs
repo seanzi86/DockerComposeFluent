@@ -767,5 +767,68 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentNullException>(() => builder.WithLogging((LoggingDefinition)null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithLogging((Action<LoggingBuilder>)null!));
         }
+
+        [Fact]
+        public void WithProfile_AddsIt()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithProfile("frontend").Build();
+
+            Assert.Equal(new[] { "frontend" }, service.Profiles);
+        }
+
+        [Fact]
+        public void WithProfiles_AddsEachOneInOrder()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithProfiles(new[] { "frontend", "debug" }).Build();
+
+            Assert.Equal(new[] { "frontend", "debug" }, service.Profiles);
+        }
+
+        [Fact]
+        public void WithProfile_CalledSeveralTimes_KeepsEachOne()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithProfile("a1").WithProfile("a2").Build();
+
+            Assert.Equal(new[] { "a1", "a2" }, service.Profiles);
+        }
+
+        [Theory]
+        [InlineData("a")]
+        [InlineData("")]
+        [InlineData(" a")]
+        [InlineData("-ab")]
+        [InlineData(".ab")]
+        [InlineData("_ab")]
+        [InlineData("a b")]
+        public void WithProfile_InvalidName_Throws(string profile)
+        {
+            Assert.Throws<ArgumentException>(() => new ServiceBuilder().WithProfile(profile));
+        }
+
+        [Fact]
+        public void WithProfile_Null_Throws()
+        {
+            Assert.Throws<ArgumentException>(() => new ServiceBuilder().WithProfile(null!));
+        }
+
+        [Theory]
+        [InlineData("ab")]
+        [InlineData("frontend")]
+        [InlineData("a1")]
+        [InlineData("a.b")]
+        [InlineData("a_b")]
+        [InlineData("a-b")]
+        public void WithProfile_ValidName_IsAccepted(string profile)
+        {
+            ServiceDefinition service = new ServiceBuilder().WithProfile(profile).Build();
+
+            Assert.Equal(new[] { profile }, service.Profiles);
+        }
+
+        [Fact]
+        public void WithProfiles_Null_Throws()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ServiceBuilder().WithProfiles(null!));
+        }
     }
 }
