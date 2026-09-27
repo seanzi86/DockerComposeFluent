@@ -81,6 +81,19 @@ function addExplicitAnchorIds(content) {
   return content.replace(/<a name='([^']+)'><\/a>/g, (_match, rawName) => `<a id="${sanitizeAnchor(rawName)}"></a>`);
 }
 
+function escapeRegExp(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Every member heading on a type's own page repeats the type name ("## ServiceBuilder\.WithCommand\(string\)
+// Method"), which is redundant with the page's title and clutters the auto-generated table of contents.
+// Strips it, leaving "## WithCommand\(string\) Method". A no-op on namespace/root pages, whose headings
+// never start with their own (differently-shaped) title followed by an escaped dot.
+function stripSelfReferentialHeadingPrefix(content, title) {
+  const prefix = new RegExp(`^## ${escapeRegExp(title)}\\\\\\.`, "gm");
+  return content.replace(prefix, "## ");
+}
+
 function rewriteLinks(content, currentNewPath, pathByRawName) {
   const currentDir = path.dirname(currentNewPath);
 
@@ -121,7 +134,8 @@ async function main() {
     const rawContent = await readFile(path.join(rawDir, rawName), "utf8");
     const newPath = pathByRawName.get(rawName);
     const title = titleFor(rawContent, path.basename(newPath, ".md"));
-    const withAnchorIds = addExplicitAnchorIds(rawContent);
+    const withShortHeadings = stripSelfReferentialHeadingPrefix(rawContent, title);
+    const withAnchorIds = addExplicitAnchorIds(withShortHeadings);
     const rewritten = rewriteLinks(withAnchorIds, newPath, pathByRawName);
 
     const frontMatter = `---\ntitle: "${title.replace(/"/g, '\\"')}"\n---\n\n`;
