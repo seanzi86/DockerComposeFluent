@@ -478,6 +478,77 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Adds an environment file with no settings, written to YAML as a plain path. Each call adds another
+        /// file; files are read in the order added, and a later file overrides values from an earlier one.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file"/>
+        /// </summary>
+        /// <param name="path">The path, resolved relative to the Compose file's folder.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithEnvFile(string path)
+        {
+            return AddEnvFile(new EnvFileEntry { Path = path });
+        }
+
+        /// <summary>
+        /// Adds an environment file, stating whether it must exist. Each call adds another file.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#required"/>
+        /// </summary>
+        /// <remarks>Requires Compose 2.24.0 or later.</remarks>
+        /// <param name="path">The path, resolved relative to the Compose file's folder.</param>
+        /// <param name="required"><c>false</c> to make the file optional (a missing file is otherwise an
+        /// error).</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithEnvFile(string path, bool required)
+        {
+            return AddEnvFile(new EnvFileEntry { Path = path, Required = required });
+        }
+
+        /// <summary>
+        /// Adds several environment files, each with no settings.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file"/>
+        /// </summary>
+        /// <param name="paths">The paths, resolved relative to the Compose file's folder.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithEnvFiles(IEnumerable<string> paths)
+        {
+            Guard.NotNull(paths, nameof(paths));
+
+            foreach (string path in paths)
+            {
+                WithEnvFile(path);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds an environment file from an existing entry. Each call adds another file.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file"/>
+        /// </summary>
+        /// <param name="entry">The entry.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithEnvFile(EnvFileEntry entry)
+        {
+            Guard.NotNull(entry, nameof(entry));
+            return AddEnvFile(entry);
+        }
+
+        /// <summary>
+        /// Adds an environment file, configured through an <see cref="EnvFileEntryBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file"/>
+        /// </summary>
+        /// <param name="configure">Configures the entry.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithEnvFile(Action<EnvFileEntryBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            EnvFileEntryBuilder builder = new EnvFileEntryBuilder();
+            configure(builder);
+            return AddEnvFile(builder.Build());
+        }
+
+        /// <summary>
         /// Attaches the service to a network with no settings. When no attached network has settings, the
         /// networks are written to YAML as a plain list of names. Attaching the same network again replaces it.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
@@ -681,6 +752,13 @@ namespace DockerComposeFluent.Builders
         {
             List<MountMapping> volumes = new List<MountMapping>(_definition.Volumes) { mount };
             _definition = _definition with { Volumes = volumes.AsReadOnly() };
+            return this;
+        }
+
+        private ServiceBuilder AddEnvFile(EnvFileEntry entry)
+        {
+            Guard.NotNullOrWhiteSpace(entry.Path, "Path");
+            _definition = _definition with { EnvFiles = Collections.Append(_definition.EnvFiles, entry) };
             return this;
         }
 

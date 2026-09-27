@@ -10,6 +10,9 @@
 *.userosscache
 *.sln.docstates
 *.env
+# Except the fixture env files the env_file golden scenario reads: they hold no real secrets, and
+# docker compose config (in tests and CI) needs them to exist on disk.
+!test/DockerComposeFluent.Tests.Unit/Golden/Fixtures/env-file/*.env
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
