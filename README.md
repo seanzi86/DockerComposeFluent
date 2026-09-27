@@ -8,6 +8,9 @@ A fluent .NET API for generating `docker-compose.yml` files.
 
 > **Status:** pre-1.0. The API may still change between minor versions.
 
+Full documentation, including the API reference and the supported-properties matrix, is at
+**[seanzi86.github.io/DockerComposeFluent](https://seanzi86.github.io/DockerComposeFluent/)**.
+
 ## Install
 
 ```bash
