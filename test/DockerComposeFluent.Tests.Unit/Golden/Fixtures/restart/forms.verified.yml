@@ -17,5 +17,8 @@ services:
   "text":
     image: "busybox"
     restart: "on-failure:3"
+  "builder":
+    image: "busybox"
+    restart: "on-failure:2"
   "unset":
     image: "busybox"

@@ -22,6 +22,9 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                 .WithService("on-failure", service => service.WithImage("busybox").WithRestart(RestartPolicy.OnFailure))
                 .WithService("on-failure-limited", service => service.WithImage("busybox").WithRestartOnFailure(5))
                 .WithService("text", service => service.WithImage("busybox").WithRestart("on-failure:3"))
+                .WithService("builder", service => service
+                    .WithImage("busybox")
+                    .WithRestart(restart => restart.WithPolicy(RestartPolicy.OnFailure).WithMaxRetries(2)))
                 .WithService("unset", service => service.WithImage("busybox"))
                 .Build();
         }
