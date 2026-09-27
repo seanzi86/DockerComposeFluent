@@ -21,6 +21,9 @@ const config: Config = {
 
   onBrokenLinks: 'throw',
   markdown: {
+    // The generated API reference is plain Markdown full of things MDX would misparse (generics like
+    // `IEnumerable<string>`, stray braces): ".md" files are parsed as CommonMark, ".mdx" files keep MDX.
+    format: 'detect',
     hooks: {
       onBrokenMarkdownLinks: 'throw',
     },
