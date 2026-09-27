@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Globalization;
 using System.Collections.Generic;
 using DockerComposeFluent.Builders;
@@ -664,6 +665,69 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentException>(() => builder.WithHealthcheck(" "));
             Assert.Throws<ArgumentNullException>(() => builder.WithHealthcheck((HealthcheckDefinition)null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithHealthcheck((Action<HealthcheckBuilder>)null!));
+        }
+
+        [Fact]
+        public void WithEnvFile_Path_AddsAPathOnlyEntry()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithEnvFile("./.env").Build();
+
+            Assert.True(service.EnvFiles[0].IsPathOnly);
+            Assert.Equal("./.env", service.EnvFiles[0].Path);
+        }
+
+        [Fact]
+        public void WithEnvFiles_Paths_AddsEachOneInOrder()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithEnvFiles(new[] { "./a.env", "./b.env" }).Build();
+
+            Assert.Equal(new[] { "./a.env", "./b.env" }, service.EnvFiles.Select(entry => entry.Path));
+        }
+
+        [Fact]
+        public void WithEnvFile_PathAndRequired_SetsRequired()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithEnvFile("./override.env", required: false).Build();
+
+            Assert.False(service.EnvFiles[0].Required);
+            Assert.False(service.EnvFiles[0].IsPathOnly);
+        }
+
+        [Fact]
+        public void WithEnvFile_Entry_AddsIt()
+        {
+            EnvFileEntry entry = new EnvFileEntry { Path = "./.env", Format = EnvFileFormat.Raw };
+
+            Assert.Same(entry, new ServiceBuilder().WithEnvFile(entry).Build().EnvFiles[0]);
+        }
+
+        [Fact]
+        public void WithEnvFile_Action_ConfiguresTheEntry()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithEnvFile(entry => entry.WithPath("./.env").WithFormat(EnvFileFormat.Raw))
+                .Build();
+
+            Assert.Equal(EnvFileFormat.Raw, service.EnvFiles[0].Format);
+        }
+
+        [Fact]
+        public void WithEnvFile_CalledSeveralTimes_KeepsEachOne()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithEnvFile("./a.env").WithEnvFile("./b.env").Build();
+
+            Assert.Equal(2, service.EnvFiles.Count);
+        }
+
+        [Fact]
+        public void WithEnvFile_InvalidInput_Throws()
+        {
+            ServiceBuilder builder = new ServiceBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithEnvFile(" "));
+            Assert.Throws<ArgumentNullException>(() => builder.WithEnvFiles(null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithEnvFile((EnvFileEntry)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithEnvFile((Action<EnvFileEntryBuilder>)null!));
         }
     }
 }

@@ -1,0 +1,23 @@
+services:
+  "single":
+    env_file:
+      - "./.env"
+    image: "nginx"
+  "list":
+    env_file:
+      - "./a.env"
+      - "./b.env"
+    image: "nginx"
+  "optional":
+    env_file:
+      - "./default.env"
+      - path: "./override.env"
+        required: false
+    image: "nginx"
+  "mixed":
+    env_file:
+      - "./.env"
+      - format: "raw"
+        path: "./raw.env"
+        required: true
+    image: "nginx"

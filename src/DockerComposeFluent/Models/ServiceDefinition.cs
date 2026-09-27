@@ -41,6 +41,13 @@ namespace DockerComposeFluent.Models
         public CommandLine? Entrypoint { get; init; }
 
         /// <summary>
+        /// The files to read environment variables from, as specified by <c>env_file</c>. Empty when none are
+        /// set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file"/>
+        /// </summary>
+        public IReadOnlyList<EnvFileEntry> EnvFiles { get; init; } = Array.Empty<EnvFileEntry>();
+
+        /// <summary>
         /// The environment variables set in the container, as specified by <c>environment</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
         /// </summary>

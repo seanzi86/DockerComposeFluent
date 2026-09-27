@@ -23,6 +23,8 @@ namespace DockerComposeFluent.Serialisation
 
             emitter.WriteOptionalValue("entrypoint", value.Entrypoint, serialiser);
 
+            emitter.WriteOptionalSequence("env_file", value.EnvFiles, serialiser);
+
             if (value.Environment.Variables.Count > 0)
             {
                 emitter.WriteOptionalValue("environment", value.Environment, serialiser);

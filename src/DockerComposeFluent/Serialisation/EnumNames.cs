@@ -176,6 +176,27 @@ namespace DockerComposeFluent.Serialisation
             }
         }
 
+        /// <summary>
+        /// Gets the spelling of an env-file format, or <c>null</c> when it is not set.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The compose-spec spelling, or <c>null</c>.</returns>
+        internal static string? Of(EnvFileFormat? value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            switch (value.Value)
+            {
+                case EnvFileFormat.Raw:
+                    return "raw";
+                default:
+                    throw Unknown(value.Value);
+            }
+        }
+
         private static ArgumentOutOfRangeException Unknown<T>(T value)
             where T : struct
         {
