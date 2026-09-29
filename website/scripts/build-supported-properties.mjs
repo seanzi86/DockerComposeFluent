@@ -36,6 +36,8 @@ const sections = [
   { type: "VolumeDefinition", title: "Volumes, top level", path: "`volumes.<name>`" },
   { type: "SecretReference", title: "Service secret reference, long syntax", path: "`services.<name>.secrets`" },
   { type: "SecretDefinition", title: "Secrets, top level", path: "`secrets.<name>`" },
+  { type: "ConfigReference", title: "Service config reference, long syntax", path: "`services.<name>.configs`" },
+  { type: "ConfigDefinition", title: "Configs, top level", path: "`configs.<name>`" },
 ];
 
 function collapseWhitespace(text) {
@@ -43,9 +45,14 @@ function collapseWhitespace(text) {
 }
 
 // Converts the small set of inline XML doc tags this codebase actually uses in a summary (just <c>) to
-// their Markdown equivalent. Anything else passes through unchanged.
+// their Markdown equivalent, and decodes the HTML entities XML doc comments need for a literal angle
+// bracket inside one (e.g. <c>/&lt;source&gt;</c>). Anything else passes through unchanged.
 function inlineMarkdown(text) {
-  return text.replace(/<c>(.*?)<\/c>/g, "`$1`");
+  return text
+    .replace(/<c>(.*?)<\/c>/g, "`$1`")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
 }
 
 function descriptionFor(summary) {

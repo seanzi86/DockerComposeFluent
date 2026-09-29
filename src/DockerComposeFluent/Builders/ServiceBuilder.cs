@@ -703,6 +703,76 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Grants the service access to a config with no settings, written to YAML as a plain source name.
+        /// Each call adds another config.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// </summary>
+        /// <param name="source">The name of a config defined at the top level.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithConfig(string source)
+        {
+            return AddConfig(new ConfigReference { Source = source });
+        }
+
+        /// <summary>
+        /// Grants the service access to several configs, each with no settings.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// </summary>
+        /// <param name="sources">The names of configs defined at the top level.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithConfigs(IEnumerable<string> sources)
+        {
+            Guard.NotNull(sources, nameof(sources));
+
+            foreach (string source in sources)
+            {
+                WithConfig(source);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Grants the service access to a config, mounted under a different file path. Each call adds another
+        /// config.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// </summary>
+        /// <param name="source">The name of a config defined at the top level.</param>
+        /// <param name="target">The path and name of the mounted file.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithConfig(string source, string target)
+        {
+            return AddConfig(new ConfigReference { Source = source, Target = target });
+        }
+
+        /// <summary>
+        /// Grants the service access to a config from an existing reference. Each call adds another config.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// </summary>
+        /// <param name="config">The config reference.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithConfig(ConfigReference config)
+        {
+            Guard.NotNull(config, nameof(config));
+            return AddConfig(config);
+        }
+
+        /// <summary>
+        /// Grants the service access to a config, configured through a <see cref="ConfigReferenceBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// </summary>
+        /// <param name="configure">Configures the config reference.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithConfig(Action<ConfigReferenceBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            ConfigReferenceBuilder builder = new ConfigReferenceBuilder();
+            configure(builder);
+            return AddConfig(builder.Build());
+        }
+
+        /// <summary>
         /// Grants the service access to a secret with no settings, written to YAML as a plain source name.
         /// Each call adds another secret.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
@@ -976,6 +1046,12 @@ namespace DockerComposeFluent.Builders
         {
             List<MountMapping> volumes = new List<MountMapping>(_definition.Volumes) { mount };
             _definition = _definition with { Volumes = volumes.AsReadOnly() };
+            return this;
+        }
+
+        private ServiceBuilder AddConfig(ConfigReference config)
+        {
+            _definition = _definition with { Configs = Collections.Append(_definition.Configs, config) };
             return this;
         }
 
