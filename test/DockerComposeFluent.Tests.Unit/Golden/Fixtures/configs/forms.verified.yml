@@ -1,0 +1,27 @@
+services:
+  "redis":
+    configs:
+      - "my_config"
+      - "my_other_config"
+    image: "redis:latest"
+  "app":
+    configs:
+      - "app_config"
+      - source: "my_config"
+        target: "/redis_config"
+    image: "example/app"
+  "admin":
+    configs:
+      - gid: "103"
+        mode: 288
+        source: "my_config"
+        target: "/redis_config"
+        uid: "103"
+    image: "example/admin"
+configs:
+  "my_config":
+    file: "./my_config.txt"
+  "my_other_config":
+    external: true
+  "app_config":
+    content: "debug=true\nname=demo"

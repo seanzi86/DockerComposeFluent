@@ -33,6 +33,7 @@ This page is regenerated from the library's XML doc comments by
 | [`restart`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#restart) | When the container is restarted. | Core spec |
 | [`logging`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging) | The logging configuration. | Core spec |
 | [`profiles`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#profiles) | The profiles the service is enabled under. | Core spec |
+| [`configs`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs) | The configs this service is granted access to. | Core spec |
 | [`secrets`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets) | The secrets this service is granted access to. | Core spec |
 | [`volumes`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes) | The mounts (volumes, bind mounts and so on). | Core spec |
 
@@ -191,6 +192,26 @@ This page is regenerated from the library's XML doc comments by
 | [`environment`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | The name of the environment variable whose value becomes the secret. | 2.6.0+ |
 | [`external`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | Whether this secret has already been created outside Compose. | Core spec |
 | [`name`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | The actual name of the secret object to look up, overriding the default name generated from the project name and the key this secret is defined under. | Core spec |
+
+### Service config reference, long syntax (`services.<name>.configs`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `source` | The name of the config as defined in the top-level `configs` section. | Core spec |
+| `target` | The path and name of the file mounted in the container. Defaults to `/<source>` if not set. | Core spec |
+| `uid` | The numeric user ID that owns the mounted file. | Core spec |
+| `gid` | The numeric group ID that owns the mounted file. | Core spec |
+| `mode` | The permissions of the mounted file, in octal notation. | Core spec |
+
+### Configs, top level (`configs.<name>`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| [`file`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | The path of the file whose contents become the config. | Core spec |
+| [`environment`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | The name of the environment variable whose value becomes the config. | Core spec |
+| [`content`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | The inline text that becomes the config. | 2.23.1+ |
+| [`external`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | Whether this config has already been created outside Compose. | Core spec |
+| [`name`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | The actual name of the config object to look up, overriding the default name generated from the project name and the key this config is defined under. | Core spec |
 
 <!-- supported-properties:end -->
 
