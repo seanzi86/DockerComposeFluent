@@ -30,7 +30,17 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test --no-build --configuration Release
+        run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+
+      # Uploaded (not published here) so a PR from a fork can still surface its results: a step in this
+      # workflow only ever has a read-only token on a fork PR, so it can't create a check run itself. The
+      # separate test-report.yml workflow, running with write permission, does that from this artifact.
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: test-results
+          path: TestResults/test-results.trx
 
       # Checks the package can be built and passes package validation (the target frameworks are consistent).
       - name: Pack
