@@ -34,6 +34,8 @@ const sections = [
   { type: "IpamDefinition", title: "IPAM", path: "`networks.<name>.ipam`" },
   { type: "IpamConfigDefinition", title: "IPAM address pool", path: "`networks.<name>.ipam.config`" },
   { type: "VolumeDefinition", title: "Volumes, top level", path: "`volumes.<name>`" },
+  { type: "SecretReference", title: "Service secret reference, long syntax", path: "`services.<name>.secrets`" },
+  { type: "SecretDefinition", title: "Secrets, top level", path: "`secrets.<name>`" },
 ];
 
 function collapseWhitespace(text) {

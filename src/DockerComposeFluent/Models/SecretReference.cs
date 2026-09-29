@@ -16,7 +16,7 @@ namespace DockerComposeFluent.Models
 
         /// <summary>
         /// The name of the file mounted under <c>/run/secrets/</c> in the container, or an absolute path for
-        /// an alternate location. Defaults to <see cref="Source"/> if not set, as specified by <c>target</c>.
+        /// an alternate location. Defaults to the source name if not set, as specified by <c>target</c>.
         /// </summary>
         public string? Target { get; init; }
 

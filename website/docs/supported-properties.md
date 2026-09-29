@@ -33,6 +33,7 @@ This page is regenerated from the library's XML doc comments by
 | [`restart`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#restart) | When the container is restarted. | Core spec |
 | [`logging`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging) | The logging configuration. | Core spec |
 | [`profiles`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#profiles) | The profiles the service is enabled under. | Core spec |
+| [`secrets`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets) | The secrets this service is granted access to. | Core spec |
 | [`volumes`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes) | The mounts (volumes, bind mounts and so on). | Core spec |
 
 ### Healthcheck (`services.<name>.healthcheck`)
@@ -171,6 +172,25 @@ This page is regenerated from the library's XML doc comments by
 | [`driver`](https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#driver) | The volume driver to use. | Core spec |
 | [`labels`](https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#labels) | The labels attached to the volume. | Core spec |
 | [`name`](https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#name) | The actual Docker volume name to use, overriding the default name generated from the project name and the key this volume is defined under. | Core spec |
+
+### Service secret reference, long syntax (`services.<name>.secrets`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `source` | The name of the secret as defined in the top-level `secrets` section. | Core spec |
+| `target` | The name of the file mounted under `/run/secrets/` in the container, or an absolute path for an alternate location. Defaults to the source name if not set. | Core spec |
+| `uid` | The numeric user ID that owns the mounted file. | Core spec |
+| `gid` | The numeric group ID that owns the mounted file. | Core spec |
+| `mode` | The permissions of the mounted file, in octal notation. | Core spec |
+
+### Secrets, top level (`secrets.<name>`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| [`file`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | The path of the file whose contents become the secret. | Core spec |
+| [`environment`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | The name of the environment variable whose value becomes the secret. | 2.6.0+ |
+| [`external`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | Whether this secret has already been created outside Compose. | Core spec |
+| [`name`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | The actual name of the secret object to look up, overriding the default name generated from the project name and the key this secret is defined under. | Core spec |
 
 <!-- supported-properties:end -->
 
