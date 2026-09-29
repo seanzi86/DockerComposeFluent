@@ -5,20 +5,20 @@
  */
 
 /*
- * Primary colours are sampled from the corners of assets/icon.png's gradient: indigo (#3338a0-ish, top-left)
- * for light mode, teal (#0f8f8a-ish, bottom-right) for dark mode. The rest of each ramp is generated from
- * that base with the same lightness steps Infima's own default palette uses, so hover/active states behave
- * the same way as the defaults. Both bases keep at least a 4.5:1 contrast ratio against their background
- * (indigo on white: 9.6:1; teal on the default dark background: 5.3:1).
+ * Brand palette: black/grey(silver)/red (see assets/icon.svg - the chain-of-nodes accent is the same red
+ * used here as the primary colour). Each mode uses a shade with at least 4.5:1 contrast against its own
+ * background (red-600 on white: 4.83:1; red-400 on the dark background: 6.22:1), and the rest of each ramp
+ * is generated from that base with the same lightness steps Infima's own default palette uses, so
+ * hover/active states behave the same way as the defaults.
  */
 :root {
-  --ifm-color-primary: #33389c;
-  --ifm-color-primary-dark: #2f338e;
-  --ifm-color-primary-darker: #2c3188;
-  --ifm-color-primary-darkest: #262973;
-  --ifm-color-primary-light: #373daa;
-  --ifm-color-primary-lighter: #3a3fb0;
-  --ifm-color-primary-lightest: #4349c2;
+  --ifm-color-primary: #dc2626;
+  --ifm-color-primary-dark: #cf2121;
+  --ifm-color-primary-darker: #c72020;
+  --ifm-color-primary-darkest: #b01c1c;
+  --ifm-color-primary-light: #de3535;
+  --ifm-color-primary-lighter: #e03d3d;
+  --ifm-color-primary-lightest: #e45454;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   /* Infima's own default is "transparent", relying on the browser's native white canvas. Set explicitly
@@ -32,13 +32,13 @@ body {
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #119f9a;
-  --ifm-color-primary-dark: #0f8f8a;
-  --ifm-color-primary-darker: #0e8782;
-  --ifm-color-primary-darkest: #0c6e6b;
-  --ifm-color-primary-light: #13afaa;
-  --ifm-color-primary-lighter: #14b7b2;
-  --ifm-color-primary-lightest: #16d0c9;
+  --ifm-color-primary: #f87171;
+  --ifm-color-primary-dark: #f76060;
+  --ifm-color-primary-darker: #f75757;
+  --ifm-color-primary-darkest: #f53e3e;
+  --ifm-color-primary-light: #f98282;
+  --ifm-color-primary-lighter: #f98b8b;
+  --ifm-color-primary-lightest: #fba4a4;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
   --ifm-background-color: #1b1b1d;
 }
