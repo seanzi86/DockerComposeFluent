@@ -1,0 +1,29 @@
+name: Test Report
+
+# Separate from CI on purpose: a PR from a fork runs CI with a read-only token, which can't create a check
+# run. This workflow runs in the context of main instead, with write permission, and only reads the test
+# results CI already uploaded as an artifact - it never checks out or executes the PR's own code.
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion != 'skipped' && github.event.workflow_run.conclusion != 'cancelled'
+
+    steps:
+      - name: Publish test results
+        uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2 # v3.0.0
+        with:
+          artifact: test-results
+          name: Test results
+          path: "*.trx"
+          reporter: dotnet-trx
