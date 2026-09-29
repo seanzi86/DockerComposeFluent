@@ -69,6 +69,9 @@ Generated\ Files/
 [Bb]uild[Ll]og.*
 *.trx
 
+# CI coverage summary (see .github/workflows/ci.yml)
+code-coverage-results.md
+
 # NUnit
 *.VisualState.xml
 TestResult.xml

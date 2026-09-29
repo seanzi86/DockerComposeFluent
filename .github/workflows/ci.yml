@@ -12,6 +12,9 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # only used on a PR, to post/update the coverage summary comment
 
     steps:
       - name: Checkout
@@ -30,7 +33,7 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+        run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" --results-directory TestResults
 
       # Uploaded (not published here) so a PR from a fork can still surface its results: a step in this
       # workflow only ever has a read-only token on a fork PR, so it can't create a check run itself. The
@@ -41,6 +44,34 @@ jobs:
         with:
           name: test-results
           path: TestResults/test-results.trx
+
+      # Posts (and updates on every push to the PR) a coverage summary comment, using whichever coverage
+      # file coverlet.collector produced (its folder name is a random GUID per run).
+      - name: Coverage summary
+        if: github.event_name == 'pull_request'
+        id: coverage
+        uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
+        with:
+          filename: "TestResults/**/coverage.cobertura.xml"
+          badge: true
+          format: markdown
+          output: file
+
+      - name: Post coverage summary comment
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        with:
+          header: coverage
+          path: code-coverage-results.md
+
+      # Updates the live README badge and the project's coverage history; coveralls.io needs no account
+      # setup or secret, it identifies the repo from the default GITHUB_TOKEN. Only on a push to main, since
+      # a PR's coverage is already shown by the summary comment above, and the badge should track main.
+      - name: Upload coverage to Coveralls
+        if: github.event_name == 'push'
+        uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
+        with:
+          format: cobertura
 
       # Checks the package can be built and passes package validation (the target frameworks are consistent).
       - name: Pack
