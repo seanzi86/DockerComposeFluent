@@ -109,6 +109,13 @@ namespace DockerComposeFluent.Models
         public IReadOnlyList<string> Profiles { get; init; } = Array.Empty<string>();
 
         /// <summary>
+        /// The secrets this service is granted access to, as specified by <c>secrets</c>. Empty when none are
+        /// set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// </summary>
+        public IReadOnlyList<SecretReference> Secrets { get; init; } = Array.Empty<SecretReference>();
+
+        /// <summary>
         /// The mounts (volumes, bind mounts and so on), as specified by <c>volumes</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
         /// </summary>

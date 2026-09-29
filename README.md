@@ -80,8 +80,8 @@ volumes:
 
 ## What is supported
 
-- **Services:** `image`, `container_name`, `command`, `depends_on`, `entrypoint`, `env_file`, `environment`, `healthcheck`, `label_file`, `labels`, `logging`, `networks`, `ports`, `profiles`, `restart` and `volumes`.
-- **Top level:** `name`, `networks` (including `ipam` and `labels`) and `volumes` (including `labels`).
+- **Services:** `image`, `container_name`, `command`, `depends_on`, `entrypoint`, `env_file`, `environment`, `healthcheck`, `label_file`, `labels`, `logging`, `networks`, `ports`, `profiles`, `restart`, `secrets` and `volumes`.
+- **Top level:** `name`, `networks` (including `ipam` and `labels`), `volumes` (including `labels`) and `secrets`.
 
 Each property accepts the forms Compose itself accepts, chosen by the overload you call. For example `WithPort("8080:80")` writes the short syntax, `WithPort(8080, 80)` writes the long syntax, and `WithPort(port => port.WithTarget(80).WithHostIp("127.0.0.1"))` gives full control.
 

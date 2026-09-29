@@ -830,5 +830,59 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         {
             Assert.Throws<ArgumentNullException>(() => new ServiceBuilder().WithProfiles(null!));
         }
+
+        [Fact]
+        public void WithSecret_Source_AddsAPlainReference()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithSecret("server-certificate").Build();
+
+            Assert.True(service.Secrets[0].IsSourceOnly);
+            Assert.Equal("server-certificate", service.Secrets[0].Source);
+        }
+
+        [Fact]
+        public void WithSecrets_Sources_AddsEachOneInOrder()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithSecrets(new[] { "a", "b" }).Build();
+
+            Assert.Equal(new[] { "a", "b" }, service.Secrets.Select(secret => secret.Source));
+        }
+
+        [Fact]
+        public void WithSecret_SourceAndTarget_SetsTarget()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithSecret("server-certificate", "server.cert").Build();
+
+            Assert.Equal("server.cert", service.Secrets[0].Target);
+            Assert.False(service.Secrets[0].IsSourceOnly);
+        }
+
+        [Fact]
+        public void WithSecret_Reference_AddsIt()
+        {
+            SecretReference reference = new SecretReference { Source = "x" };
+
+            Assert.Same(reference, new ServiceBuilder().WithSecret(reference).Build().Secrets[0]);
+        }
+
+        [Fact]
+        public void WithSecret_Action_ConfiguresIt()
+        {
+            ServiceDefinition service = new ServiceBuilder()
+                .WithSecret(secret => secret.WithSource("server-certificate").WithUid("103"))
+                .Build();
+
+            Assert.Equal("103", service.Secrets[0].Uid);
+        }
+
+        [Fact]
+        public void WithSecret_InvalidInput_Throws()
+        {
+            ServiceBuilder builder = new ServiceBuilder();
+
+            Assert.Throws<ArgumentNullException>(() => builder.WithSecrets(null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithSecret((SecretReference)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithSecret((Action<SecretReferenceBuilder>)null!));
+        }
     }
 }

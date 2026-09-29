@@ -14,6 +14,7 @@ namespace DockerComposeFluent.Builders
         private readonly Dictionary<string, ServiceDefinition> _services = new Dictionary<string, ServiceDefinition>();
         private readonly Dictionary<string, NetworkDefinition> _networks = new Dictionary<string, NetworkDefinition>();
         private readonly Dictionary<string, VolumeDefinition> _volumes = new Dictionary<string, VolumeDefinition>();
+        private readonly Dictionary<string, SecretDefinition> _secrets = new Dictionary<string, SecretDefinition>();
         private string? _name;
 
         /// <summary>
@@ -127,6 +128,38 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Adds a secret from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md"/>
+        /// </summary>
+        /// <param name="name">The secret name.</param>
+        /// <param name="secret">The secret definition.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithSecret(string name, SecretDefinition secret)
+        {
+            Guard.NotNullOrWhiteSpace(name, nameof(name));
+            Guard.NotNull(secret, nameof(secret));
+
+            _secrets[name] = secret;
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a secret configured through a <see cref="SecretBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md"/>
+        /// </summary>
+        /// <param name="name">The secret name.</param>
+        /// <param name="configure">Configures the secret.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithSecret(string name, Action<SecretBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            SecretBuilder builder = new SecretBuilder();
+            configure(builder);
+            return WithSecret(name, builder.Build());
+        }
+
+        /// <summary>
         /// Creates the compose file from the values set so far. Later changes to this builder do not affect the returned file.
         /// </summary>
         /// <returns>An immutable <see cref="DockerComposeFile"/>.</returns>
@@ -137,7 +170,8 @@ namespace DockerComposeFluent.Builders
                 Name = _name,
                 Services = new Dictionary<string, ServiceDefinition>(_services),
                 Networks = new Dictionary<string, NetworkDefinition>(_networks),
-                Volumes = new Dictionary<string, VolumeDefinition>(_volumes)
+                Volumes = new Dictionary<string, VolumeDefinition>(_volumes),
+                Secrets = new Dictionary<string, SecretDefinition>(_secrets)
             };
         }
     }
