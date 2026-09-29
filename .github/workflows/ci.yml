@@ -45,14 +45,22 @@ jobs:
           name: test-results
           path: TestResults/test-results.trx
 
-      # Posts (and updates on every push to the PR) a coverage summary comment, using whichever coverage
-      # file coverlet.collector produced (its folder name is a random GUID per run).
+      # Combining --logger trx with --collect writes the coverage file twice: once under a random-GUID
+      # folder (the collector's own output) and again under trx's own attachment folder
+      # (TestResults/<run>/In/<host>/coverage.cobertura.xml, a copy of the same data). Located explicitly by
+      # depth, rather than a **-glob that would pick up both and double-count in the summary below.
+      - name: Locate coverage file
+        if: ${{ !cancelled() }}
+        id: coverage-file
+        run: echo "path=$(find TestResults -maxdepth 2 -name coverage.cobertura.xml)" >> "$GITHUB_OUTPUT"
+
+      # Posts (and updates on every push to the PR) a coverage summary comment.
       - name: Coverage summary
         if: github.event_name == 'pull_request'
         id: coverage
         uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
         with:
-          filename: "TestResults/**/coverage.cobertura.xml"
+          filename: ${{ steps.coverage-file.outputs.path }}
           badge: true
           format: markdown
           output: file
@@ -72,6 +80,7 @@ jobs:
         uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
         with:
           format: cobertura
+          file: ${{ steps.coverage-file.outputs.path }}
 
       # Checks the package can be built and passes package validation (the target frameworks are consistent).
       - name: Pack
