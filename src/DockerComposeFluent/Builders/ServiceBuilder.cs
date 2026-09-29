@@ -703,6 +703,76 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Grants the service access to a secret with no settings, written to YAML as a plain source name.
+        /// Each call adds another secret.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// </summary>
+        /// <param name="source">The name of a secret defined at the top level.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithSecret(string source)
+        {
+            return AddSecret(new SecretReference { Source = source });
+        }
+
+        /// <summary>
+        /// Grants the service access to several secrets, each with no settings.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// </summary>
+        /// <param name="sources">The names of secrets defined at the top level.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithSecrets(IEnumerable<string> sources)
+        {
+            Guard.NotNull(sources, nameof(sources));
+
+            foreach (string source in sources)
+            {
+                WithSecret(source);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Grants the service access to a secret, mounted under a different file name. Each call adds another
+        /// secret.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// </summary>
+        /// <param name="source">The name of a secret defined at the top level.</param>
+        /// <param name="target">The name of the mounted file, or an absolute path.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithSecret(string source, string target)
+        {
+            return AddSecret(new SecretReference { Source = source, Target = target });
+        }
+
+        /// <summary>
+        /// Grants the service access to a secret from an existing reference. Each call adds another secret.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// </summary>
+        /// <param name="secret">The secret reference.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithSecret(SecretReference secret)
+        {
+            Guard.NotNull(secret, nameof(secret));
+            return AddSecret(secret);
+        }
+
+        /// <summary>
+        /// Grants the service access to a secret, configured through a <see cref="SecretReferenceBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// </summary>
+        /// <param name="configure">Configures the secret reference.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithSecret(Action<SecretReferenceBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            SecretReferenceBuilder builder = new SecretReferenceBuilder();
+            configure(builder);
+            return AddSecret(builder.Build());
+        }
+
+        /// <summary>
         /// Attaches the service to a network with no settings. When no attached network has settings, the
         /// networks are written to YAML as a plain list of names. Attaching the same network again replaces it.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
@@ -906,6 +976,12 @@ namespace DockerComposeFluent.Builders
         {
             List<MountMapping> volumes = new List<MountMapping>(_definition.Volumes) { mount };
             _definition = _definition with { Volumes = volumes.AsReadOnly() };
+            return this;
+        }
+
+        private ServiceBuilder AddSecret(SecretReference secret)
+        {
+            _definition = _definition with { Secrets = Collections.Append(_definition.Secrets, secret) };
             return this;
         }
 

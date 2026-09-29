@@ -34,6 +34,12 @@ namespace DockerComposeFluent.Models
         public IReadOnlyDictionary<string, VolumeDefinition> Volumes { get; init; } = Collections.EmptyDictionary<VolumeDefinition>();
 
         /// <summary>
+        /// The secrets defined under the top-level <c>secrets</c> property, keyed by secret name.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, SecretDefinition> Secrets { get; init; } = Collections.EmptyDictionary<SecretDefinition>();
+
+        /// <summary>
         /// Serialises this compose file to YAML.
         /// </summary>
         /// <returns>The compose file as a YAML string.</returns>
