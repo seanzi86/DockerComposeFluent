@@ -8,6 +8,15 @@
   text-align: center;
   position: relative;
   overflow: hidden;
+  /* The icon's own background gradient (see assets/icon.svg): black to graphite grey, with red kept as a
+     thin accent rather than a full-bleed fill. */
+  background: linear-gradient(135deg, #0b0b0d 0%, #52525b 100%);
+  color: #fff;
+  border-top: 3px solid #ef4444;
+}
+
+.heroBanner :global(.hero__subtitle) {
+  color: #d4d4d8;
 }
 
 @media screen and (max-width: 996px) {
