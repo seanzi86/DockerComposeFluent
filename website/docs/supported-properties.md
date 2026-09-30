@@ -8,10 +8,6 @@ Every property below has a `WithX` builder method that produces it; see the [API
 for the exact overloads. "Since Compose" is the minimum Docker Compose version the property needs, taken from
 the library's own `<remarks>` on that property; "Core spec" means there's no extra requirement.
 
-This page is regenerated from the library's XML doc comments by
-[`scripts/generate-supported-properties.sh`](https://github.com/seanzi86/DockerComposeFluent/blob/main/scripts/generate-supported-properties.sh)
-(`npm run docs:supported` from `website/`) — the tables between the markers below are never hand-edited.
-
 <!-- supported-properties:begin -->
 
 ### Services (`services.<name>`)
