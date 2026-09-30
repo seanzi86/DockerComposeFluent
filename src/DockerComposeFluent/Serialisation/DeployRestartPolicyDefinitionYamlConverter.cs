@@ -17,6 +17,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalScalar("delay", value.Delay);
             emitter.WriteOptionalInteger("max_attempts", value.MaxAttempts);
             emitter.WriteOptionalScalar("window", value.Window);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

@@ -82,6 +82,7 @@ volumes:
 
 - **Services:** `image`, `container_name`, `command`, `depends_on`, `deploy`, `entrypoint`, `env_file`, `environment`, `extends`, `healthcheck`, `label_file`, `labels`, `logging`, `networks`, `ports`, `profiles`, `restart`, `secrets`, `configs` and `volumes`.
 - **Top level:** `name`, `networks` (including `ipam` and `labels`), `volumes` (including `driver_opts`, `external` and `labels`), `secrets` and `configs`.
+- **Extension fields:** every modelled object - the file itself, every service, and every nested setting such as `deploy`, `healthcheck` or a mount's `bind` options - has a `WithExtension(key, value)` for custom `x-` fields, which Compose ignores but many tools and YAML anchors rely on.
 
 Each property accepts the forms Compose itself accepts, chosen by the overload you call. For example `WithPort("8080:80")` writes the short syntax, `WithPort(8080, 80)` writes the long syntax, and `WithPort(port => port.WithTarget(80).WithHostIp("127.0.0.1"))` gives full control.
 

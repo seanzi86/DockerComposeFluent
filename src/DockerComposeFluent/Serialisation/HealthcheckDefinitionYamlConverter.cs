@@ -20,6 +20,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalScalar("start_period", value.StartPeriod);
             emitter.WriteOptionalValue("test", value.Test, serialiser);
             emitter.WriteOptionalScalar("timeout", value.Timeout);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

@@ -17,6 +17,7 @@ namespace DockerComposeFluent.Builders
         private readonly Dictionary<string, SecretDefinition> _secrets = new Dictionary<string, SecretDefinition>();
         private readonly Dictionary<string, ConfigDefinition> _configs = new Dictionary<string, ConfigDefinition>();
         private string? _name;
+        private IReadOnlyDictionary<string, object?> _extensions = Collections.EmptyDictionary<object?>();
 
         /// <summary>
         /// Sets the project name.
@@ -29,6 +30,20 @@ namespace DockerComposeFluent.Builders
             Guard.NotNullOrWhiteSpace(name, nameof(name));
 
             _name = name;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets an extension field at the top level of the file. Setting the same key again replaces its
+        /// value. Compose ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        /// <param name="key">The field key, which must start with <c>x-</c>.</param>
+        /// <param name="value">The field value, serialised as-is.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithExtension(string key, object? value)
+        {
+            _extensions = ExtensionsMutator.Set(_extensions, key, value, nameof(key));
             return this;
         }
 
@@ -205,7 +220,8 @@ namespace DockerComposeFluent.Builders
                 Networks = new Dictionary<string, NetworkDefinition>(_networks),
                 Volumes = new Dictionary<string, VolumeDefinition>(_volumes),
                 Secrets = new Dictionary<string, SecretDefinition>(_secrets),
-                Configs = new Dictionary<string, ConfigDefinition>(_configs)
+                Configs = new Dictionary<string, ConfigDefinition>(_configs),
+                Extensions = _extensions
             };
         }
     }

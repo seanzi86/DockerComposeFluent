@@ -34,6 +34,18 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         }
 
         [Fact]
+        public void WithExtension_ForcesLongForm()
+        {
+            ConfigReference reference = new ConfigReferenceBuilder()
+                .WithSource("my_config")
+                .WithExtension("x-note", "generated at deploy time")
+                .Build();
+
+            Assert.False(reference.IsSourceOnly);
+            Assert.Equal("generated at deploy time", reference.Extensions["x-note"]);
+        }
+
+        [Fact]
         public void Build_NoSource_Throws()
         {
             Assert.Throws<ArgumentException>(() => new ConfigReferenceBuilder().Build());

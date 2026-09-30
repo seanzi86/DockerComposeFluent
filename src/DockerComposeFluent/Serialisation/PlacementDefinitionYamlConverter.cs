@@ -32,6 +32,7 @@ namespace DockerComposeFluent.Serialisation
                 emitter.EndSequence();
             }
 
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

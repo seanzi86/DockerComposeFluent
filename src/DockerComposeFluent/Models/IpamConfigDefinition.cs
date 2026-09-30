@@ -29,5 +29,12 @@ namespace DockerComposeFluent.Models
         /// The subnet in CIDR format, as specified by <c>subnet</c>.
         /// </summary>
         public string? Subnet { get; init; }
+
+        /// <summary>
+        /// The extension fields defined on this address pool, keyed by their <c>x-</c> name. Compose ignores
+        /// these; they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
     }
 }

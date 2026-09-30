@@ -17,6 +17,15 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         }
 
         [Fact]
+        public void WithExtension_ForcesNotEmpty()
+        {
+            DependencyDefinition dependency = new DependencyBuilder().WithExtension("x-note", "critical").Build();
+
+            Assert.False(dependency.IsEmpty);
+            Assert.Equal("critical", dependency.Extensions["x-note"]);
+        }
+
+        [Fact]
         public void Build_AllSettings_AreSet()
         {
             DependencyDefinition dependency = new DependencyBuilder()

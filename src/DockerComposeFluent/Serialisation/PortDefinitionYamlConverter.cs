@@ -20,6 +20,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalScalar("protocol", EnumNames.Of(value.Protocol));
             emitter.WriteOptionalScalar("published", value.Published);
             emitter.WriteInteger("target", value.Target);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

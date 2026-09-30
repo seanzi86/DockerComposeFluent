@@ -34,6 +34,18 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         }
 
         [Fact]
+        public void WithExtension_ForcesLongForm()
+        {
+            SecretReference reference = new SecretReferenceBuilder()
+                .WithSource("server-certificate")
+                .WithExtension("x-note", "rotated monthly")
+                .Build();
+
+            Assert.False(reference.IsSourceOnly);
+            Assert.Equal("rotated monthly", reference.Extensions["x-note"]);
+        }
+
+        [Fact]
         public void Build_NoSource_Throws()
         {
             Assert.Throws<ArgumentException>(() => new SecretReferenceBuilder().Build());

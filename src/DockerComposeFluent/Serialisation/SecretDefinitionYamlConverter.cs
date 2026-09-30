@@ -17,6 +17,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalScalar("environment", value.Environment);
             emitter.WriteOptionalScalar("file", value.File);
             emitter.WriteOptionalScalar("name", value.Name);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

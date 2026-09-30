@@ -17,6 +17,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalSequence("devices", value.Devices, serialiser);
             emitter.WriteOptionalScalar("memory", value.Memory);
             emitter.WriteOptionalInteger("pids", value.Pids);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

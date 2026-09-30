@@ -22,6 +22,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalStringSequence("link_local_ips", value.LinkLocalIps);
             emitter.WriteOptionalScalar("mac_address", value.MacAddress);
             emitter.WriteOptionalInteger("priority", value.Priority);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

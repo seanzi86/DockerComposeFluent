@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace DockerComposeFluent.Models
 {
     /// <summary>
@@ -52,5 +54,12 @@ namespace DockerComposeFluent.Models
         /// The publicly exposed port, or a range such as <c>8000-9000</c>, as specified by <c>published</c>.
         /// </summary>
         public string? Published { get; init; }
+
+        /// <summary>
+        /// The extension fields defined on this port, keyed by their <c>x-</c> name. Compose ignores these;
+        /// they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
     }
 }

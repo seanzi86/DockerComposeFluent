@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace DockerComposeFluent.Models
 {
     /// <summary>
@@ -23,5 +25,12 @@ namespace DockerComposeFluent.Models
         /// The container's PID limit, as specified by <c>pids</c>.
         /// </summary>
         public int? Pids { get; init; }
+
+        /// <summary>
+        /// The extension fields defined on <c>deploy.resources.limits</c>, keyed by their <c>x-</c> name.
+        /// Compose ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
     }
 }

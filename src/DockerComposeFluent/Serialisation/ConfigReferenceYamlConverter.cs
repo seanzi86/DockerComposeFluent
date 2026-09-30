@@ -25,6 +25,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalScalar("source", value.Source);
             emitter.WriteOptionalScalar("target", value.Target);
             emitter.WriteOptionalScalar("uid", value.Uid);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

@@ -54,6 +54,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalSequence("secrets", value.Secrets, serialiser);
             emitter.WriteOptionalValue("restart", value.Restart, serialiser);
             emitter.WriteOptionalSequence("volumes", value.Volumes, serialiser);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }
