@@ -17,6 +17,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalScalar("gateway", value.Gateway);
             emitter.WriteOptionalScalar("ip_range", value.IpRange);
             emitter.WriteOptionalScalar("subnet", value.Subnet);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

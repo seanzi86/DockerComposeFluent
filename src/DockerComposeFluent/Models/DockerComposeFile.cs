@@ -46,6 +46,13 @@ namespace DockerComposeFluent.Models
         public IReadOnlyDictionary<string, ConfigDefinition> Configs { get; init; } = Collections.EmptyDictionary<ConfigDefinition>();
 
         /// <summary>
+        /// The extension fields defined at the top level of the file, keyed by their <c>x-</c> name. Compose
+        /// ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
+
+        /// <summary>
         /// Serialises this compose file to YAML.
         /// </summary>
         /// <returns>The compose file as a YAML string.</returns>

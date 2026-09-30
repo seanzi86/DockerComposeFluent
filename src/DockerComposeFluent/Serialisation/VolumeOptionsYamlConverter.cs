@@ -15,6 +15,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.StartMapping();
             emitter.WriteOptionalBoolean("nocopy", value.NoCopy);
             emitter.WriteOptionalScalar("subpath", value.Subpath);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

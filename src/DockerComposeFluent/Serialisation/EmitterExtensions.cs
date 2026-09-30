@@ -271,6 +271,31 @@ namespace DockerComposeFluent.Serialisation
         }
 
         /// <summary>
+        /// Writes each entry of a model's <c>x-</c> extension fields directly into the current mapping (not
+        /// nested under their own key), or nothing when <paramref name="extensions"/> is empty. Each value is
+        /// serialised using its own runtime type, since extension field values are arbitrary user data rather
+        /// than one of this library's modelled shapes.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="extensions">The extension fields to write.</param>
+        /// <param name="serialiser">Serialises each value using the registered converters.</param>
+        internal static void WriteExtensions(this IEmitter emitter, IReadOnlyDictionary<string, object?> extensions, ObjectSerializer serialiser)
+        {
+            foreach (KeyValuePair<string, object?> extension in extensions)
+            {
+                emitter.WriteKey(extension.Key);
+                if (extension.Value == null)
+                {
+                    emitter.WriteNull();
+                }
+                else
+                {
+                    serialiser(extension.Value, extension.Value.GetType());
+                }
+            }
+        }
+
+        /// <summary>
         /// Writes a fixed key and a mapping of user-named values, or nothing when <paramref name="values"/> is empty.
         /// </summary>
         /// <typeparam name="T">The type of the values in the mapping.</typeparam>

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using DockerComposeFluent.Models;
 
@@ -17,6 +18,7 @@ namespace DockerComposeFluent.Builders
         private string? _appProtocol;
         private PortMode? _mode;
         private string? _name;
+        private IReadOnlyDictionary<string, object?> _extensions = Collections.EmptyDictionary<object?>();
 
         /// <summary>
         /// Sets the container port.
@@ -127,6 +129,20 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets an extension field on this port. Setting the same key again replaces its value. Compose
+        /// ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        /// <param name="key">The field key, which must start with <c>x-</c>.</param>
+        /// <param name="value">The field value, serialised as-is.</param>
+        /// <returns>This builder.</returns>
+        public PortBuilder WithExtension(string key, object? value)
+        {
+            _extensions = ExtensionsMutator.Set(_extensions, key, value, nameof(key));
+            return this;
+        }
+
+        /// <summary>
         /// Creates the port definition from the values set so far.
         /// </summary>
         /// <returns>An immutable <see cref="PortDefinition"/>.</returns>
@@ -141,6 +157,7 @@ namespace DockerComposeFluent.Builders
             return new PortDefinition(_target.Value)
             {
                 AppProtocol = _appProtocol,
+                Extensions = _extensions,
                 HostIp = _hostIp,
                 Mode = _mode,
                 Name = _name,

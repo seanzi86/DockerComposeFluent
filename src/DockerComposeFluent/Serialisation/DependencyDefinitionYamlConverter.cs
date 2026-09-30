@@ -17,6 +17,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteScalarEntry("condition", EnumNames.Of(value.Condition ?? DependencyCondition.ServiceStarted));
             emitter.WriteOptionalBoolean("required", value.Required);
             emitter.WriteOptionalBoolean("restart", value.Restart);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

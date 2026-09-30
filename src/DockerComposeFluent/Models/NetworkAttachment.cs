@@ -61,6 +61,13 @@ namespace DockerComposeFluent.Models
         public int? Priority { get; init; }
 
         /// <summary>
+        /// The extension fields defined on this attachment, keyed by their <c>x-</c> name. Compose ignores
+        /// these; they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
+
+        /// <summary>
         /// Whether no setting is used, so the attachment is just a network name.
         /// </summary>
         public bool IsEmpty
@@ -75,7 +82,8 @@ namespace DockerComposeFluent.Models
                     && Ipv6Address == null
                     && LinkLocalIps.Count == 0
                     && MacAddress == null
-                    && Priority == null;
+                    && Priority == null
+                    && Extensions.Count == 0;
             }
         }
     }

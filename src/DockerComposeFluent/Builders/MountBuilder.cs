@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DockerComposeFluent.Models;
 
 namespace DockerComposeFluent.Builders
@@ -19,6 +20,7 @@ namespace DockerComposeFluent.Builders
         private VolumeOptions? _volume;
         private TmpfsOptions? _tmpfs;
         private ImageOptions? _image;
+        private IReadOnlyDictionary<string, object?> _extensions = Collections.EmptyDictionary<object?>();
 
         /// <summary>
         /// Sets the kind of mount.
@@ -193,6 +195,20 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets an extension field on this mount. Setting the same key again replaces its value. Compose
+        /// ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        /// <param name="key">The field key, which must start with <c>x-</c>.</param>
+        /// <param name="value">The field value, serialised as-is.</param>
+        /// <returns>This builder.</returns>
+        public MountBuilder WithExtension(string key, object? value)
+        {
+            _extensions = ExtensionsMutator.Set(_extensions, key, value, nameof(key));
+            return this;
+        }
+
+        /// <summary>
         /// Creates the mount definition from the values set so far.
         /// </summary>
         /// <returns>An immutable <see cref="MountDefinition"/>.</returns>
@@ -227,6 +243,7 @@ namespace DockerComposeFluent.Builders
             {
                 Bind = _bind,
                 Consistency = _consistency,
+                Extensions = _extensions,
                 Image = _image,
                 ReadOnly = _readOnly,
                 Source = _source,

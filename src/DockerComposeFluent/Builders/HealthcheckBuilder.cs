@@ -198,6 +198,20 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets an extension field on this healthcheck. Setting the same key again replaces its value.
+        /// Compose ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        /// <param name="key">The field key, which must start with <c>x-</c>.</param>
+        /// <param name="value">The field value, serialised as-is.</param>
+        /// <returns>This builder.</returns>
+        public HealthcheckBuilder WithExtension(string key, object? value)
+        {
+            _healthcheck = _healthcheck with { Extensions = ExtensionsMutator.Set(_healthcheck.Extensions, key, value, nameof(key)) };
+            return this;
+        }
+
+        /// <summary>
         /// Creates the healthcheck from the values set so far.
         /// </summary>
         /// <returns>An immutable <see cref="HealthcheckDefinition"/>.</returns>

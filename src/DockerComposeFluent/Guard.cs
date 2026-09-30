@@ -199,5 +199,22 @@ namespace DockerComposeFluent
                 throw new ArgumentException("An environment variable name must not contain '='.", parameterName);
             }
         }
+
+        /// <summary>
+        /// Throws if <paramref name="value"/> is not usable as an extension field key: it must not be blank
+        /// and must start with the compose-spec <c>x-</c> prefix.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        /// <param name="value">The key to check.</param>
+        /// <param name="parameterName">The name of the parameter being checked.</param>
+        internal static void ExtensionKey(string? value, string parameterName)
+        {
+            NotNullOrWhiteSpace(value, parameterName);
+
+            if (!value!.StartsWith("x-", StringComparison.Ordinal))
+            {
+                throw new ArgumentException($"'{value}' is not an extension field key. It must start with 'x-'.", parameterName);
+            }
+        }
     }
 }

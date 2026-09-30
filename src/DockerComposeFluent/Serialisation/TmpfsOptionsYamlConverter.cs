@@ -15,6 +15,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.StartMapping();
             emitter.WriteOptionalInteger("mode", value.Mode);
             emitter.WriteOptionalScalar("size", value.Size);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

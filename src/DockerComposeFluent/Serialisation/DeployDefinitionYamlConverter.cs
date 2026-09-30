@@ -27,6 +27,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalValue("restart_policy", value.RestartPolicy, serialiser);
             emitter.WriteOptionalValue("rollback_config", value.RollbackConfig, serialiser);
             emitter.WriteOptionalValue("update_config", value.UpdateConfig, serialiser);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

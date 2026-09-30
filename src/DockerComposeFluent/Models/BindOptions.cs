@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace DockerComposeFluent.Models
 {
     /// <summary>
@@ -21,5 +23,12 @@ namespace DockerComposeFluent.Models
         /// The SELinux re-labelling option, as specified by <c>selinux</c>.
         /// </summary>
         public SelinuxLabel? Selinux { get; init; }
+
+        /// <summary>
+        /// The extension fields defined on these bind options, keyed by their <c>x-</c> name. Compose ignores
+        /// these; they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
     }
 }

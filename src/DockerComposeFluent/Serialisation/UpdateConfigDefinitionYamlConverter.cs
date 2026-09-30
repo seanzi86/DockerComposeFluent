@@ -19,6 +19,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalScalar("monitor", value.Monitor);
             emitter.WriteOptionalScalar("order", EnumNames.Of(value.Order));
             emitter.WriteOptionalInteger("parallelism", value.Parallelism);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

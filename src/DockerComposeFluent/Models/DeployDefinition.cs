@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace DockerComposeFluent.Models
 {
     /// <summary>
@@ -55,5 +57,12 @@ namespace DockerComposeFluent.Models
         /// How to roll out an update to the service, as specified by <c>update_config</c>.
         /// </summary>
         public UpdateConfigDefinition? UpdateConfig { get; init; }
+
+        /// <summary>
+        /// The extension fields defined on <c>deploy</c>, keyed by their <c>x-</c> name. Compose ignores
+        /// these; they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
     }
 }

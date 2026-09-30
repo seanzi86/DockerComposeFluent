@@ -31,5 +31,12 @@ namespace DockerComposeFluent.Models
         /// The devices to reserve, as specified by <c>devices</c>. Empty when none are set.
         /// </summary>
         public IReadOnlyList<DeviceDefinition> Devices { get; init; } = Array.Empty<DeviceDefinition>();
+
+        /// <summary>
+        /// The extension fields defined on <c>deploy.resources.reservations</c>, keyed by their <c>x-</c>
+        /// name. Compose ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
     }
 }

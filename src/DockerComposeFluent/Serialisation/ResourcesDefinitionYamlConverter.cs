@@ -15,6 +15,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.StartMapping();
             emitter.WriteOptionalValue("limits", value.Limits, serialiser);
             emitter.WriteOptionalValue("reservations", value.Reservations, serialiser);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }
