@@ -18,6 +18,7 @@ const endMarker = "<!-- supported-properties:end -->";
 // Order matters: roughly the order a reader meets these while writing a compose file - a service's own
 // properties first, then the nested concepts a service can reference, then the top-level entries.
 const sections = [
+  { type: "IncludeDefinition", title: "Include", path: "`include`" },
   { type: "ServiceDefinition", title: "Services", path: "`services.<name>`" },
   { type: "DeployDefinition", title: "Deploy", path: "`services.<name>.deploy`" },
   { type: "PlacementDefinition", title: "Deploy placement", path: "`services.<name>.deploy.placement`" },

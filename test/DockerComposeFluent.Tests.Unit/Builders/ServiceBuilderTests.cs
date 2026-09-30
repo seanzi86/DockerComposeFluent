@@ -25,6 +25,14 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         }
 
         [Fact]
+        public void WithPlatform_SetsIt()
+        {
+            ServiceDefinition service = new ServiceBuilder().WithPlatform("linux/amd64").Build();
+
+            Assert.Equal("linux/amd64", service.Platform);
+        }
+
+        [Fact]
         public void Build_ReturnsSnapshot_UnaffectedByLaterChanges()
         {
             ServiceBuilder builder = new ServiceBuilder().WithImage("nginx");
@@ -42,6 +50,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
 
             Assert.Throws<ArgumentException>(() => builder.WithImage(" "));
             Assert.Throws<ArgumentException>(() => builder.WithContainerName(""));
+            Assert.Throws<ArgumentException>(() => builder.WithPlatform(" "));
         }
 
         [Fact]

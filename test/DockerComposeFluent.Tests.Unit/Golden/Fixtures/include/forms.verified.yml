@@ -1,0 +1,11 @@
+include:
+  - "./common.yml"
+  - env_file:
+      - "./other.env"
+    path:
+      - "./other.yml"
+    project_directory: "."
+  - "./common.yml"
+services:
+  "web":
+    image: "example/web"

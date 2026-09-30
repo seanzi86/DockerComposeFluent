@@ -989,6 +989,19 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets the target platform to run the container on.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#platform"/>
+        /// </summary>
+        /// <param name="platform">The platform, for example <c>linux/amd64</c> or <c>linux/arm64</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPlatform(string platform)
+        {
+            Guard.NotNullOrWhiteSpace(platform, nameof(platform));
+            _definition = _definition with { Platform = platform };
+            return this;
+        }
+
+        /// <summary>
         /// Sets an environment variable. Setting the same name again replaces it.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
         /// </summary>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DockerComposeFluent.Serialisation;
 
@@ -14,6 +15,13 @@ namespace DockerComposeFluent.Models
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/04-version-and-name.md#name-top-level-element"/>
         /// </summary>
         public string? Name { get; init; }
+
+        /// <summary>
+        /// Other Compose applications or sub-projects to include, as specified by the top-level <c>include</c>
+        /// property. Included files are resolved before the rest of this file. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
+        /// </summary>
+        public IReadOnlyList<IncludeDefinition> Includes { get; init; } = Array.Empty<IncludeDefinition>();
 
         /// <summary>
         /// The services defined under the top-level <c>services</c> property, keyed by service name.

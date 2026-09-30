@@ -10,6 +10,14 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 
 <!-- supported-properties:begin -->
 
+### Include (`include`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `path` | The paths to the Compose files to include. | Core spec |
+| `env_file` | The paths to environment files that provide default values when interpolating variables in the included files. | Core spec |
+| `project_directory` | The directory relative paths in the included file are resolved against. | Core spec |
+
 ### Services (`services.<name>`)
 
 | Property | Description | Since Compose |
@@ -27,6 +35,7 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | [`label_file`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#label_file) | The files to load labels from. | 2.32.0+ |
 | [`healthcheck`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | The check that decides whether the service's containers are healthy. | Core spec |
 | [`networks`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks) | The networks the service joins and their settings, keyed by network name. | Core spec |
+| [`platform`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#platform) | The target platform to run the container on. | Core spec |
 | [`ports`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports) | The ports to expose. | Core spec |
 | [`restart`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#restart) | When the container is restarted. | Core spec |
 | [`logging`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging) | The logging configuration. | Core spec |
