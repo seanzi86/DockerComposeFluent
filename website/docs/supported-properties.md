@@ -22,6 +22,7 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | [`entrypoint`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#entrypoint) | The entrypoint that overrides the image's default entrypoint. | Core spec |
 | [`env_file`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file) | The files to read environment variables from. | Core spec |
 | [`environment`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment) | The environment variables set in the container. | Core spec |
+| [`extends`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extends) | The other service this service extends, sharing its configuration as a base. | Core spec |
 | [`labels`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels) | The labels attached to the service. | Core spec |
 | [`label_file`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#label_file) | The files to load labels from. | 2.32.0+ |
 | [`healthcheck`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | The check that decides whether the service's containers are healthy. | Core spec |
@@ -146,6 +147,13 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
 | [`format`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#format) | The alternative parsing format for the file. | 2.30.0+ |
+
+### Extends, long syntax (`services.<name>.extends`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `service` | The name of the service being referenced as a base. | Core spec |
+| `file` | The Compose file the referenced service is defined in. | Core spec |
 
 ### Logging (`services.<name>.logging`)
 

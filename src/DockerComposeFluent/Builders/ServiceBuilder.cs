@@ -322,6 +322,62 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets the other service this service extends, referencing a service in the same file, written to
+        /// YAML as a plain string.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extends"/>
+        /// </summary>
+        /// <param name="service">The name of the service being referenced as a base.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithExtends(string service)
+        {
+            Guard.NotNullOrWhiteSpace(service, nameof(service));
+            return WithExtends(new ExtendsDefinition { Service = service });
+        }
+
+        /// <summary>
+        /// Sets the other service this service extends, referencing a service in another Compose file.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extends"/>
+        /// </summary>
+        /// <param name="service">The name of the service being referenced as a base.</param>
+        /// <param name="file">The Compose file it is defined in. Relative paths are resolved against the
+        /// main Compose file's location.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithExtends(string service, string file)
+        {
+            Guard.NotNullOrWhiteSpace(service, nameof(service));
+            Guard.NotNullOrWhiteSpace(file, nameof(file));
+            return WithExtends(new ExtendsDefinition { Service = service, File = file });
+        }
+
+        /// <summary>
+        /// Sets the other service this service extends, from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extends"/>
+        /// </summary>
+        /// <param name="extends">The extends definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithExtends(ExtendsDefinition extends)
+        {
+            Guard.NotNull(extends, nameof(extends));
+            _definition = _definition with { Extends = extends };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the other service this service extends, configured through an <see cref="ExtendsBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extends"/>
+        /// </summary>
+        /// <param name="configure">Configures the extends definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithExtends(Action<ExtendsBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            ExtendsBuilder builder = new ExtendsBuilder();
+            configure(builder);
+            return WithExtends(builder.Build());
+        }
+
+        /// <summary>
         /// Adds a port mapping in short syntax, written to YAML as a string. Each call adds another port.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
         /// </summary>
