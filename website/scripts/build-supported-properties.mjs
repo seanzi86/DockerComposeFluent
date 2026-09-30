@@ -31,6 +31,7 @@ const sections = [
   { type: "HealthcheckDefinition", title: "Healthcheck", path: "`services.<name>.healthcheck`" },
   { type: "DependencyDefinition", title: "Service dependency, long syntax", path: "`services.<name>.depends_on.<name>`" },
   { type: "EnvFileEntry", title: "Env file entry, long syntax", path: "`services.<name>.env_file`" },
+  { type: "ExtendsDefinition", title: "Extends, long syntax", path: "`services.<name>.extends`" },
   { type: "LoggingDefinition", title: "Logging", path: "`services.<name>.logging`" },
   { type: "PortDefinition", title: "Port, long syntax", path: "`services.<name>.ports`" },
   { type: "NetworkAttachment", title: "Service network attachment", path: "`services.<name>.networks.<name>`" },

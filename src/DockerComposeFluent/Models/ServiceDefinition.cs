@@ -61,6 +61,15 @@ namespace DockerComposeFluent.Models
         public EnvironmentVariables Environment { get; init; } = new EnvironmentVariables();
 
         /// <summary>
+        /// The other service this service extends, sharing its configuration as a base, as specified by
+        /// <c>extends</c>. Compose does not automatically pull in the referenced service's <c>volumes</c>,
+        /// <c>networks</c>, <c>configs</c>, <c>secrets</c> or <c>depends_on</c> - declare them explicitly on
+        /// this service if they are needed.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extends"/>
+        /// </summary>
+        public ExtendsDefinition? Extends { get; init; }
+
+        /// <summary>
         /// The labels attached to the service, as specified by <c>labels</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels"/>
         /// </summary>
