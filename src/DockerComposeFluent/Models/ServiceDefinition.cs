@@ -99,6 +99,13 @@ namespace DockerComposeFluent.Models
         public IReadOnlyDictionary<string, NetworkAttachment> Networks { get; init; } = Collections.EmptyDictionary<NetworkAttachment>();
 
         /// <summary>
+        /// The target platform to run the container on, as specified by <c>platform</c>, for example
+        /// <c>linux/amd64</c> or <c>linux/arm64</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#platform"/>
+        /// </summary>
+        public string? Platform { get; init; }
+
+        /// <summary>
         /// The ports to expose, as specified by <c>ports</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
         /// </summary>

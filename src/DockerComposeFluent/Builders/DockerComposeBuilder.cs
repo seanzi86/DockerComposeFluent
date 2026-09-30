@@ -16,6 +16,7 @@ namespace DockerComposeFluent.Builders
         private readonly Dictionary<string, VolumeDefinition> _volumes = new Dictionary<string, VolumeDefinition>();
         private readonly Dictionary<string, SecretDefinition> _secrets = new Dictionary<string, SecretDefinition>();
         private readonly Dictionary<string, ConfigDefinition> _configs = new Dictionary<string, ConfigDefinition>();
+        private readonly List<IncludeDefinition> _includes = new List<IncludeDefinition>();
         private string? _name;
         private IReadOnlyDictionary<string, object?> _extensions = Collections.EmptyDictionary<object?>();
 
@@ -45,6 +46,67 @@ namespace DockerComposeFluent.Builders
         {
             _extensions = ExtensionsMutator.Set(_extensions, key, value, nameof(key));
             return this;
+        }
+
+        /// <summary>
+        /// Adds a Compose file to include, referenced by its path, written to YAML as a plain string.
+        /// Included files are resolved before the rest of this file.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
+        /// </summary>
+        /// <param name="path">The file path.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithInclude(string path)
+        {
+            Guard.NotNullOrWhiteSpace(path, nameof(path));
+            return WithInclude(new IncludeDefinition { Path = new[] { path } });
+        }
+
+        /// <summary>
+        /// Adds several Compose files to include, each referenced by its path. Each call to this method adds
+        /// one <c>include</c> entry per path; use <see cref="WithInclude(Action{IncludeBuilder})"/> for an
+        /// entry that includes several paths together.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
+        /// </summary>
+        /// <param name="paths">The file paths.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithIncludes(IEnumerable<string> paths)
+        {
+            Guard.NotNull(paths, nameof(paths));
+
+            foreach (string path in paths)
+            {
+                WithInclude(path);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a Compose file to include, from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
+        /// </summary>
+        /// <param name="include">The include definition.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithInclude(IncludeDefinition include)
+        {
+            Guard.NotNull(include, nameof(include));
+            _includes.Add(include);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a Compose file to include, configured through an <see cref="IncludeBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
+        /// </summary>
+        /// <param name="configure">Configures the include.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithInclude(Action<IncludeBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            IncludeBuilder builder = new IncludeBuilder();
+            configure(builder);
+            return WithInclude(builder.Build());
         }
 
         /// <summary>
@@ -216,6 +278,7 @@ namespace DockerComposeFluent.Builders
             return new DockerComposeFile
             {
                 Name = _name,
+                Includes = new List<IncludeDefinition>(_includes),
                 Services = new Dictionary<string, ServiceDefinition>(_services),
                 Networks = new Dictionary<string, NetworkDefinition>(_networks),
                 Volumes = new Dictionary<string, VolumeDefinition>(_volumes),
