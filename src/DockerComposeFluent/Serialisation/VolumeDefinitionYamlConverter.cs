@@ -14,6 +14,8 @@ namespace DockerComposeFluent.Serialisation
         {
             emitter.StartMapping();
             emitter.WriteOptionalScalar("driver", value.Driver);
+            emitter.WriteOptionalStringMap("driver_opts", value.DriverOptions);
+            emitter.WriteOptionalBoolean("external", value.External);
 
             if (value.Labels.Values.Count > 0)
             {
