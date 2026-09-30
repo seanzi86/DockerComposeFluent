@@ -267,6 +267,8 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
 | [`driver`](https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#driver) | The volume driver to use. | Core spec |
+| [`driver_opts`](https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#driver_opts) | Driver-specific options as key-value pairs. | Core spec |
+| [`external`](https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#external) | Whether the volume's lifecycle is managed outside this application. | Core spec |
 | [`labels`](https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#labels) | The labels attached to the volume. | Core spec |
 | [`name`](https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#name) | The actual Docker volume name to use, overriding the default name generated from the project name and the key this volume is defined under. | Core spec |
 

@@ -69,6 +69,52 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets a driver-specific option. Setting the same key again replaces its value.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#driver_opts"/>
+        /// </summary>
+        /// <param name="key">The option name.</param>
+        /// <param name="value">The option value.</param>
+        /// <returns>This builder.</returns>
+        public VolumeBuilder WithDriverOption(string key, string value)
+        {
+            Guard.NotNullOrWhiteSpace(key, nameof(key));
+            Guard.NotNull(value, nameof(value));
+
+            _definition = _definition with { DriverOptions = Collections.With(_definition.DriverOptions, key, value) };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets several driver-specific options at once. Setting the same key again replaces its value.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#driver_opts"/>
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <returns>This builder.</returns>
+        public VolumeBuilder WithDriverOptions(IEnumerable<KeyValuePair<string, string>> options)
+        {
+            Guard.NotNull(options, nameof(options));
+
+            foreach (KeyValuePair<string, string> option in options)
+            {
+                WithDriverOption(option.Key, option.Value);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Marks this volume as already created outside Compose.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#external"/>
+        /// </summary>
+        /// <param name="external"><c>true</c> if the volume already exists.</param>
+        /// <returns>This builder.</returns>
+        public VolumeBuilder WithExternal(bool external)
+        {
+            _definition = _definition with { External = external };
+            return this;
+        }
+
+        /// <summary>
         /// Sets the actual Docker volume name, overriding the name generated from the project name and key.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#name"/>
         /// </summary>

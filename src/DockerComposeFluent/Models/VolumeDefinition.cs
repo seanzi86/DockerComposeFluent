@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace DockerComposeFluent.Models
 {
     /// <summary>
@@ -11,6 +13,18 @@ namespace DockerComposeFluent.Models
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#driver"/>
         /// </summary>
         public string? Driver { get; init; }
+
+        /// <summary>
+        /// Driver-specific options as key-value pairs, as specified by <c>driver_opts</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#driver_opts"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, string> DriverOptions { get; init; } = Collections.EmptyDictionary<string>();
+
+        /// <summary>
+        /// Whether the volume's lifecycle is managed outside this application, as specified by <c>external</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#external"/>
+        /// </summary>
+        public bool? External { get; init; }
 
         /// <summary>
         /// The labels attached to the volume, as specified by <c>labels</c>.
