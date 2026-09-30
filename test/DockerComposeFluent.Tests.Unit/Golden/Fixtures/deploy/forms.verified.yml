@@ -1,0 +1,40 @@
+services:
+  "web":
+    deploy:
+      endpoint_mode: "vip"
+      labels:
+        com.example.description: "Front-end web service"
+      mode: "replicated"
+      placement:
+        constraints:
+          - "node.role==worker"
+          - "disktype=ssd"
+        max_replicas_per_node: 2
+        preferences:
+          - spread: "node.labels.zone"
+      replicas: 6
+      restart_policy:
+        condition: "on-failure"
+        delay: "5s"
+        max_attempts: 3
+        window: "120s"
+      rollback_config:
+        delay: "10s"
+        failure_action: "continue"
+        max_failure_ratio: 0.3
+        monitor: "30s"
+        order: "start-first"
+        parallelism: 2
+      update_config:
+        delay: "10s"
+        failure_action: "rollback"
+        max_failure_ratio: 0.1
+        monitor: "15s"
+        order: "stop-first"
+        parallelism: 1
+    image: "example/web"
+  "worker":
+    deploy:
+      endpoint_mode: "dnsrr"
+      mode: "global"
+    image: "example/worker"

@@ -1,0 +1,89 @@
+using System;
+using DockerComposeFluent.Models;
+
+namespace DockerComposeFluent.Builders
+{
+    /// <summary>
+    /// Fluently builds a <see cref="ResourceReservationsDefinition"/>.
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/deploy.md#resources"/>
+    /// </summary>
+    public sealed class ResourceReservationsBuilder
+    {
+        private ResourceReservationsDefinition _definition = new ResourceReservationsDefinition();
+
+        /// <summary>
+        /// Sets the number of CPU cores the container can use.
+        /// </summary>
+        /// <param name="cpus">The core count, for example <c>"0.25"</c>.</param>
+        /// <returns>This builder.</returns>
+        public ResourceReservationsBuilder WithCpus(string cpus)
+        {
+            Guard.NotNullOrWhiteSpace(cpus, nameof(cpus));
+            _definition = _definition with { Cpus = cpus };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the amount of memory the container can allocate.
+        /// </summary>
+        /// <param name="memory">A compose-spec byte value, such as <c>20M</c>.</param>
+        /// <returns>This builder.</returns>
+        public ResourceReservationsBuilder WithMemory(string memory)
+        {
+            Guard.NotNullOrWhiteSpace(memory, nameof(memory));
+            _definition = _definition with { Memory = memory };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the container's PID limit.
+        /// </summary>
+        /// <param name="pids">The limit, which must be positive.</param>
+        /// <returns>This builder.</returns>
+        public ResourceReservationsBuilder WithPids(int pids)
+        {
+            if (pids < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pids), pids, "The PID limit must be positive.");
+            }
+
+            _definition = _definition with { Pids = pids };
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a device to reserve, from an existing definition.
+        /// </summary>
+        /// <param name="device">The device definition.</param>
+        /// <returns>This builder.</returns>
+        public ResourceReservationsBuilder WithDevice(DeviceDefinition device)
+        {
+            Guard.NotNull(device, nameof(device));
+            _definition = _definition with { Devices = Collections.Append(_definition.Devices, device) };
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a device to reserve, configured through a <see cref="DeviceBuilder"/>.
+        /// </summary>
+        /// <param name="configure">Configures the device.</param>
+        /// <returns>This builder.</returns>
+        public ResourceReservationsBuilder WithDevice(Action<DeviceBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            DeviceBuilder builder = new DeviceBuilder();
+            configure(builder);
+            return WithDevice(builder.Build());
+        }
+
+        /// <summary>
+        /// Creates the resource reservations from the values set so far.
+        /// </summary>
+        /// <returns>An immutable <see cref="ResourceReservationsDefinition"/>.</returns>
+        public ResourceReservationsDefinition Build()
+        {
+            return _definition;
+        }
+    }
+}
