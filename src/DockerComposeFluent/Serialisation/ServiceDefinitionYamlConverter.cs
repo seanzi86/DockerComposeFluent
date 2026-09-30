@@ -22,6 +22,7 @@ namespace DockerComposeFluent.Serialisation
                 emitter.WriteOptionalValue("depends_on", value.DependsOn, serialiser);
             }
 
+            emitter.WriteOptionalValue("deploy", value.Deploy, serialiser);
             emitter.WriteOptionalValue("entrypoint", value.Entrypoint, serialiser);
 
             emitter.WriteOptionalSequence("env_file", value.EnvFiles, serialiser);

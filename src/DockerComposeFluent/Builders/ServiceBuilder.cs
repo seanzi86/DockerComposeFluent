@@ -269,6 +269,34 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets deployment metadata for the service, from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/deploy.md"/>
+        /// </summary>
+        /// <param name="deploy">The deploy definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithDeploy(DeployDefinition deploy)
+        {
+            Guard.NotNull(deploy, nameof(deploy));
+            _definition = _definition with { Deploy = deploy };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets deployment metadata for the service, configured through a <see cref="DeployBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/deploy.md"/>
+        /// </summary>
+        /// <param name="configure">Configures the deployment metadata.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithDeploy(Action<DeployBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            DeployBuilder builder = new DeployBuilder();
+            configure(builder);
+            return WithDeploy(builder.Build());
+        }
+
+        /// <summary>
         /// Sets the entrypoint as a single shell-form string, written to YAML as a string.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#entrypoint"/>
         /// </summary>

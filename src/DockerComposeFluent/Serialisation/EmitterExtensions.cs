@@ -175,6 +175,24 @@ namespace DockerComposeFluent.Serialisation
         }
 
         /// <summary>
+        /// Writes a fixed key and a floating-point value as a plain (unquoted) number, or nothing when
+        /// <paramref name="value"/> is <c>null</c>.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="key">The fixed key to write.</param>
+        /// <param name="value">The value to write, or <c>null</c> to omit the entry.</param>
+        internal static void WriteOptionalNumber(this IEmitter emitter, string key, double? value)
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            emitter.WriteKey(key);
+            emitter.Emit(new Scalar(value.Value.ToString(CultureInfo.InvariantCulture)));
+        }
+
+        /// <summary>
         /// Writes a fixed key and a block sequence of user-supplied strings, or nothing when
         /// <paramref name="values"/> is empty.
         /// </summary>

@@ -35,6 +35,13 @@ namespace DockerComposeFluent.Models
         public IReadOnlyDictionary<string, DependencyDefinition> DependsOn { get; init; } = Collections.EmptyDictionary<DependencyDefinition>();
 
         /// <summary>
+        /// Deployment metadata for the service, so a platform such as Docker Swarm can allocate and configure
+        /// resources for it, as specified by <c>deploy</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/deploy.md"/>
+        /// </summary>
+        public DeployDefinition? Deploy { get; init; }
+
+        /// <summary>
         /// The entrypoint that overrides the image's default entrypoint, as specified by <c>entrypoint</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#entrypoint"/>
         /// </summary>

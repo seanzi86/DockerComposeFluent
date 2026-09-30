@@ -197,6 +197,148 @@ namespace DockerComposeFluent.Serialisation
             }
         }
 
+        /// <summary>
+        /// Gets the spelling of a deployment mode, or <c>null</c> when it is not set.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The compose-spec spelling, or <c>null</c>.</returns>
+        internal static string? Of(DeployMode? value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            switch (value.Value)
+            {
+                case DeployMode.Replicated:
+                    return "replicated";
+                case DeployMode.Global:
+                    return "global";
+                default:
+                    throw Unknown(value.Value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the spelling of an endpoint mode, or <c>null</c> when it is not set.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The compose-spec spelling, or <c>null</c>.</returns>
+        internal static string? Of(EndpointMode? value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            switch (value.Value)
+            {
+                case EndpointMode.Vip:
+                    return "vip";
+                case EndpointMode.Dnsrr:
+                    return "dnsrr";
+                default:
+                    throw Unknown(value.Value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the spelling of a deploy restart condition, or <c>null</c> when it is not set.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The compose-spec spelling, or <c>null</c>.</returns>
+        internal static string? Of(DeployRestartCondition? value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            switch (value.Value)
+            {
+                case DeployRestartCondition.None:
+                    return "none";
+                case DeployRestartCondition.OnFailure:
+                    return "on-failure";
+                case DeployRestartCondition.Any:
+                    return "any";
+                default:
+                    throw Unknown(value.Value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the spelling of a rollback failure action, or <c>null</c> when it is not set.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The compose-spec spelling, or <c>null</c>.</returns>
+        internal static string? Of(RollbackFailureAction? value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            switch (value.Value)
+            {
+                case RollbackFailureAction.Continue:
+                    return "continue";
+                case RollbackFailureAction.Pause:
+                    return "pause";
+                default:
+                    throw Unknown(value.Value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the spelling of an update failure action, or <c>null</c> when it is not set.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The compose-spec spelling, or <c>null</c>.</returns>
+        internal static string? Of(UpdateFailureAction? value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            switch (value.Value)
+            {
+                case UpdateFailureAction.Continue:
+                    return "continue";
+                case UpdateFailureAction.Pause:
+                    return "pause";
+                case UpdateFailureAction.Rollback:
+                    return "rollback";
+                default:
+                    throw Unknown(value.Value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the spelling of a rollout order, or <c>null</c> when it is not set.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The compose-spec spelling, or <c>null</c>.</returns>
+        internal static string? Of(RolloutOrder? value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            switch (value.Value)
+            {
+                case RolloutOrder.StopFirst:
+                    return "stop-first";
+                case RolloutOrder.StartFirst:
+                    return "start-first";
+                default:
+                    throw Unknown(value.Value);
+            }
+        }
+
         private static ArgumentOutOfRangeException Unknown<T>(T value)
             where T : struct
         {
