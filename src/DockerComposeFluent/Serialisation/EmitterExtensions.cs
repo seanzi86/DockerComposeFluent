@@ -175,6 +175,32 @@ namespace DockerComposeFluent.Serialisation
         }
 
         /// <summary>
+        /// Writes a fixed key and a value that Compose accepts as a boolean or a string. The text <c>true</c> and
+        /// <c>false</c> are written as plain booleans, anything else as a quoted string. Nothing is written when
+        /// <paramref name="value"/> is <c>null</c>.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="key">The fixed key to write.</param>
+        /// <param name="value">The value to write, or <c>null</c> to omit the entry.</param>
+        internal static void WriteOptionalBooleanOrString(this IEmitter emitter, string key, string? value)
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            emitter.WriteKey(key);
+            if (value == "true" || value == "false")
+            {
+                emitter.Emit(new Scalar(value));
+            }
+            else
+            {
+                emitter.WriteScalar(value);
+            }
+        }
+
+        /// <summary>
         /// Writes a fixed key and a 64-bit integer value as a plain (unquoted) number, or nothing when
         /// <paramref name="value"/> is <c>null</c>.
         /// </summary>

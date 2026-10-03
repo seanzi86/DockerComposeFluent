@@ -559,6 +559,12 @@ namespace DockerComposeFluent.Models
         public IReadOnlyList<ServiceHookDefinition> PreStop { get; init; } = Array.Empty<ServiceHookDefinition>();
 
         /// <summary>
+        /// How to build the service's image from source, as specified by <c>build</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md"/>
+        /// </summary>
+        public BuildDefinition? Build { get; init; }
+
+        /// <summary>
         /// The extension fields defined on this service, keyed by their <c>x-</c> name. Compose ignores these;
         /// they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
