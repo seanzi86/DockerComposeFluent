@@ -1,0 +1,51 @@
+services:
+  "limited":
+    image: "example/app"
+    cpu_count: 2
+    cpu_percent: 50
+    cpu_period: 100000
+    cpu_quota: 50000
+    cpu_rt_period: 1000000
+    cpu_rt_runtime: 950000
+    cpu_shares: 512
+    cpus: "0.5"
+    cpuset: "0-1"
+    mem_limit: "512m"
+    mem_reservation: "256m"
+    mem_swappiness: 10
+    memswap_limit: "1g"
+    oom_kill_disable: true
+    oom_score_adj: -500
+    pids_limit: -1
+    shm_size: "128m"
+    blkio_config:
+      device_read_bps:
+        - path: "/dev/sdb"
+          rate: "12mb"
+      device_read_iops:
+        - path: "/dev/sdb"
+          rate: "120"
+      device_write_bps:
+        - path: "/dev/sdb"
+          rate: "1gb"
+      device_write_iops:
+        - path: "/dev/sdb"
+          rate: "30"
+      weight: 300
+      weight_device:
+        - path: "/dev/sda"
+          weight: 400
+    storage_opt:
+      "size": "20G"
+    sysctls:
+      "net.core.somaxconn": "1024"
+      "net.ipv4.tcp_syncookies": "0"
+    ulimits:
+      "nproc": 65535
+      "nofile":
+        hard: 40000
+        soft: 20000
+      "core":
+        hard: 0
+        soft: 0
+        x-note: no core dumps
