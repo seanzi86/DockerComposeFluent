@@ -33,6 +33,12 @@ namespace DockerComposeFluent.Models
         public IReadOnlyList<DeviceDefinition> Devices { get; init; } = Array.Empty<DeviceDefinition>();
 
         /// <summary>
+        /// The user-defined resources to reserve, as specified by <c>generic_resources</c>. Empty when none are
+        /// set.
+        /// </summary>
+        public IReadOnlyList<GenericResourceDefinition> GenericResources { get; init; } = Array.Empty<GenericResourceDefinition>();
+
+        /// <summary>
         /// The extension fields defined on <c>deploy.resources.reservations</c>, keyed by their <c>x-</c>
         /// name. Compose ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>

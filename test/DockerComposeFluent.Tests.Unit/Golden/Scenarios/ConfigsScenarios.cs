@@ -13,6 +13,21 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
         /// A file-backed config, an external config, and an inline-content config, referenced from services
         /// using the short form, the target-renaming helper, and the long form.
         /// </summary>
+        /// <summary>
+        /// The optional top-level config settings: labels (in the list form) and a template driver.
+        /// </summary>
+        [Scenario]
+        internal static DockerComposeFile Settings()
+        {
+            return new DockerComposeBuilder()
+                .WithService("app", service => service.WithImage("example/app").WithConfig("templated"))
+                .WithConfig("templated", config => config
+                    .WithContent("name={{ .Name }}")
+                    .WithLabels(new[] { "com.example.owner=platform", "com.example.reviewed" })
+                    .WithTemplateDriver("golang"))
+                .Build();
+        }
+
         [Scenario]
         internal static DockerComposeFile Forms()
         {

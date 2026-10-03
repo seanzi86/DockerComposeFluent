@@ -13,10 +13,19 @@ namespace DockerComposeFluent.Serialisation
         protected override void Write(IEmitter emitter, SecretDefinition value, ObjectSerializer serialiser)
         {
             emitter.StartMapping();
+            emitter.WriteOptionalScalar("driver", value.Driver);
+            emitter.WriteOptionalStringMap("driver_opts", value.DriverOptions);
             emitter.WriteOptionalBoolean("external", value.External);
             emitter.WriteOptionalScalar("environment", value.Environment);
             emitter.WriteOptionalScalar("file", value.File);
+
+            if (value.Labels.Values.Count > 0)
+            {
+                emitter.WriteOptionalValue("labels", value.Labels, serialiser);
+            }
+
             emitter.WriteOptionalScalar("name", value.Name);
+            emitter.WriteOptionalScalar("template_driver", value.TemplateDriver);
             emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }

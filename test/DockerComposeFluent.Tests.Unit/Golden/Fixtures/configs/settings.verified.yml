@@ -1,0 +1,12 @@
+services:
+  "app":
+    configs:
+      - "templated"
+    image: "example/app"
+configs:
+  "templated":
+    content: "name={{ .Name }}"
+    labels:
+      - "com.example.owner=platform"
+      - "com.example.reviewed="
+    template_driver: "golang"

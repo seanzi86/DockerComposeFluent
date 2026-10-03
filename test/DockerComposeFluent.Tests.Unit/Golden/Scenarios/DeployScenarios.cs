@@ -60,6 +60,32 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
         }
 
         /// <summary>
+        /// User-defined generic resources reserved alongside the standard ones, in each of the three forms.
+        /// </summary>
+        [Scenario]
+        internal static DockerComposeFile GenericResources()
+        {
+            return new DockerComposeBuilder()
+                .WithService("worker", service => service
+                    .WithImage("example/worker")
+                    .WithDeploy(deploy => deploy
+                        .WithResources(resources => resources
+                            .WithReservations(reservations => reservations
+                                .WithGenericResource("SSD", 1)
+                                .WithGenericResource(new GenericResourceDefinition
+                                {
+                                    DiscreteResourceSpec = new DiscreteResourceSpecDefinition { Kind = "FPGA", Value = 2 }
+                                })
+                                .WithGenericResource(resource => resource
+                                    .WithDiscreteResourceSpec(spec => spec
+                                        .WithKind("GPU")
+                                        .WithValue(4)
+                                        .WithExtension("x-vendor", "acme"))
+                                    .WithExtension("x-note", "reserved for training"))))))
+                .Build();
+        }
+
+        /// <summary>
         /// Resource limits and reservations, including a device reservation, and the device-reservation forms
         /// (capabilities only, a driver, a device count, and explicit device IDs).
         /// </summary>
