@@ -80,7 +80,7 @@ volumes:
 
 ## What is supported
 
-- **Services:** `image`, `container_name`, `command`, `depends_on`, `deploy`, `entrypoint`, `env_file`, `environment`, `extends`, `healthcheck`, `label_file`, `labels`, `logging`, `networks`, `platform`, `ports`, `profiles`, `restart`, `secrets`, `configs` and `volumes`.
+- **Services:** `image`, `container_name`, `command`, `depends_on`, `deploy`, `entrypoint`, `env_file`, `environment`, `extends`, `healthcheck`, `label_file`, `labels`, `logging`, `networks`, `platform`, `ports`, `profiles`, `restart`, `secrets`, `configs` and `volumes`, plus the common settings `hostname`, `domainname`, `user`, `working_dir`, `mac_address`, `stop_signal`, `stop_grace_period`, `init`, `privileged`, `read_only`, `stdin_open`, `tty`, `runtime`, `pull_policy`, `pull_refresh_after`, `isolation`, `attach`, `scale` and `use_api_socket`.
 - **Top level:** `name`, `include`, `networks` (including `ipam` and `labels`), `volumes` (including `driver_opts`, `external` and `labels`), `secrets` and `configs`.
 - **Extension fields:** every modelled object - the file itself, every service, and every nested setting such as `deploy`, `healthcheck` or a mount's `bind` options - has a `WithExtension(key, value)` for custom `x-` fields, which Compose ignores but many tools and YAML anchors rely on.
 
