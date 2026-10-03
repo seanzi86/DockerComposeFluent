@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DockerComposeFluent.Models;
 
 namespace DockerComposeFluent.Builders
@@ -56,6 +57,91 @@ namespace DockerComposeFluent.Builders
         {
             Guard.NotNullOrWhiteSpace(name, nameof(name));
             _definition = _definition with { Name = name };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the driver that provides this secret.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md"/>
+        /// </summary>
+        /// <param name="driver">The driver name.</param>
+        /// <returns>This builder.</returns>
+        public SecretBuilder WithDriver(string driver)
+        {
+            Guard.NotNullOrWhiteSpace(driver, nameof(driver));
+            _definition = _definition with { Driver = driver };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets a driver-specific option. Setting the same key again replaces its value.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md"/>
+        /// </summary>
+        /// <param name="key">The option name.</param>
+        /// <param name="value">The option value.</param>
+        /// <returns>This builder.</returns>
+        public SecretBuilder WithDriverOption(string key, string value)
+        {
+            Guard.NotNullOrWhiteSpace(key, nameof(key));
+            Guard.NotNull(value, nameof(value));
+            _definition = _definition with { DriverOptions = Collections.With(_definition.DriverOptions, key, value) };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets a label, keeping the mapping form. Setting the same key again replaces its value.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md"/>
+        /// </summary>
+        /// <param name="key">The label key, which must not start with the reserved <c>com.docker.compose</c> prefix.</param>
+        /// <param name="value">The label value, which may be empty.</param>
+        /// <returns>This builder.</returns>
+        public SecretBuilder WithLabel(string key, string value)
+        {
+            _definition = _definition with { Labels = LabelsMutator.Set(_definition.Labels, key, value, nameof(key)) };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets several labels from key/value pairs, keeping the mapping form.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md"/>
+        /// </summary>
+        /// <param name="labels">The labels.</param>
+        /// <returns>This builder.</returns>
+        public SecretBuilder WithLabels(IEnumerable<KeyValuePair<string, string>> labels)
+        {
+            Guard.NotNull(labels, nameof(labels));
+
+            foreach (KeyValuePair<string, string> label in labels)
+            {
+                WithLabel(label.Key, label.Value);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets several labels from <c>KEY=value</c> strings, or a bare <c>KEY</c> for an empty value. Makes the
+        /// YAML use the list form (<c>- KEY=value</c>).
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md"/>
+        /// </summary>
+        /// <param name="entries">The entries, split at the first <c>=</c>.</param>
+        /// <returns>This builder.</returns>
+        public SecretBuilder WithLabels(IEnumerable<string> entries)
+        {
+            _definition = _definition with { Labels = LabelsMutator.SetFromEntries(_definition.Labels, entries, nameof(entries)) };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the driver used to template the secret's value.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md"/>
+        /// </summary>
+        /// <param name="templateDriver">The template driver name.</param>
+        /// <returns>This builder.</returns>
+        public SecretBuilder WithTemplateDriver(string templateDriver)
+        {
+            Guard.NotNullOrWhiteSpace(templateDriver, nameof(templateDriver));
+            _definition = _definition with { TemplateDriver = templateDriver };
             return this;
         }
 

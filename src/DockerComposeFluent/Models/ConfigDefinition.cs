@@ -45,6 +45,18 @@ namespace DockerComposeFluent.Models
         public string? Name { get; init; }
 
         /// <summary>
+        /// The labels attached to the config, as specified by <c>labels</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/08-configs.md"/>
+        /// </summary>
+        public Labels Labels { get; init; } = new Labels();
+
+        /// <summary>
+        /// The driver used to template the config's value, as specified by <c>template_driver</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/08-configs.md"/>
+        /// </summary>
+        public string? TemplateDriver { get; init; }
+
+        /// <summary>
         /// The extension fields defined on this config, keyed by their <c>x-</c> name. Compose ignores these;
         /// they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>

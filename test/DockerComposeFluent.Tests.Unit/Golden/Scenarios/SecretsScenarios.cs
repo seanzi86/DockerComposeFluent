@@ -13,6 +13,23 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
         /// A file-backed secret, an environment-backed secret, and an external secret with a custom name,
         /// referenced from services using the short form, the target-renaming helper, and the long form.
         /// </summary>
+        /// <summary>
+        /// The optional top-level secret settings: a secret driver with options, labels, and a template driver.
+        /// </summary>
+        [Scenario]
+        internal static DockerComposeFile Settings()
+        {
+            return new DockerComposeBuilder()
+                .WithService("app", service => service.WithImage("example/app").WithSecret("vault_secret"))
+                .WithSecret("vault_secret", secret => secret
+                    .WithEnvironment("VAULT_TOKEN")
+                    .WithDriver("vault")
+                    .WithDriverOption("path", "secret/data/app")
+                    .WithLabel("com.example.rotation", "monthly")
+                    .WithTemplateDriver("golang"))
+                .Build();
+        }
+
         [Scenario]
         internal static DockerComposeFile Forms()
         {

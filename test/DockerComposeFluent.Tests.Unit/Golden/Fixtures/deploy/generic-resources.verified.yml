@@ -1,0 +1,18 @@
+services:
+  "worker":
+    deploy:
+      resources:
+        reservations:
+          generic_resources:
+            - discrete_resource_spec:
+                kind: "SSD"
+                value: 1
+            - discrete_resource_spec:
+                kind: "FPGA"
+                value: 2
+            - discrete_resource_spec:
+                kind: "GPU"
+                value: 4
+                x-vendor: acme
+              x-note: reserved for training
+    image: "example/worker"

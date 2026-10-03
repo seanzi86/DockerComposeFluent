@@ -107,6 +107,9 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | [`storage_opt`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#storage_opt) | The storage driver options for the container. | Core spec |
 | [`sysctls`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#sysctls) | The kernel parameters to set in the container. | Core spec |
 | [`ulimits`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ulimits) | The resource limits for processes in the container, keyed by limit name such as `nofile`. | Core spec |
+| [`annotations`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#annotations) | The annotations attached to the container. | Core spec |
+| [`post_start`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#post_start) | The commands run after the container starts. | Core spec |
+| [`pre_stop`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop) | The commands run before the container stops. | Core spec |
 
 ### Deploy (`services.<name>.deploy`)
 
@@ -153,6 +156,7 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | `memory` | The amount of memory the container can allocate, as a compose-spec byte value such as `20M`. | Core spec |
 | `pids` | The container's PID limit. | Core spec |
 | `devices` | The devices to reserve. | Core spec |
+| `generic_resources` | The user-defined resources to reserve. | Core spec |
 
 ### Deploy device reservation (`services.<name>.deploy.resources.reservations.devices`)
 
@@ -252,6 +256,29 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | :--- | :--- | :--- |
 | `path` | The path of the device, for example `/dev/sda`. | Core spec |
 | `weight` | The relative weight for the device, from 10 to 1000. | Core spec |
+
+### Lifecycle hook (`services.<name>.post_start` and `services.<name>.pre_stop`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `command` | The command to run. | Core spec |
+| `user` | The user to run the command as. | Core spec |
+| `privileged` | Whether the command runs with extended privileges. | Core spec |
+| `working_dir` | The working directory for the command. | Core spec |
+| `environment` | The environment variables for the command. | Core spec |
+
+### Deploy generic resource (`services.<name>.deploy.resources.reservations.generic_resources`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `discrete_resource_spec` | The countable resource to reserve. | Core spec |
+
+### Deploy discrete resource spec (`services.<name>.deploy.resources.reservations.generic_resources[].discrete_resource_spec`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `kind` | The kind of resource, for example `GPU` or `SSD`. | Core spec |
+| `value` | The number of resources of this kind to reserve. | Core spec |
 
 ### Healthcheck (`services.<name>.healthcheck`)
 
@@ -421,6 +448,10 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | [`environment`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | The name of the environment variable whose value becomes the secret. | 2.6.0+ |
 | [`external`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | Whether this secret has already been created outside Compose. | Core spec |
 | [`name`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | The actual name of the secret object to look up, overriding the default name generated from the project name and the key this secret is defined under. | Core spec |
+| [`driver`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | The driver that provides this secret. | Core spec |
+| [`driver_opts`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | Driver-specific options as key-value pairs. | Core spec |
+| [`labels`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | The labels attached to the secret. | Core spec |
+| [`template_driver`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | The driver used to template the secret's value. | Core spec |
 
 ### Service config reference, long syntax (`services.<name>.configs`)
 
@@ -441,6 +472,8 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | [`content`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | The inline text that becomes the config. | 2.23.1+ |
 | [`external`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | Whether this config has already been created outside Compose. | Core spec |
 | [`name`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | The actual name of the config object to look up, overriding the default name generated from the project name and the key this config is defined under. | Core spec |
+| [`labels`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | The labels attached to the config. | Core spec |
+| [`template_driver`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | The driver used to template the config's value. | Core spec |
 
 <!-- supported-properties:end -->
 

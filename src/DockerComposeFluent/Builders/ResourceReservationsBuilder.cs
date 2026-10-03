@@ -78,6 +78,43 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Adds a countable user-defined resource to reserve.
+        /// </summary>
+        /// <param name="kind">The kind of resource, for example <c>GPU</c> or <c>SSD</c>.</param>
+        /// <param name="value">The number to reserve, which must be positive.</param>
+        /// <returns>This builder.</returns>
+        public ResourceReservationsBuilder WithGenericResource(string kind, int value)
+        {
+            return WithGenericResource(new GenericResourceBuilder().WithDiscreteResourceSpec(kind, value).Build());
+        }
+
+        /// <summary>
+        /// Adds a user-defined resource to reserve, from an existing definition.
+        /// </summary>
+        /// <param name="resource">The generic resource.</param>
+        /// <returns>This builder.</returns>
+        public ResourceReservationsBuilder WithGenericResource(GenericResourceDefinition resource)
+        {
+            Guard.NotNull(resource, nameof(resource));
+            _definition = _definition with { GenericResources = Collections.Append(_definition.GenericResources, resource) };
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a user-defined resource to reserve, configured through a <see cref="GenericResourceBuilder"/>.
+        /// </summary>
+        /// <param name="configure">Configures the generic resource.</param>
+        /// <returns>This builder.</returns>
+        public ResourceReservationsBuilder WithGenericResource(Action<GenericResourceBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            GenericResourceBuilder builder = new GenericResourceBuilder();
+            configure(builder);
+            return WithGenericResource(builder.Build());
+        }
+
+        /// <summary>
         /// Sets an extension field on <c>deploy.resources.reservations</c>. Setting the same key again
         /// replaces its value. Compose ignores these; they exist for the file's own reuse (YAML anchors) or
         /// for tooling.

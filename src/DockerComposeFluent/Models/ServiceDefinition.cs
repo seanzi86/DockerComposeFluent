@@ -538,6 +538,27 @@ namespace DockerComposeFluent.Models
         public IReadOnlyDictionary<string, UlimitDefinition> Ulimits { get; init; } = Collections.EmptyDictionary<UlimitDefinition>();
 
         /// <summary>
+        /// The annotations attached to the container, as specified by <c>annotations</c>. Empty when none are
+        /// set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#annotations"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, string> Annotations { get; init; } = Collections.EmptyDictionary<string>();
+
+        /// <summary>
+        /// The commands run after the container starts, as specified by <c>post_start</c>. Empty when none are
+        /// set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#post_start"/>
+        /// </summary>
+        public IReadOnlyList<ServiceHookDefinition> PostStart { get; init; } = Array.Empty<ServiceHookDefinition>();
+
+        /// <summary>
+        /// The commands run before the container stops, as specified by <c>pre_stop</c>. Empty when none are
+        /// set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop"/>
+        /// </summary>
+        public IReadOnlyList<ServiceHookDefinition> PreStop { get; init; } = Array.Empty<ServiceHookDefinition>();
+
+        /// <summary>
         /// The extension fields defined on this service, keyed by their <c>x-</c> name. Compose ignores these;
         /// they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>

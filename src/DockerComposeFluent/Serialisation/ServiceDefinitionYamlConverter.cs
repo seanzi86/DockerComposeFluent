@@ -119,6 +119,9 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalStringMap("storage_opt", value.StorageOpt);
             emitter.WriteOptionalStringMap("sysctls", value.Sysctls);
             emitter.WriteMap("ulimits", value.Ulimits, serialiser);
+            emitter.WriteOptionalStringMap("annotations", value.Annotations);
+            emitter.WriteOptionalSequence("post_start", value.PostStart, serialiser);
+            emitter.WriteOptionalSequence("pre_stop", value.PreStop, serialiser);
             emitter.WriteOptionalSequence("volumes", value.Volumes, serialiser);
             emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();

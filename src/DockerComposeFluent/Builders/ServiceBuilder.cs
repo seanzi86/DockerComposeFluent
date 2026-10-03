@@ -2437,6 +2437,99 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets an annotation on the container. Setting the same key again replaces its value.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#annotations"/>
+        /// </summary>
+        /// <param name="key">The annotation key.</param>
+        /// <param name="value">The annotation value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithAnnotation(string key, string value)
+        {
+            Guard.NotNullOrWhiteSpace(key, nameof(key));
+            Guard.NotNull(value, nameof(value));
+            _definition = _definition with { Annotations = Collections.With(_definition.Annotations, key, value) };
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a command to run after the container starts, as a shell-form string.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#post_start"/>
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPostStart(string command)
+        {
+            return WithPostStart(new ServiceHookBuilder().WithCommand(command).Build());
+        }
+
+        /// <summary>
+        /// Adds a command to run after the container starts, from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#post_start"/>
+        /// </summary>
+        /// <param name="hook">The hook.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPostStart(ServiceHookDefinition hook)
+        {
+            Guard.NotNull(hook, nameof(hook));
+            _definition = _definition with { PostStart = Collections.Append(_definition.PostStart, hook) };
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a command to run after the container starts, configured through a <see cref="ServiceHookBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#post_start"/>
+        /// </summary>
+        /// <param name="configure">Configures the hook.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPostStart(Action<ServiceHookBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            ServiceHookBuilder builder = new ServiceHookBuilder();
+            configure(builder);
+            return WithPostStart(builder.Build());
+        }
+
+        /// <summary>
+        /// Adds a command to run before the container stops, as a shell-form string.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop"/>
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPreStop(string command)
+        {
+            return WithPreStop(new ServiceHookBuilder().WithCommand(command).Build());
+        }
+
+        /// <summary>
+        /// Adds a command to run before the container stops, from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop"/>
+        /// </summary>
+        /// <param name="hook">The hook.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPreStop(ServiceHookDefinition hook)
+        {
+            Guard.NotNull(hook, nameof(hook));
+            _definition = _definition with { PreStop = Collections.Append(_definition.PreStop, hook) };
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a command to run before the container stops, configured through a <see cref="ServiceHookBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop"/>
+        /// </summary>
+        /// <param name="configure">Configures the hook.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPreStop(Action<ServiceHookBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            ServiceHookBuilder builder = new ServiceHookBuilder();
+            configure(builder);
+            return WithPreStop(builder.Build());
+        }
+
+        /// <summary>
         /// Sets an extension field on this service. Setting the same key again replaces its value. Compose
         /// ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
