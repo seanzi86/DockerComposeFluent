@@ -152,6 +152,122 @@ namespace DockerComposeFluent.Models
         public IReadOnlyList<MountMapping> Volumes { get; init; } = Array.Empty<MountMapping>();
 
         /// <summary>
+        /// Whether Compose collects the service's logs when attached (<c>docker compose up</c>), as specified by <c>attach</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#attach"/>
+        /// </summary>
+        public bool? Attach { get; init; }
+
+        /// <summary>
+        /// The custom domain name for the container, as specified by <c>domainname</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#domainname"/>
+        /// </summary>
+        public string? DomainName { get; init; }
+
+        /// <summary>
+        /// The custom hostname for the container, as specified by <c>hostname</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#hostname"/>
+        /// </summary>
+        public string? Hostname { get; init; }
+
+        /// <summary>
+        /// Whether to run an init process inside the container that forwards signals and reaps processes, as specified by <c>init</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#init"/>
+        /// </summary>
+        public bool? Init { get; init; }
+
+        /// <summary>
+        /// The container isolation technology; supported values are platform-specific, as specified by <c>isolation</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#isolation"/>
+        /// </summary>
+        public string? Isolation { get; init; }
+
+        /// <summary>
+        /// The MAC address of the container, as specified by <c>mac_address</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mac_address"/>
+        /// </summary>
+        public string? MacAddress { get; init; }
+
+        /// <summary>
+        /// Whether the container has extended privileges, as specified by <c>privileged</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#privileged"/>
+        /// </summary>
+        public bool? Privileged { get; init; }
+
+        /// <summary>
+        /// When to pull the image: <c>always</c>, <c>never</c>, <c>missing</c>, <c>if_not_present</c>, <c>build</c>, <c>refresh</c>, <c>daily</c>, <c>weekly</c> or <c>every_&lt;duration&gt;</c>, as specified by <c>pull_policy</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_policy"/>
+        /// </summary>
+        /// <remarks>The <c>refresh</c>, <c>daily</c>, <c>weekly</c> and <c>every_&lt;duration&gt;</c> policies were added in Compose 2.34.0.</remarks>
+        public string? PullPolicy { get; init; }
+
+        /// <summary>
+        /// How long after which to refresh the image, as a compose-spec duration, used with a <c>refresh</c> pull policy, as specified by <c>pull_refresh_after</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_refresh_after"/>
+        /// </summary>
+        public string? PullRefreshAfter { get; init; }
+
+        /// <summary>
+        /// Whether the container's filesystem is mounted read-only, as specified by <c>read_only</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#read_only"/>
+        /// </summary>
+        public bool? ReadOnly { get; init; }
+
+        /// <summary>
+        /// The runtime to use for the container, for example <c>runc</c>, as specified by <c>runtime</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#runtime"/>
+        /// </summary>
+        public string? Runtime { get; init; }
+
+        /// <summary>
+        /// The number of containers to run for the service, as specified by <c>scale</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#scale"/>
+        /// </summary>
+        public int? Scale { get; init; }
+
+        /// <summary>
+        /// Whether to keep STDIN open even if not attached, as specified by <c>stdin_open</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stdin_open"/>
+        /// </summary>
+        public bool? StdinOpen { get; init; }
+
+        /// <summary>
+        /// How long to wait for the container to stop gracefully before sending SIGKILL, as a compose-spec duration, as specified by <c>stop_grace_period</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stop_grace_period"/>
+        /// </summary>
+        public string? StopGracePeriod { get; init; }
+
+        /// <summary>
+        /// The signal used to stop the container, for example <c>SIGTERM</c>, as specified by <c>stop_signal</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stop_signal"/>
+        /// </summary>
+        public string? StopSignal { get; init; }
+
+        /// <summary>
+        /// Whether to allocate a pseudo-TTY, as specified by <c>tty</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#tty"/>
+        /// </summary>
+        public bool? Tty { get; init; }
+
+        /// <summary>
+        /// Whether to bind mount the Docker API socket and its required auth into the container, as specified by <c>use_api_socket</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#use_api_socket"/>
+        /// </summary>
+        /// <remarks>Requires Compose 2.37.2 or later.</remarks>
+        public bool? UseApiSocket { get; init; }
+
+        /// <summary>
+        /// The username or UID to run the container process as, as specified by <c>user</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#user"/>
+        /// </summary>
+        public string? User { get; init; }
+
+        /// <summary>
+        /// The working directory the entrypoint or command runs in, as specified by <c>working_dir</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#working_dir"/>
+        /// </summary>
+        public string? WorkingDir { get; init; }
+
+        /// <summary>
         /// The extension fields defined on this service, keyed by their <c>x-</c> name. Compose ignores these;
         /// they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>

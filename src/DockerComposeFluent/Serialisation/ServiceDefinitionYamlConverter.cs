@@ -13,6 +13,7 @@ namespace DockerComposeFluent.Serialisation
         protected override void Write(IEmitter emitter, ServiceDefinition value, ObjectSerializer serialiser)
         {
             emitter.StartMapping();
+            emitter.WriteOptionalBoolean("attach", value.Attach);
             emitter.WriteOptionalValue("command", value.Command, serialiser);
             emitter.WriteOptionalScalar("container_name", value.ContainerName);
             emitter.WriteOptionalSequence("configs", value.Configs, serialiser);
@@ -23,6 +24,7 @@ namespace DockerComposeFluent.Serialisation
             }
 
             emitter.WriteOptionalValue("deploy", value.Deploy, serialiser);
+            emitter.WriteOptionalScalar("domainname", value.DomainName);
             emitter.WriteOptionalValue("entrypoint", value.Entrypoint, serialiser);
 
             emitter.WriteOptionalSequence("env_file", value.EnvFiles, serialiser);
@@ -34,7 +36,10 @@ namespace DockerComposeFluent.Serialisation
 
             emitter.WriteOptionalValue("extends", value.Extends, serialiser);
             emitter.WriteOptionalValue("healthcheck", value.Healthcheck, serialiser);
+            emitter.WriteOptionalScalar("hostname", value.Hostname);
             emitter.WriteOptionalScalar("image", value.Image);
+            emitter.WriteOptionalBoolean("init", value.Init);
+            emitter.WriteOptionalScalar("isolation", value.Isolation);
             emitter.WriteOptionalStringSequence("label_file", value.LabelFiles);
 
             if (value.Labels.Values.Count > 0)
@@ -43,6 +48,8 @@ namespace DockerComposeFluent.Serialisation
             }
 
 
+            emitter.WriteOptionalScalar("mac_address", value.MacAddress);
+
             if (value.Networks.Count > 0)
             {
                 emitter.WriteOptionalValue("networks", value.Networks, serialiser);
@@ -50,10 +57,23 @@ namespace DockerComposeFluent.Serialisation
 
             emitter.WriteOptionalScalar("platform", value.Platform);
             emitter.WriteOptionalSequence("ports", value.Ports, serialiser);
+            emitter.WriteOptionalBoolean("privileged", value.Privileged);
+            emitter.WriteOptionalScalar("pull_policy", value.PullPolicy);
+            emitter.WriteOptionalScalar("pull_refresh_after", value.PullRefreshAfter);
             emitter.WriteOptionalValue("logging", value.Logging, serialiser);
             emitter.WriteOptionalStringSequence("profiles", value.Profiles);
             emitter.WriteOptionalSequence("secrets", value.Secrets, serialiser);
             emitter.WriteOptionalValue("restart", value.Restart, serialiser);
+            emitter.WriteOptionalBoolean("read_only", value.ReadOnly);
+            emitter.WriteOptionalScalar("runtime", value.Runtime);
+            emitter.WriteOptionalInteger("scale", value.Scale);
+            emitter.WriteOptionalBoolean("stdin_open", value.StdinOpen);
+            emitter.WriteOptionalScalar("stop_grace_period", value.StopGracePeriod);
+            emitter.WriteOptionalScalar("stop_signal", value.StopSignal);
+            emitter.WriteOptionalBoolean("tty", value.Tty);
+            emitter.WriteOptionalBoolean("use_api_socket", value.UseApiSocket);
+            emitter.WriteOptionalScalar("user", value.User);
+            emitter.WriteOptionalScalar("working_dir", value.WorkingDir);
             emitter.WriteOptionalSequence("volumes", value.Volumes, serialiser);
             emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();

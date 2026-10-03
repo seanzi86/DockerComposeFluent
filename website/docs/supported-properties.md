@@ -43,6 +43,25 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | [`configs`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs) | The configs this service is granted access to. | Core spec |
 | [`secrets`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets) | The secrets this service is granted access to. | Core spec |
 | [`volumes`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes) | The mounts (volumes, bind mounts and so on). | Core spec |
+| [`attach`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#attach) | Whether Compose collects the service's logs when attached (`docker compose up`). | Core spec |
+| [`domainname`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#domainname) | The custom domain name for the container. | Core spec |
+| [`hostname`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#hostname) | The custom hostname for the container. | Core spec |
+| [`init`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#init) | Whether to run an init process inside the container that forwards signals and reaps processes. | Core spec |
+| [`isolation`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#isolation) | The container isolation technology; supported values are platform-specific. | Core spec |
+| [`mac_address`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mac_address) | The MAC address of the container. | Core spec |
+| [`privileged`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#privileged) | Whether the container has extended privileges. | Core spec |
+| [`pull_policy`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_policy) | When to pull the image: `always`, `never`, `missing`, `if_not_present`, `build`, `refresh`, `daily`, `weekly` or `every_<duration>`. | Core spec |
+| [`pull_refresh_after`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_refresh_after) | How long after which to refresh the image, as a compose-spec duration, used with a `refresh` pull policy. | Core spec |
+| [`read_only`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#read_only) | Whether the container's filesystem is mounted read-only. | Core spec |
+| [`runtime`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#runtime) | The runtime to use for the container, for example `runc`. | Core spec |
+| [`scale`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#scale) | The number of containers to run for the service. | Core spec |
+| [`stdin_open`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stdin_open) | Whether to keep STDIN open even if not attached. | Core spec |
+| [`stop_grace_period`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stop_grace_period) | How long to wait for the container to stop gracefully before sending SIGKILL, as a compose-spec duration. | Core spec |
+| [`stop_signal`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stop_signal) | The signal used to stop the container, for example `SIGTERM`. | Core spec |
+| [`tty`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#tty) | Whether to allocate a pseudo-TTY. | Core spec |
+| [`use_api_socket`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#use_api_socket) | Whether to bind mount the Docker API socket and its required auth into the container. | 2.37.2+ |
+| [`user`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#user) | The username or UID to run the container process as. | Core spec |
+| [`working_dir`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#working_dir) | The working directory the entrypoint or command runs in. | Core spec |
 
 ### Deploy (`services.<name>.deploy`)
 

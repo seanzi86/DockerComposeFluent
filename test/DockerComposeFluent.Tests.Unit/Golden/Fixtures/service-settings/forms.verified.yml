@@ -1,0 +1,27 @@
+services:
+  "everything":
+    attach: false
+    domainname: "example.com"
+    hostname: "app-host"
+    image: "example/app"
+    init: true
+    isolation: "default"
+    mac_address: "02:42:ac:11:00:02"
+    privileged: false
+    pull_policy: "every_12h"
+    pull_refresh_after: "24h"
+    read_only: true
+    runtime: "runc"
+    scale: 3
+    stdin_open: true
+    stop_grace_period: "1m30s"
+    stop_signal: "SIGINT"
+    tty: true
+    use_api_socket: false
+    user: "1000:1000"
+    working_dir: "/srv/app"
+  "timespans":
+    image: "example/app"
+    pull_policy: "missing"
+    pull_refresh_after: "6h"
+    stop_grace_period: "45s"

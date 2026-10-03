@@ -201,6 +201,24 @@ namespace DockerComposeFluent
         }
 
         /// <summary>
+        /// Throws if <paramref name="value"/> is not a valid compose-spec pull policy: <c>always</c>,
+        /// <c>never</c>, <c>build</c>, <c>if_not_present</c>, <c>missing</c>, <c>refresh</c>, <c>daily</c>,
+        /// <c>weekly</c> or <c>every_&lt;duration&gt;</c>, such as <c>every_12h</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_policy"/>
+        /// </summary>
+        /// <param name="value">The policy to check.</param>
+        /// <param name="parameterName">The name of the parameter being checked.</param>
+        internal static void PullPolicy(string? value, string parameterName)
+        {
+            if (value == null || !System.Text.RegularExpressions.Regex.IsMatch(value, "^(always|never|build|if_not_present|missing|refresh|daily|weekly|every_([0-9]+[wdhms])+)$"))
+            {
+                throw new ArgumentException(
+                    $"'{value}' is not a pull policy. Use always, never, build, if_not_present, missing, refresh, daily, weekly or every_<duration>.",
+                    parameterName);
+            }
+        }
+
+        /// <summary>
         /// Throws if <paramref name="value"/> is not usable as an extension field key: it must not be blank
         /// and must start with the compose-spec <c>x-</c> prefix.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>

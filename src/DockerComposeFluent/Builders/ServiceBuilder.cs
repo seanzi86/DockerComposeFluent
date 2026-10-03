@@ -1124,6 +1124,272 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets: whether Compose collects the service's logs when attached (<c>docker compose up</c>).
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#attach"/>
+        /// </summary>
+        /// <param name="attach"><c>true</c> to enable it.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithAttach(bool attach)
+        {
+            _definition = _definition with { Attach = attach };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: the custom domain name for the container.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#domainname"/>
+        /// </summary>
+        /// <param name="domainName">The value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithDomainName(string domainName)
+        {
+            Guard.NotNullOrWhiteSpace(domainName, nameof(domainName));
+            _definition = _definition with { DomainName = domainName };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: the custom hostname for the container.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#hostname"/>
+        /// </summary>
+        /// <param name="hostname">The value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithHostname(string hostname)
+        {
+            Guard.NotNullOrWhiteSpace(hostname, nameof(hostname));
+            _definition = _definition with { Hostname = hostname };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: whether to run an init process inside the container that forwards signals and reaps processes.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#init"/>
+        /// </summary>
+        /// <param name="init"><c>true</c> to enable it.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithInit(bool init)
+        {
+            _definition = _definition with { Init = init };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: the container isolation technology; supported values are platform-specific.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#isolation"/>
+        /// </summary>
+        /// <param name="isolation">The value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithIsolation(string isolation)
+        {
+            Guard.NotNullOrWhiteSpace(isolation, nameof(isolation));
+            _definition = _definition with { Isolation = isolation };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: the MAC address of the container.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mac_address"/>
+        /// </summary>
+        /// <param name="macAddress">The value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithMacAddress(string macAddress)
+        {
+            Guard.NotNullOrWhiteSpace(macAddress, nameof(macAddress));
+            _definition = _definition with { MacAddress = macAddress };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: whether the container has extended privileges.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#privileged"/>
+        /// </summary>
+        /// <param name="privileged"><c>true</c> to enable it.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPrivileged(bool privileged)
+        {
+            _definition = _definition with { Privileged = privileged };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: when to pull the image: <c>always</c>, <c>never</c>, <c>missing</c>, <c>if_not_present</c>, <c>build</c>, <c>refresh</c>, <c>daily</c>, <c>weekly</c> or <c>every_&lt;duration&gt;</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_policy"/>
+        /// </summary>
+        /// <param name="pullPolicy">The value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPullPolicy(string pullPolicy)
+        {
+            Guard.PullPolicy(pullPolicy, nameof(pullPolicy));
+            _definition = _definition with { PullPolicy = pullPolicy };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: how long after which to refresh the image, as a compose-spec duration, used with a <c>refresh</c> pull policy.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_refresh_after"/>
+        /// </summary>
+        /// <param name="pullRefreshAfter">The duration, which must be positive and a whole number of microseconds.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPullRefreshAfter(TimeSpan pullRefreshAfter)
+        {
+            return WithPullRefreshAfter(Durations.Format(pullRefreshAfter, nameof(pullRefreshAfter)));
+        }
+
+        /// <summary>
+        /// Sets: how long after which to refresh the image, as a compose-spec duration, used with a <c>refresh</c> pull policy.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_refresh_after"/>
+        /// </summary>
+        /// <param name="pullRefreshAfter">The duration, such as <c>30s</c> or <c>1m30s</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPullRefreshAfter(string pullRefreshAfter)
+        {
+            Guard.Duration(pullRefreshAfter, nameof(pullRefreshAfter));
+            _definition = _definition with { PullRefreshAfter = pullRefreshAfter };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: whether the container's filesystem is mounted read-only.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#read_only"/>
+        /// </summary>
+        /// <param name="readOnly"><c>true</c> to enable it.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithReadOnly(bool readOnly)
+        {
+            _definition = _definition with { ReadOnly = readOnly };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: the runtime to use for the container, for example <c>runc</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#runtime"/>
+        /// </summary>
+        /// <param name="runtime">The value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithRuntime(string runtime)
+        {
+            Guard.NotNullOrWhiteSpace(runtime, nameof(runtime));
+            _definition = _definition with { Runtime = runtime };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: the number of containers to run for the service.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#scale"/>
+        /// </summary>
+        /// <param name="scale">The number of containers, which must not be negative.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithScale(int scale)
+        {
+            if (scale < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(scale), scale, "The scale must not be negative.");
+            }
+
+            _definition = _definition with { Scale = scale };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: whether to keep STDIN open even if not attached.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stdin_open"/>
+        /// </summary>
+        /// <param name="stdinOpen"><c>true</c> to enable it.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithStdinOpen(bool stdinOpen)
+        {
+            _definition = _definition with { StdinOpen = stdinOpen };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: how long to wait for the container to stop gracefully before sending SIGKILL, as a compose-spec duration.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stop_grace_period"/>
+        /// </summary>
+        /// <param name="stopGracePeriod">The duration, which must be positive and a whole number of microseconds.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithStopGracePeriod(TimeSpan stopGracePeriod)
+        {
+            return WithStopGracePeriod(Durations.Format(stopGracePeriod, nameof(stopGracePeriod)));
+        }
+
+        /// <summary>
+        /// Sets: how long to wait for the container to stop gracefully before sending SIGKILL, as a compose-spec duration.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stop_grace_period"/>
+        /// </summary>
+        /// <param name="stopGracePeriod">The duration, such as <c>30s</c> or <c>1m30s</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithStopGracePeriod(string stopGracePeriod)
+        {
+            Guard.Duration(stopGracePeriod, nameof(stopGracePeriod));
+            _definition = _definition with { StopGracePeriod = stopGracePeriod };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: the signal used to stop the container, for example <c>SIGTERM</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stop_signal"/>
+        /// </summary>
+        /// <param name="stopSignal">The value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithStopSignal(string stopSignal)
+        {
+            Guard.NotNullOrWhiteSpace(stopSignal, nameof(stopSignal));
+            _definition = _definition with { StopSignal = stopSignal };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: whether to allocate a pseudo-TTY.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#tty"/>
+        /// </summary>
+        /// <param name="tty"><c>true</c> to enable it.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithTty(bool tty)
+        {
+            _definition = _definition with { Tty = tty };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: whether to bind mount the Docker API socket and its required auth into the container.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#use_api_socket"/>
+        /// </summary>
+        /// <param name="useApiSocket"><c>true</c> to enable it.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithUseApiSocket(bool useApiSocket)
+        {
+            _definition = _definition with { UseApiSocket = useApiSocket };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: the username or UID to run the container process as.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#user"/>
+        /// </summary>
+        /// <param name="user">The value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithUser(string user)
+        {
+            Guard.NotNullOrWhiteSpace(user, nameof(user));
+            _definition = _definition with { User = user };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets: the working directory the entrypoint or command runs in.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#working_dir"/>
+        /// </summary>
+        /// <param name="workingDir">The value.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithWorkingDir(string workingDir)
+        {
+            Guard.NotNullOrWhiteSpace(workingDir, nameof(workingDir));
+            _definition = _definition with { WorkingDir = workingDir };
+            return this;
+        }
+
+        /// <summary>
         /// Sets an extension field on this service. Setting the same key again replaces its value. Compose
         /// ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
