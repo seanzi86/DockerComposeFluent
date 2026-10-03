@@ -1,0 +1,57 @@
+services:
+  "app":
+    build:
+      additional_contexts:
+        "base": "docker-image://alpine:3.20"
+      args:
+        "GIT_COMMIT": "6d4f1e"
+        "NODE_ENV": "production"
+      cache_from:
+        - "alpine:latest"
+        - "type=local,src=path/to/cache"
+      cache_to:
+        - "type=local,dest=path/to/cache"
+      context: "./app"
+      dockerfile: "Dockerfile"
+      entitlements:
+        - "network.host"
+      extra_hosts:
+        - "somehost:162.242.195.82"
+      isolation: "default"
+      labels:
+        com.example.stage: "release"
+      network: "host"
+      no_cache: true
+      no_cache_filter:
+        - "builder"
+      platforms:
+        - "linux/amd64"
+        - "linux/arm64"
+      privileged: true
+      provenance: true
+      pull: true
+      sbom: "generator=docker/buildkit-syft-scanner"
+      secrets:
+        - "build_token"
+        - source: "npm_rc"
+          target: "/root/.npmrc"
+      shm_size: "128m"
+      ssh:
+        - "default"
+        - "myproject=~/.ssh/myproject.pem"
+      tags:
+        - "example/app:latest"
+        - "registry.example.com/app:1.0"
+      target: "runtime"
+      ulimits:
+        "nproc": 65535
+        "nofile":
+          hard: 40000
+          soft: 20000
+      x-note: release build
+    image: "example/app:1.0"
+secrets:
+  "build_token":
+    environment: "BUILD_TOKEN"
+  "npm_rc":
+    file: "./.npmrc"

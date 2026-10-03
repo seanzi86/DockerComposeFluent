@@ -1,0 +1,14 @@
+services:
+  "short":
+    build: "./app"
+  "dockerfile":
+    build:
+      context: "./app"
+      dockerfile: "Dockerfile.prod"
+  "inline":
+    build:
+      dockerfile_inline: "FROM busybox\nRUN echo hello"
+  "raw":
+    build:
+      context: "./raw"
+      target: "runtime"

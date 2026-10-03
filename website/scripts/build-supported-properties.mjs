@@ -36,6 +36,7 @@ const sections = [
   { type: "BlkioConfigDefinition", title: "Block I/O configuration", path: "`services.<name>.blkio_config`" },
   { type: "BlkioLimitDefinition", title: "Block I/O device rate limit", path: "`services.<name>.blkio_config.device_*`" },
   { type: "BlkioWeightDefinition", title: "Block I/O device weight", path: "`services.<name>.blkio_config.weight_device`" },
+  { type: "BuildDefinition", title: "Build, long syntax", path: "`services.<name>.build`" },
   { type: "ServiceHookDefinition", title: "Lifecycle hook", path: "`services.<name>.post_start` and `services.<name>.pre_stop`" },
   { type: "GenericResourceDefinition", title: "Deploy generic resource", path: "`services.<name>.deploy.resources.reservations.generic_resources`" },
   { type: "DiscreteResourceSpecDefinition", title: "Deploy discrete resource spec", path: "`services.<name>.deploy.resources.reservations.generic_resources[].discrete_resource_spec`" },

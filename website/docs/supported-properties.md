@@ -110,6 +110,7 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | [`annotations`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#annotations) | The annotations attached to the container. | Core spec |
 | [`post_start`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#post_start) | The commands run after the container starts. | Core spec |
 | [`pre_stop`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop) | The commands run before the container stops. | Core spec |
+| [`build`](https://github.com/compose-spec/compose-spec/blob/main/build.md) | How to build the service's image from source. | Core spec |
 
 ### Deploy (`services.<name>.deploy`)
 
@@ -256,6 +257,36 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | :--- | :--- | :--- |
 | `path` | The path of the device, for example `/dev/sda`. | Core spec |
 | `weight` | The relative weight for the device, from 10 to 1000. | Core spec |
+
+### Build, long syntax (`services.<name>.build`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| [`additional_contexts`](https://github.com/compose-spec/compose-spec/blob/main/build.md#additional_contexts) | The additional named build contexts, keyed by name with the location as the value. | Core spec |
+| [`args`](https://github.com/compose-spec/compose-spec/blob/main/build.md#args) | The build arguments, keyed by name. | Core spec |
+| [`cache_from`](https://github.com/compose-spec/compose-spec/blob/main/build.md#cache_from) | The sources to use as the image cache. | Core spec |
+| [`cache_to`](https://github.com/compose-spec/compose-spec/blob/main/build.md#cache_to) | The locations to export the build cache to. | Core spec |
+| [`context`](https://github.com/compose-spec/compose-spec/blob/main/build.md#context) | The path to the build context: a directory containing a Dockerfile, or a git repository URL. | Core spec |
+| [`dockerfile`](https://github.com/compose-spec/compose-spec/blob/main/build.md#dockerfile) | The Dockerfile to build from, relative to the context. | Core spec |
+| [`dockerfile_inline`](https://github.com/compose-spec/compose-spec/blob/main/build.md#dockerfile_inline) | The Dockerfile contents, defined inline. | Core spec |
+| [`entitlements`](https://github.com/compose-spec/compose-spec/blob/main/build.md#entitlements) | The extra privileged entitlements the build is granted, for example `network.host`. | 2.27.0+ |
+| [`extra_hosts`](https://github.com/compose-spec/compose-spec/blob/main/build.md#extra_hosts) | The additional hostnames added to the build containers' `/etc/hosts`, keyed by hostname with the address as the value. | Core spec |
+| [`isolation`](https://github.com/compose-spec/compose-spec/blob/main/build.md#isolation) | The container isolation technology used for the build; supported values are platform-specific. | Core spec |
+| [`labels`](https://github.com/compose-spec/compose-spec/blob/main/build.md#labels) | The labels applied to the built image. | Core spec |
+| [`network`](https://github.com/compose-spec/compose-spec/blob/main/build.md#network) | The network the build containers use during `RUN` instructions. | Core spec |
+| [`no_cache`](https://github.com/compose-spec/compose-spec/blob/main/build.md#no_cache) | Whether to build without using the cache. | Core spec |
+| [`no_cache_filter`](https://github.com/compose-spec/compose-spec/blob/main/build.md#no_cache) | The stages that are built without the cache. | 5.0.0+ |
+| [`platforms`](https://github.com/compose-spec/compose-spec/blob/main/build.md#platforms) | The platforms to build the image for, for example `linux/amd64`. | Core spec |
+| [`privileged`](https://github.com/compose-spec/compose-spec/blob/main/build.md#privileged) | Whether the build runs with extended privileges. | Core spec |
+| [`provenance`](https://github.com/compose-spec/compose-spec/blob/main/build.md#provenance) | The provenance attestation to add to the image: `true`, `false` or a setting such as `mode=max`. | 2.39.0+ |
+| [`pull`](https://github.com/compose-spec/compose-spec/blob/main/build.md#pull) | Whether to always pull newer versions of the base images. | Core spec |
+| [`sbom`](https://github.com/compose-spec/compose-spec/blob/main/build.md#sbom) | The SBOM attestation to add to the image: `true`, `false` or a setting. | 2.39.0+ |
+| [`secrets`](https://github.com/compose-spec/compose-spec/blob/main/build.md#secrets) | The secrets the build can access. | Core spec |
+| [`shm_size`](https://github.com/compose-spec/compose-spec/blob/main/build.md#shm_size) | The size of `/dev/shm` for the build, as a compose-spec byte value such as `64m`. | Core spec |
+| [`ssh`](https://github.com/compose-spec/compose-spec/blob/main/build.md#ssh) | The SSH agent sockets or keys the build can use, as `default` or `id=path`. | Core spec |
+| [`tags`](https://github.com/compose-spec/compose-spec/blob/main/build.md#tags) | The extra tags to apply to the built image. | Core spec |
+| [`target`](https://github.com/compose-spec/compose-spec/blob/main/build.md#target) | The Dockerfile stage to build. | Core spec |
+| [`ulimits`](https://github.com/compose-spec/compose-spec/blob/main/build.md#ulimits) | The resource limits for the build containers, keyed by limit name such as `nofile`. | Core spec |
 
 ### Lifecycle hook (`services.<name>.post_start` and `services.<name>.pre_stop`)
 

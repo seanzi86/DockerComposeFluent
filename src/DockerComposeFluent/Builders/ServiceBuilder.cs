@@ -2530,6 +2530,45 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets the build, from a context path or URL, written to YAML as a plain string.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md"/>
+        /// </summary>
+        /// <param name="context">The build context: a directory containing a Dockerfile, or a git repository URL.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithBuild(string context)
+        {
+            return WithBuild(new BuildBuilder().WithContext(context).Build());
+        }
+
+        /// <summary>
+        /// Sets the build, from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md"/>
+        /// </summary>
+        /// <param name="build">The build definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithBuild(BuildDefinition build)
+        {
+            Guard.NotNull(build, nameof(build));
+            _definition = _definition with { Build = build };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the build, configured through a <see cref="BuildBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md"/>
+        /// </summary>
+        /// <param name="configure">Configures the build.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithBuild(Action<BuildBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            BuildBuilder builder = new BuildBuilder();
+            configure(builder);
+            return WithBuild(builder.Build());
+        }
+
+        /// <summary>
         /// Sets an extension field on this service. Setting the same key again replaces its value. Compose
         /// ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
