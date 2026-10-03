@@ -1,0 +1,84 @@
+services:
+  "web":
+    configs:
+      - source: "app_config"
+        x-config-note: generated at deploy time
+    depends_on:
+      - "db"
+    deploy:
+      placement:
+        constraints:
+          - "node.role==worker"
+        x-placement-note: worker only
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.50"
+          x-limits-note: ceiling from load test
+        reservations:
+          cpus: "0.25"
+          devices:
+            - capabilities:
+                - "gpu"
+              x-device-note: inference workload
+          x-reservations-note: floor from load test
+        x-resources-note: tuned after load test
+      restart_policy:
+        condition: "on-failure"
+        x-restart-note: tuned after incident
+      rollback_config:
+        parallelism: 1
+        x-rollback-note: one at a time
+      update_config:
+        parallelism: 1
+        x-update-note: one at a time
+      x-deploy-note: scaled for peak traffic
+    healthcheck:
+      test: "curl -f http://localhost || exit 1"
+      x-healthcheck-note: tuned for slow disks
+    image: "example/web"
+    networks:
+      "front":
+        x-network-note: public facing
+    ports:
+      - target: 80
+        x-port-note: public
+    logging:
+      driver: "json-file"
+      x-logging-note: rotated hourly
+    secrets:
+      - source: "api_key"
+        x-secret-note: rotated monthly
+    volumes:
+      - bind:
+          create_host_path: false
+          x-bind-note: must already exist
+        source: "./conf"
+        target: "/etc/app"
+        type: "bind"
+        x-mount-note: read-only config
+    x-team: platform
+  "db":
+    image: "postgres"
+networks:
+  "front":
+    driver: "bridge"
+    ipam:
+      config:
+        - subnet: "10.0.0.0/24"
+          x-ipam-config-note: reserved for prod
+      x-ipam-note: static plan
+    x-network-top-note: shared ingress
+volumes:
+  "data":
+    driver: "local"
+    x-volume-note: backed up nightly
+secrets:
+  "api_key":
+    environment: "API_KEY"
+    x-secret-top-note: rotated monthly
+configs:
+  "app_config":
+    content: "debug=false"
+    x-config-top-note: generated at deploy time
+x-project-notes: internal use only

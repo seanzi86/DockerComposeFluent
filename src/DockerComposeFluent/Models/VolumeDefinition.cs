@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace DockerComposeFluent.Models
 {
     /// <summary>
@@ -13,6 +15,18 @@ namespace DockerComposeFluent.Models
         public string? Driver { get; init; }
 
         /// <summary>
+        /// Driver-specific options as key-value pairs, as specified by <c>driver_opts</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#driver_opts"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, string> DriverOptions { get; init; } = Collections.EmptyDictionary<string>();
+
+        /// <summary>
+        /// Whether the volume's lifecycle is managed outside this application, as specified by <c>external</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#external"/>
+        /// </summary>
+        public bool? External { get; init; }
+
+        /// <summary>
         /// The labels attached to the volume, as specified by <c>labels</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#labels"/>
         /// </summary>
@@ -24,5 +38,12 @@ namespace DockerComposeFluent.Models
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#name"/>
         /// </summary>
         public string? Name { get; init; }
+
+        /// <summary>
+        /// The extension fields defined on this volume, keyed by their <c>x-</c> name. Compose ignores these;
+        /// they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
     }
 }

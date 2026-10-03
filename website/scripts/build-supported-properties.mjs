@@ -18,10 +18,21 @@ const endMarker = "<!-- supported-properties:end -->";
 // Order matters: roughly the order a reader meets these while writing a compose file - a service's own
 // properties first, then the nested concepts a service can reference, then the top-level entries.
 const sections = [
+  { type: "IncludeDefinition", title: "Include", path: "`include`" },
   { type: "ServiceDefinition", title: "Services", path: "`services.<name>`" },
+  { type: "DeployDefinition", title: "Deploy", path: "`services.<name>.deploy`" },
+  { type: "PlacementDefinition", title: "Deploy placement", path: "`services.<name>.deploy.placement`" },
+  { type: "ResourcesDefinition", title: "Deploy resources", path: "`services.<name>.deploy.resources`" },
+  { type: "ResourceLimitsDefinition", title: "Deploy resource limits", path: "`services.<name>.deploy.resources.limits`" },
+  { type: "ResourceReservationsDefinition", title: "Deploy resource reservations", path: "`services.<name>.deploy.resources.reservations`" },
+  { type: "DeviceDefinition", title: "Deploy device reservation", path: "`services.<name>.deploy.resources.reservations.devices`" },
+  { type: "DeployRestartPolicyDefinition", title: "Deploy restart policy", path: "`services.<name>.deploy.restart_policy`" },
+  { type: "RollbackConfigDefinition", title: "Deploy rollback configuration", path: "`services.<name>.deploy.rollback_config`" },
+  { type: "UpdateConfigDefinition", title: "Deploy update configuration", path: "`services.<name>.deploy.update_config`" },
   { type: "HealthcheckDefinition", title: "Healthcheck", path: "`services.<name>.healthcheck`" },
   { type: "DependencyDefinition", title: "Service dependency, long syntax", path: "`services.<name>.depends_on.<name>`" },
   { type: "EnvFileEntry", title: "Env file entry, long syntax", path: "`services.<name>.env_file`" },
+  { type: "ExtendsDefinition", title: "Extends, long syntax", path: "`services.<name>.extends`" },
   { type: "LoggingDefinition", title: "Logging", path: "`services.<name>.logging`" },
   { type: "PortDefinition", title: "Port, long syntax", path: "`services.<name>.ports`" },
   { type: "NetworkAttachment", title: "Service network attachment", path: "`services.<name>.networks.<name>`" },
@@ -34,6 +45,10 @@ const sections = [
   { type: "IpamDefinition", title: "IPAM", path: "`networks.<name>.ipam`" },
   { type: "IpamConfigDefinition", title: "IPAM address pool", path: "`networks.<name>.ipam.config`" },
   { type: "VolumeDefinition", title: "Volumes, top level", path: "`volumes.<name>`" },
+  { type: "SecretReference", title: "Service secret reference, long syntax", path: "`services.<name>.secrets`" },
+  { type: "SecretDefinition", title: "Secrets, top level", path: "`secrets.<name>`" },
+  { type: "ConfigReference", title: "Service config reference, long syntax", path: "`services.<name>.configs`" },
+  { type: "ConfigDefinition", title: "Configs, top level", path: "`configs.<name>`" },
 ];
 
 function collapseWhitespace(text) {
@@ -41,13 +56,18 @@ function collapseWhitespace(text) {
 }
 
 // Converts the small set of inline XML doc tags this codebase actually uses in a summary (just <c>) to
-// their Markdown equivalent. Anything else passes through unchanged.
+// their Markdown equivalent, and decodes the HTML entities XML doc comments need for a literal angle
+// bracket inside one (e.g. <c>/&lt;source&gt;</c>). Anything else passes through unchanged.
 function inlineMarkdown(text) {
-  return text.replace(/<c>(.*?)<\/c>/g, "`$1`");
+  return text
+    .replace(/<c>(.*?)<\/c>/g, "`$1`")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
 }
 
 function descriptionFor(summary) {
-  const [before] = summary.split(/,?\s*as specified by/);
+  const [before] = collapseWhitespace(summary).split(/,?\s*as specified by/);
   const text = collapseWhitespace(inlineMarkdown(before));
   return text.endsWith(".") ? text : `${text}.`;
 }
@@ -60,7 +80,10 @@ function parseMembers(xml) {
 
   const byType = new Map();
   for (const [, type, property, body] of xml.matchAll(memberPattern)) {
-    const keyMatch = keyPattern.exec(body);
+    // Matched against whitespace-collapsed text, not the raw body: a doc comment that happens to line-wrap
+    // between "specified" and "by" would otherwise silently fail to match (the source's line breaks survive
+    // into the compiled XML) and the property would be dropped from the matrix with no error.
+    const keyMatch = keyPattern.exec(collapseWhitespace(body));
     if (!keyMatch) {
       continue;
     }

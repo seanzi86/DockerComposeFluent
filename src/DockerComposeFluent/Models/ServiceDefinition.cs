@@ -35,6 +35,13 @@ namespace DockerComposeFluent.Models
         public IReadOnlyDictionary<string, DependencyDefinition> DependsOn { get; init; } = Collections.EmptyDictionary<DependencyDefinition>();
 
         /// <summary>
+        /// Deployment metadata for the service, so a platform such as Docker Swarm can allocate and configure
+        /// resources for it, as specified by <c>deploy</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/deploy.md"/>
+        /// </summary>
+        public DeployDefinition? Deploy { get; init; }
+
+        /// <summary>
         /// The entrypoint that overrides the image's default entrypoint, as specified by <c>entrypoint</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#entrypoint"/>
         /// </summary>
@@ -52,6 +59,15 @@ namespace DockerComposeFluent.Models
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
         /// </summary>
         public EnvironmentVariables Environment { get; init; } = new EnvironmentVariables();
+
+        /// <summary>
+        /// The other service this service extends, sharing its configuration as a base, as specified by
+        /// <c>extends</c>. Compose does not automatically pull in the referenced service's <c>volumes</c>,
+        /// <c>networks</c>, <c>configs</c>, <c>secrets</c> or <c>depends_on</c> - declare them explicitly on
+        /// this service if they are needed.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extends"/>
+        /// </summary>
+        public ExtendsDefinition? Extends { get; init; }
 
         /// <summary>
         /// The labels attached to the service, as specified by <c>labels</c>.
@@ -83,6 +99,13 @@ namespace DockerComposeFluent.Models
         public IReadOnlyDictionary<string, NetworkAttachment> Networks { get; init; } = Collections.EmptyDictionary<NetworkAttachment>();
 
         /// <summary>
+        /// The target platform to run the container on, as specified by <c>platform</c>, for example
+        /// <c>linux/amd64</c> or <c>linux/arm64</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#platform"/>
+        /// </summary>
+        public string? Platform { get; init; }
+
+        /// <summary>
         /// The ports to expose, as specified by <c>ports</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
         /// </summary>
@@ -109,9 +132,30 @@ namespace DockerComposeFluent.Models
         public IReadOnlyList<string> Profiles { get; init; } = Array.Empty<string>();
 
         /// <summary>
+        /// The configs this service is granted access to, as specified by <c>configs</c>. Empty when none are
+        /// set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// </summary>
+        public IReadOnlyList<ConfigReference> Configs { get; init; } = Array.Empty<ConfigReference>();
+
+        /// <summary>
+        /// The secrets this service is granted access to, as specified by <c>secrets</c>. Empty when none are
+        /// set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// </summary>
+        public IReadOnlyList<SecretReference> Secrets { get; init; } = Array.Empty<SecretReference>();
+
+        /// <summary>
         /// The mounts (volumes, bind mounts and so on), as specified by <c>volumes</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
         /// </summary>
         public IReadOnlyList<MountMapping> Volumes { get; init; } = Array.Empty<MountMapping>();
+
+        /// <summary>
+        /// The extension fields defined on this service, keyed by their <c>x-</c> name. Compose ignores these;
+        /// they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
     }
 }

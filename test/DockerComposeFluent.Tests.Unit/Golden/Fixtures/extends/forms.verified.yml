@@ -1,0 +1,19 @@
+services:
+  "common":
+    environment:
+      "TZ": "utc"
+    image: "busybox"
+  "cli":
+    environment:
+      "PORT": "80"
+    extends: "common"
+  "remote":
+    extends:
+      file: "common.yml"
+      service: "webapp"
+  "definition":
+    extends: "common"
+  "builder":
+    extends:
+      file: "common.yml"
+      service: "webapp"

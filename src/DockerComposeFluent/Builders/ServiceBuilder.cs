@@ -269,6 +269,34 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets deployment metadata for the service, from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/deploy.md"/>
+        /// </summary>
+        /// <param name="deploy">The deploy definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithDeploy(DeployDefinition deploy)
+        {
+            Guard.NotNull(deploy, nameof(deploy));
+            _definition = _definition with { Deploy = deploy };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets deployment metadata for the service, configured through a <see cref="DeployBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/deploy.md"/>
+        /// </summary>
+        /// <param name="configure">Configures the deployment metadata.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithDeploy(Action<DeployBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            DeployBuilder builder = new DeployBuilder();
+            configure(builder);
+            return WithDeploy(builder.Build());
+        }
+
+        /// <summary>
         /// Sets the entrypoint as a single shell-form string, written to YAML as a string.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#entrypoint"/>
         /// </summary>
@@ -291,6 +319,62 @@ namespace DockerComposeFluent.Builders
         {
             _definition = _definition with { Entrypoint = CommandLine.FromArguments(arguments) };
             return this;
+        }
+
+        /// <summary>
+        /// Sets the other service this service extends, referencing a service in the same file, written to
+        /// YAML as a plain string.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extends"/>
+        /// </summary>
+        /// <param name="service">The name of the service being referenced as a base.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithExtends(string service)
+        {
+            Guard.NotNullOrWhiteSpace(service, nameof(service));
+            return WithExtends(new ExtendsDefinition { Service = service });
+        }
+
+        /// <summary>
+        /// Sets the other service this service extends, referencing a service in another Compose file.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extends"/>
+        /// </summary>
+        /// <param name="service">The name of the service being referenced as a base.</param>
+        /// <param name="file">The Compose file it is defined in. Relative paths are resolved against the
+        /// main Compose file's location.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithExtends(string service, string file)
+        {
+            Guard.NotNullOrWhiteSpace(service, nameof(service));
+            Guard.NotNullOrWhiteSpace(file, nameof(file));
+            return WithExtends(new ExtendsDefinition { Service = service, File = file });
+        }
+
+        /// <summary>
+        /// Sets the other service this service extends, from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extends"/>
+        /// </summary>
+        /// <param name="extends">The extends definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithExtends(ExtendsDefinition extends)
+        {
+            Guard.NotNull(extends, nameof(extends));
+            _definition = _definition with { Extends = extends };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the other service this service extends, configured through an <see cref="ExtendsBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extends"/>
+        /// </summary>
+        /// <param name="configure">Configures the extends definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithExtends(Action<ExtendsBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            ExtendsBuilder builder = new ExtendsBuilder();
+            configure(builder);
+            return WithExtends(builder.Build());
         }
 
         /// <summary>
@@ -703,6 +787,146 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Grants the service access to a config with no settings, written to YAML as a plain source name.
+        /// Each call adds another config.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// </summary>
+        /// <param name="source">The name of a config defined at the top level.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithConfig(string source)
+        {
+            return AddConfig(new ConfigReference { Source = source });
+        }
+
+        /// <summary>
+        /// Grants the service access to several configs, each with no settings.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// </summary>
+        /// <param name="sources">The names of configs defined at the top level.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithConfigs(IEnumerable<string> sources)
+        {
+            Guard.NotNull(sources, nameof(sources));
+
+            foreach (string source in sources)
+            {
+                WithConfig(source);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Grants the service access to a config, mounted under a different file path. Each call adds another
+        /// config.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// </summary>
+        /// <param name="source">The name of a config defined at the top level.</param>
+        /// <param name="target">The path and name of the mounted file.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithConfig(string source, string target)
+        {
+            return AddConfig(new ConfigReference { Source = source, Target = target });
+        }
+
+        /// <summary>
+        /// Grants the service access to a config from an existing reference. Each call adds another config.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// </summary>
+        /// <param name="config">The config reference.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithConfig(ConfigReference config)
+        {
+            Guard.NotNull(config, nameof(config));
+            return AddConfig(config);
+        }
+
+        /// <summary>
+        /// Grants the service access to a config, configured through a <see cref="ConfigReferenceBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// </summary>
+        /// <param name="configure">Configures the config reference.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithConfig(Action<ConfigReferenceBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            ConfigReferenceBuilder builder = new ConfigReferenceBuilder();
+            configure(builder);
+            return AddConfig(builder.Build());
+        }
+
+        /// <summary>
+        /// Grants the service access to a secret with no settings, written to YAML as a plain source name.
+        /// Each call adds another secret.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// </summary>
+        /// <param name="source">The name of a secret defined at the top level.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithSecret(string source)
+        {
+            return AddSecret(new SecretReference { Source = source });
+        }
+
+        /// <summary>
+        /// Grants the service access to several secrets, each with no settings.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// </summary>
+        /// <param name="sources">The names of secrets defined at the top level.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithSecrets(IEnumerable<string> sources)
+        {
+            Guard.NotNull(sources, nameof(sources));
+
+            foreach (string source in sources)
+            {
+                WithSecret(source);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Grants the service access to a secret, mounted under a different file name. Each call adds another
+        /// secret.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// </summary>
+        /// <param name="source">The name of a secret defined at the top level.</param>
+        /// <param name="target">The name of the mounted file, or an absolute path.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithSecret(string source, string target)
+        {
+            return AddSecret(new SecretReference { Source = source, Target = target });
+        }
+
+        /// <summary>
+        /// Grants the service access to a secret from an existing reference. Each call adds another secret.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// </summary>
+        /// <param name="secret">The secret reference.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithSecret(SecretReference secret)
+        {
+            Guard.NotNull(secret, nameof(secret));
+            return AddSecret(secret);
+        }
+
+        /// <summary>
+        /// Grants the service access to a secret, configured through a <see cref="SecretReferenceBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// </summary>
+        /// <param name="configure">Configures the secret reference.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithSecret(Action<SecretReferenceBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            SecretReferenceBuilder builder = new SecretReferenceBuilder();
+            configure(builder);
+            return AddSecret(builder.Build());
+        }
+
+        /// <summary>
         /// Attaches the service to a network with no settings. When no attached network has settings, the
         /// networks are written to YAML as a plain list of names. Attaching the same network again replaces it.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
@@ -761,6 +985,19 @@ namespace DockerComposeFluent.Builders
                 WithNetwork(name);
             }
 
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the target platform to run the container on.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#platform"/>
+        /// </summary>
+        /// <param name="platform">The platform, for example <c>linux/amd64</c> or <c>linux/arm64</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPlatform(string platform)
+        {
+            Guard.NotNullOrWhiteSpace(platform, nameof(platform));
+            _definition = _definition with { Platform = platform };
             return this;
         }
 
@@ -887,6 +1124,20 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets an extension field on this service. Setting the same key again replaces its value. Compose
+        /// ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        /// <param name="key">The field key, which must start with <c>x-</c>.</param>
+        /// <param name="value">The field value, serialised as-is.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithExtension(string key, object? value)
+        {
+            _definition = _definition with { Extensions = ExtensionsMutator.Set(_definition.Extensions, key, value, nameof(key)) };
+            return this;
+        }
+
+        /// <summary>
         /// Creates the service definition from the values set so far.
         /// </summary>
         /// <returns>An immutable <see cref="ServiceDefinition"/>.</returns>
@@ -906,6 +1157,18 @@ namespace DockerComposeFluent.Builders
         {
             List<MountMapping> volumes = new List<MountMapping>(_definition.Volumes) { mount };
             _definition = _definition with { Volumes = volumes.AsReadOnly() };
+            return this;
+        }
+
+        private ServiceBuilder AddConfig(ConfigReference config)
+        {
+            _definition = _definition with { Configs = Collections.Append(_definition.Configs, config) };
+            return this;
+        }
+
+        private ServiceBuilder AddSecret(SecretReference secret)
+        {
+            _definition = _definition with { Secrets = Collections.Append(_definition.Secrets, secret) };
             return this;
         }
 

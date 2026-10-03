@@ -78,6 +78,34 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         }
 
         [Fact]
+        public void WithSecret_BothOverloads_AddSecrets()
+        {
+            SecretDefinition existing = new SecretDefinition { File = "./server.cert" };
+
+            DockerComposeFile file = new DockerComposeBuilder()
+                .WithSecret("server-certificate", existing)
+                .WithSecret("token", secret => secret.WithEnvironment("OAUTH_TOKEN"))
+                .Build();
+
+            Assert.Same(existing, file.Secrets["server-certificate"]);
+            Assert.Equal("OAUTH_TOKEN", file.Secrets["token"].Environment);
+        }
+
+        [Fact]
+        public void WithConfig_BothOverloads_AddConfigs()
+        {
+            ConfigDefinition existing = new ConfigDefinition { File = "./httpd.conf" };
+
+            DockerComposeFile file = new DockerComposeBuilder()
+                .WithConfig("http_config", existing)
+                .WithConfig("app_config", config => config.WithContent("debug=true"))
+                .Build();
+
+            Assert.Same(existing, file.Configs["http_config"]);
+            Assert.Equal("debug=true", file.Configs["app_config"].Content);
+        }
+
+        [Fact]
         public void WithService_SameNameTwice_LastOneWins()
         {
             DockerComposeFile file = new DockerComposeBuilder()
@@ -125,6 +153,8 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentException>(() => builder.WithService(name!, new ServiceDefinition()));
             Assert.Throws<ArgumentException>(() => builder.WithNetwork(name!, new NetworkDefinition()));
             Assert.Throws<ArgumentException>(() => builder.WithVolume(name!, new VolumeDefinition()));
+            Assert.Throws<ArgumentException>(() => builder.WithSecret(name!, new SecretDefinition { File = "./x" }));
+            Assert.Throws<ArgumentException>(() => builder.WithConfig(name!, new ConfigDefinition { File = "./x" }));
         }
 
         [Fact]
@@ -138,6 +168,10 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentNullException>(() => builder.WithNetwork("net", (Action<NetworkBuilder>)null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithVolume("vol", (VolumeDefinition)null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithVolume("vol", (Action<VolumeBuilder>)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithSecret("secret", (SecretDefinition)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithSecret("secret", (Action<SecretBuilder>)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithConfig("config", (ConfigDefinition)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithConfig("config", (Action<ConfigBuilder>)null!));
         }
     }
 }

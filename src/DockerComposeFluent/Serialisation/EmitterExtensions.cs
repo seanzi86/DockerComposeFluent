@@ -175,6 +175,24 @@ namespace DockerComposeFluent.Serialisation
         }
 
         /// <summary>
+        /// Writes a fixed key and a floating-point value as a plain (unquoted) number, or nothing when
+        /// <paramref name="value"/> is <c>null</c>.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="key">The fixed key to write.</param>
+        /// <param name="value">The value to write, or <c>null</c> to omit the entry.</param>
+        internal static void WriteOptionalNumber(this IEmitter emitter, string key, double? value)
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            emitter.WriteKey(key);
+            emitter.Emit(new Scalar(value.Value.ToString(CultureInfo.InvariantCulture)));
+        }
+
+        /// <summary>
         /// Writes a fixed key and a block sequence of user-supplied strings, or nothing when
         /// <paramref name="values"/> is empty.
         /// </summary>
@@ -250,6 +268,31 @@ namespace DockerComposeFluent.Serialisation
             }
 
             emitter.EndSequence();
+        }
+
+        /// <summary>
+        /// Writes each entry of a model's <c>x-</c> extension fields directly into the current mapping (not
+        /// nested under their own key), or nothing when <paramref name="extensions"/> is empty. Each value is
+        /// serialised using its own runtime type, since extension field values are arbitrary user data rather
+        /// than one of this library's modelled shapes.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="extensions">The extension fields to write.</param>
+        /// <param name="serialiser">Serialises each value using the registered converters.</param>
+        internal static void WriteExtensions(this IEmitter emitter, IReadOnlyDictionary<string, object?> extensions, ObjectSerializer serialiser)
+        {
+            foreach (KeyValuePair<string, object?> extension in extensions)
+            {
+                emitter.WriteKey(extension.Key);
+                if (extension.Value == null)
+                {
+                    emitter.WriteNull();
+                }
+                else
+                {
+                    serialiser(extension.Value, extension.Value.GetType());
+                }
+            }
         }
 
         /// <summary>

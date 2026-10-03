@@ -41,6 +41,15 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         }
 
         [Fact]
+        public void WithExtension_ForcesNotEmpty()
+        {
+            NetworkAttachment attachment = new NetworkAttachmentBuilder().WithExtension("x-note", "public facing").Build();
+
+            Assert.False(attachment.IsEmpty);
+            Assert.Equal("public facing", attachment.Extensions["x-note"]);
+        }
+
+        [Fact]
         public void Aliases_AndLinkLocalIps_Append()
         {
             NetworkAttachment attachment = new NetworkAttachmentBuilder()

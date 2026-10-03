@@ -31,5 +31,10 @@ services:
 volumes:
   "db-data":
     driver: "local"
+    driver_opts:
+      "type": "nfs"
+      "o": "addr=10.40.0.199,nolock,soft,rw"
   "cache":
     name: "app_cache"
+  "shared":
+    external: true

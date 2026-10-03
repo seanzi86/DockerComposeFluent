@@ -14,7 +14,11 @@ namespace DockerComposeFluent.Builders
         private readonly Dictionary<string, ServiceDefinition> _services = new Dictionary<string, ServiceDefinition>();
         private readonly Dictionary<string, NetworkDefinition> _networks = new Dictionary<string, NetworkDefinition>();
         private readonly Dictionary<string, VolumeDefinition> _volumes = new Dictionary<string, VolumeDefinition>();
+        private readonly Dictionary<string, SecretDefinition> _secrets = new Dictionary<string, SecretDefinition>();
+        private readonly Dictionary<string, ConfigDefinition> _configs = new Dictionary<string, ConfigDefinition>();
+        private readonly List<IncludeDefinition> _includes = new List<IncludeDefinition>();
         private string? _name;
+        private IReadOnlyDictionary<string, object?> _extensions = Collections.EmptyDictionary<object?>();
 
         /// <summary>
         /// Sets the project name.
@@ -28,6 +32,81 @@ namespace DockerComposeFluent.Builders
 
             _name = name;
             return this;
+        }
+
+        /// <summary>
+        /// Sets an extension field at the top level of the file. Setting the same key again replaces its
+        /// value. Compose ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
+        /// </summary>
+        /// <param name="key">The field key, which must start with <c>x-</c>.</param>
+        /// <param name="value">The field value, serialised as-is.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithExtension(string key, object? value)
+        {
+            _extensions = ExtensionsMutator.Set(_extensions, key, value, nameof(key));
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a Compose file to include, referenced by its path, written to YAML as a plain string.
+        /// Included files are resolved before the rest of this file.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
+        /// </summary>
+        /// <param name="path">The file path.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithInclude(string path)
+        {
+            Guard.NotNullOrWhiteSpace(path, nameof(path));
+            return WithInclude(new IncludeDefinition { Path = new[] { path } });
+        }
+
+        /// <summary>
+        /// Adds several Compose files to include, each referenced by its path. Each call to this method adds
+        /// one <c>include</c> entry per path; use <see cref="WithInclude(Action{IncludeBuilder})"/> for an
+        /// entry that includes several paths together.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
+        /// </summary>
+        /// <param name="paths">The file paths.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithIncludes(IEnumerable<string> paths)
+        {
+            Guard.NotNull(paths, nameof(paths));
+
+            foreach (string path in paths)
+            {
+                WithInclude(path);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a Compose file to include, from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
+        /// </summary>
+        /// <param name="include">The include definition.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithInclude(IncludeDefinition include)
+        {
+            Guard.NotNull(include, nameof(include));
+            _includes.Add(include);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a Compose file to include, configured through an <see cref="IncludeBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
+        /// </summary>
+        /// <param name="configure">Configures the include.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithInclude(Action<IncludeBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            IncludeBuilder builder = new IncludeBuilder();
+            configure(builder);
+            return WithInclude(builder.Build());
         }
 
         /// <summary>
@@ -127,6 +206,70 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Adds a secret from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md"/>
+        /// </summary>
+        /// <param name="name">The secret name.</param>
+        /// <param name="secret">The secret definition.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithSecret(string name, SecretDefinition secret)
+        {
+            Guard.NotNullOrWhiteSpace(name, nameof(name));
+            Guard.NotNull(secret, nameof(secret));
+
+            _secrets[name] = secret;
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a secret configured through a <see cref="SecretBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md"/>
+        /// </summary>
+        /// <param name="name">The secret name.</param>
+        /// <param name="configure">Configures the secret.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithSecret(string name, Action<SecretBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            SecretBuilder builder = new SecretBuilder();
+            configure(builder);
+            return WithSecret(name, builder.Build());
+        }
+
+        /// <summary>
+        /// Adds a config from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/08-configs.md"/>
+        /// </summary>
+        /// <param name="name">The config name.</param>
+        /// <param name="config">The config definition.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithConfig(string name, ConfigDefinition config)
+        {
+            Guard.NotNullOrWhiteSpace(name, nameof(name));
+            Guard.NotNull(config, nameof(config));
+
+            _configs[name] = config;
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a config configured through a <see cref="ConfigBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/08-configs.md"/>
+        /// </summary>
+        /// <param name="name">The config name.</param>
+        /// <param name="configure">Configures the config.</param>
+        /// <returns>This builder.</returns>
+        public DockerComposeBuilder WithConfig(string name, Action<ConfigBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            ConfigBuilder builder = new ConfigBuilder();
+            configure(builder);
+            return WithConfig(name, builder.Build());
+        }
+
+        /// <summary>
         /// Creates the compose file from the values set so far. Later changes to this builder do not affect the returned file.
         /// </summary>
         /// <returns>An immutable <see cref="DockerComposeFile"/>.</returns>
@@ -135,9 +278,13 @@ namespace DockerComposeFluent.Builders
             return new DockerComposeFile
             {
                 Name = _name,
+                Includes = new List<IncludeDefinition>(_includes),
                 Services = new Dictionary<string, ServiceDefinition>(_services),
                 Networks = new Dictionary<string, NetworkDefinition>(_networks),
-                Volumes = new Dictionary<string, VolumeDefinition>(_volumes)
+                Volumes = new Dictionary<string, VolumeDefinition>(_volumes),
+                Secrets = new Dictionary<string, SecretDefinition>(_secrets),
+                Configs = new Dictionary<string, ConfigDefinition>(_configs),
+                Extensions = _extensions
             };
         }
     }

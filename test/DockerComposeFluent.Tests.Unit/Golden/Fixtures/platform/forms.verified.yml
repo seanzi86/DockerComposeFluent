@@ -1,0 +1,7 @@
+services:
+  "amd64":
+    image: "example/app"
+    platform: "linux/amd64"
+  "arm64":
+    image: "example/app"
+    platform: "linux/arm64"

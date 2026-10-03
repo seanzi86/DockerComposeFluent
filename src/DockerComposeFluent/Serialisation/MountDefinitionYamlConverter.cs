@@ -22,6 +22,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalValue("tmpfs", value.Tmpfs, serialiser);
             emitter.WriteScalarEntry("type", EnumNames.Of(value.Type));
             emitter.WriteOptionalValue("volume", value.Volume, serialiser);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

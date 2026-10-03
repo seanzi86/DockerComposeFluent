@@ -8,11 +8,15 @@ Every property below has a `WithX` builder method that produces it; see the [API
 for the exact overloads. "Since Compose" is the minimum Docker Compose version the property needs, taken from
 the library's own `<remarks>` on that property; "Core spec" means there's no extra requirement.
 
-This page is regenerated from the library's XML doc comments by
-[`scripts/generate-supported-properties.sh`](https://github.com/seanzi86/DockerComposeFluent/blob/main/scripts/generate-supported-properties.sh)
-(`npm run docs:supported` from `website/`) — the tables between the markers below are never hand-edited.
-
 <!-- supported-properties:begin -->
+
+### Include (`include`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `path` | The paths to the Compose files to include. | Core spec |
+| `env_file` | The paths to environment files that provide default values when interpolating variables in the included files. | Core spec |
+| `project_directory` | The directory relative paths in the included file are resolved against. | Core spec |
 
 ### Services (`services.<name>`)
 
@@ -22,18 +26,110 @@ This page is regenerated from the library's XML doc comments by
 | [`command`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#command) | The command that overrides the image's default command. | Core spec |
 | [`container_name`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#container_name) | The custom container name. | Core spec |
 | [`depends_on`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#depends_on) | The services this service depends on and their settings, keyed by service name. | Core spec |
+| [`deploy`](https://github.com/compose-spec/compose-spec/blob/main/deploy.md) | Deployment metadata for the service, so a platform such as Docker Swarm can allocate and configure resources for it. | Core spec |
 | [`entrypoint`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#entrypoint) | The entrypoint that overrides the image's default entrypoint. | Core spec |
 | [`env_file`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file) | The files to read environment variables from. | Core spec |
 | [`environment`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment) | The environment variables set in the container. | Core spec |
+| [`extends`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extends) | The other service this service extends, sharing its configuration as a base. | Core spec |
 | [`labels`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels) | The labels attached to the service. | Core spec |
 | [`label_file`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#label_file) | The files to load labels from. | 2.32.0+ |
 | [`healthcheck`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | The check that decides whether the service's containers are healthy. | Core spec |
 | [`networks`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks) | The networks the service joins and their settings, keyed by network name. | Core spec |
+| [`platform`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#platform) | The target platform to run the container on. | Core spec |
 | [`ports`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports) | The ports to expose. | Core spec |
 | [`restart`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#restart) | When the container is restarted. | Core spec |
 | [`logging`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging) | The logging configuration. | Core spec |
 | [`profiles`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#profiles) | The profiles the service is enabled under. | Core spec |
+| [`configs`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs) | The configs this service is granted access to. | Core spec |
+| [`secrets`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets) | The secrets this service is granted access to. | Core spec |
 | [`volumes`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes) | The mounts (volumes, bind mounts and so on). | Core spec |
+
+### Deploy (`services.<name>.deploy`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `mode` | The replication model. | Core spec |
+| `endpoint_mode` | The service discovery method for external clients. | Core spec |
+| `replicas` | The number of containers to run, when `Mode` is `DeployMode.Replicated` (the default). | Core spec |
+| `labels` | The labels attached to the service on the platform, not to any of its containers. | Core spec |
+| `placement` | Constraints and preferences for the platform's choice of node. | Core spec |
+| `resources` | The physical resource constraints and reservations for the containers. | Core spec |
+| `restart_policy` | How and whether to restart the containers when they exit. | Core spec |
+| `rollback_config` | How to roll the service back after a failed update. | Core spec |
+| `update_config` | How to roll out an update to the service. | Core spec |
+
+### Deploy placement (`services.<name>.deploy.placement`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `constraints` | The properties a node must have to run the service. | Core spec |
+| `preferences` | The node label values to spread tasks evenly across. | Core spec |
+| `max_replicas_per_node` | The maximum number of replicas of the service on a single node. | Core spec |
+
+### Deploy resources (`services.<name>.deploy.resources`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `limits` | The upper bound on what a container may use. | Core spec |
+| `reservations` | What the platform must guarantee a container can allocate. | Core spec |
+
+### Deploy resource limits (`services.<name>.deploy.resources.limits`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `cpus` | The number of CPU cores the container can use. | Core spec |
+| `memory` | The amount of memory the container can allocate, as a compose-spec byte value such as `50M`. | Core spec |
+| `pids` | The container's PID limit. | Core spec |
+
+### Deploy resource reservations (`services.<name>.deploy.resources.reservations`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `cpus` | The number of CPU cores the container can use. | Core spec |
+| `memory` | The amount of memory the container can allocate, as a compose-spec byte value such as `20M`. | Core spec |
+| `pids` | The container's PID limit. | Core spec |
+| `devices` | The devices to reserve. | Core spec |
+
+### Deploy device reservation (`services.<name>.deploy.resources.reservations.devices`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `capabilities` | The capabilities the device must satisfy. | Core spec |
+| `driver` | The driver to reserve the device through. | Core spec |
+| `count` | The number of devices to reserve. | Core spec |
+| `device_ids` | The IDs of the specific devices to reserve. | Core spec |
+| `options` | Driver-specific options as key-value pairs. | Core spec |
+
+### Deploy restart policy (`services.<name>.deploy.restart_policy`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `condition` | When a container is restarted. | Core spec |
+| `delay` | How long to wait between restart attempts, as a compose-spec duration. | Core spec |
+| `max_attempts` | The maximum number of restart attempts before giving up. | Core spec |
+| `window` | How long to wait before deciding a restart has succeeded, as a compose-spec duration. | Core spec |
+
+### Deploy rollback configuration (`services.<name>.deploy.rollback_config`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `parallelism` | The number of containers to roll back at a time. | Core spec |
+| `delay` | The time to wait between each group's rollback, as a compose-spec duration. | Core spec |
+| `failure_action` | What to do if the rollback itself fails. | Core spec |
+| `monitor` | How long to monitor each task for failure after it is updated, as a compose-spec duration. | Core spec |
+| `max_failure_ratio` | The failure rate to tolerate during the rollback, from `0` to `1`. | Core spec |
+| `order` | The order containers are stopped and started in. | Core spec |
+
+### Deploy update configuration (`services.<name>.deploy.update_config`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `parallelism` | The number of containers to update at a time. | Core spec |
+| `delay` | The time to wait between updating each group of containers, as a compose-spec duration. | Core spec |
+| `failure_action` | What to do if the update fails. | Core spec |
+| `monitor` | How long to monitor each task for failure after it is updated, as a compose-spec duration. | Core spec |
+| `max_failure_ratio` | The failure rate to tolerate during the update, from `0` to `1`. | Core spec |
+| `order` | The order containers are stopped and started in. | Core spec |
 
 ### Healthcheck (`services.<name>.healthcheck`)
 
@@ -43,19 +139,30 @@ This page is regenerated from the library's XML doc comments by
 | [`interval`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | The time between checks, as a compose-spec duration such as `1m30s`. | Core spec |
 | [`retries`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | The number of consecutive failures before the container is considered unhealthy. | Core spec |
 | [`start_interval`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | The time between checks during the start period, as a compose-spec duration. | 2.20.2+ |
+| [`start_period`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | How long the container has to start before failed checks count, as a compose-spec duration. | Core spec |
 | [`test`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | The command that checks the container's health. | Core spec |
+| [`timeout`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | How long a single check may run before it counts as failed, as a compose-spec duration. | Core spec |
 
 ### Service dependency, long syntax (`services.<name>.depends_on.<name>`)
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
 | [`condition`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#long-syntax) | When the dependency is considered satisfied. | Core spec |
+| [`restart`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#long-syntax) | Whether this service is restarted when the dependency is restarted by a Compose operation. | 2.17.0+ |
+| [`required`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#long-syntax) | Whether the dependency must be available. When `false`, Compose only warns if it is missing. | 2.20.0+ |
 
 ### Env file entry, long syntax (`services.<name>.env_file`)
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
 | [`format`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#format) | The alternative parsing format for the file. | 2.30.0+ |
+
+### Extends, long syntax (`services.<name>.extends`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `service` | The name of the service being referenced as a base. | Core spec |
+| `file` | The Compose file the referenced service is defined in. | Core spec |
 
 ### Logging (`services.<name>.logging`)
 
@@ -169,8 +276,49 @@ This page is regenerated from the library's XML doc comments by
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
 | [`driver`](https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#driver) | The volume driver to use. | Core spec |
+| [`driver_opts`](https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#driver_opts) | Driver-specific options as key-value pairs. | Core spec |
+| [`external`](https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#external) | Whether the volume's lifecycle is managed outside this application. | Core spec |
 | [`labels`](https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#labels) | The labels attached to the volume. | Core spec |
 | [`name`](https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md#name) | The actual Docker volume name to use, overriding the default name generated from the project name and the key this volume is defined under. | Core spec |
+
+### Service secret reference, long syntax (`services.<name>.secrets`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `source` | The name of the secret as defined in the top-level `secrets` section. | Core spec |
+| `target` | The name of the file mounted under `/run/secrets/` in the container, or an absolute path for an alternate location. Defaults to the source name if not set. | Core spec |
+| `uid` | The numeric user ID that owns the mounted file. | Core spec |
+| `gid` | The numeric group ID that owns the mounted file. | Core spec |
+| `mode` | The permissions of the mounted file, in octal notation. | Core spec |
+
+### Secrets, top level (`secrets.<name>`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| [`file`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | The path of the file whose contents become the secret. | Core spec |
+| [`environment`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | The name of the environment variable whose value becomes the secret. | 2.6.0+ |
+| [`external`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | Whether this secret has already been created outside Compose. | Core spec |
+| [`name`](https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md) | The actual name of the secret object to look up, overriding the default name generated from the project name and the key this secret is defined under. | Core spec |
+
+### Service config reference, long syntax (`services.<name>.configs`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `source` | The name of the config as defined in the top-level `configs` section. | Core spec |
+| `target` | The path and name of the file mounted in the container. Defaults to `/<source>` if not set. | Core spec |
+| `uid` | The numeric user ID that owns the mounted file. | Core spec |
+| `gid` | The numeric group ID that owns the mounted file. | Core spec |
+| `mode` | The permissions of the mounted file, in octal notation. | Core spec |
+
+### Configs, top level (`configs.<name>`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| [`file`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | The path of the file whose contents become the config. | Core spec |
+| [`environment`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | The name of the environment variable whose value becomes the config. | Core spec |
+| [`content`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | The inline text that becomes the config. | 2.23.1+ |
+| [`external`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | Whether this config has already been created outside Compose. | Core spec |
+| [`name`](https://github.com/compose-spec/compose-spec/blob/main/08-configs.md) | The actual name of the config object to look up, overriding the default name generated from the project name and the key this config is defined under. | Core spec |
 
 <!-- supported-properties:end -->
 

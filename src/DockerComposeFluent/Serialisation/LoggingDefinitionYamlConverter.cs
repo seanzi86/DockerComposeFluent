@@ -15,6 +15,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.StartMapping();
             emitter.WriteOptionalScalar("driver", value.Driver);
             emitter.WriteOptionalStringMap("options", value.Options);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

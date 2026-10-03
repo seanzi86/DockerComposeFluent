@@ -1,0 +1,29 @@
+services:
+  "api":
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: "50M"
+          pids: 100
+        reservations:
+          cpus: "0.25"
+          devices:
+            - capabilities:
+                - "gpu"
+              count: 2
+              driver: "nvidia"
+          memory: "20M"
+    image: "example/api"
+  "accelerated":
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+                - "gpu"
+              device_ids:
+                - "GPU-f123d1c9-26bb-df9b-1c23-4a731f61d8c7"
+              options:
+                "virtualization": "false"
+    image: "example/accelerated"

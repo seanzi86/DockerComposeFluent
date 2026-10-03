@@ -11,7 +11,10 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pull-requests: write # only used on a PR, to post/update the coverage summary comment
 
     steps:
       - name: Checkout
@@ -30,7 +33,54 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test --no-build --configuration Release
+        run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" --results-directory TestResults
+
+      # Uploaded (not published here) so a PR from a fork can still surface its results: a step in this
+      # workflow only ever has a read-only token on a fork PR, so it can't create a check run itself. The
+      # separate test-report.yml workflow, running with write permission, does that from this artifact.
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: test-results
+          path: TestResults/test-results.trx
+
+      # Combining --logger trx with --collect writes the coverage file twice: once under a random-GUID
+      # folder (the collector's own output) and again under trx's own attachment folder
+      # (TestResults/<run>/In/<host>/coverage.cobertura.xml, a copy of the same data). Located explicitly by
+      # depth, rather than a **-glob that would pick up both and double-count in the summary below.
+      - name: Locate coverage file
+        if: ${{ !cancelled() }}
+        id: coverage-file
+        run: echo "path=$(find TestResults -maxdepth 2 -name coverage.cobertura.xml)" >> "$GITHUB_OUTPUT"
+
+      # Posts (and updates on every push to the PR) a coverage summary comment.
+      - name: Coverage summary
+        if: github.event_name == 'pull_request'
+        id: coverage
+        uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
+        with:
+          filename: ${{ steps.coverage-file.outputs.path }}
+          badge: true
+          format: markdown
+          output: file
+
+      - name: Post coverage summary comment
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        with:
+          header: coverage
+          path: code-coverage-results.md
+
+      # Updates the live README badge and the project's coverage history; coveralls.io needs no account
+      # setup or secret, it identifies the repo from the default GITHUB_TOKEN. Only on a push to main, since
+      # a PR's coverage is already shown by the summary comment above, and the badge should track main.
+      - name: Upload coverage to Coveralls
+        if: github.event_name == 'push'
+        uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
+        with:
+          format: cobertura
+          file: ${{ steps.coverage-file.outputs.path }}
 
       # Checks the package can be built and passes package validation (the target frameworks are consistent).
       - name: Pack

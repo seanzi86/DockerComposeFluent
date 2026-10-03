@@ -16,6 +16,7 @@ namespace DockerComposeFluent.Serialisation
             emitter.WriteOptionalBoolean("create_host_path", value.CreateHostPath);
             emitter.WriteOptionalScalar("propagation", EnumNames.Of(value.Propagation));
             emitter.WriteOptionalScalar("selinux", EnumNames.Of(value.Selinux));
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

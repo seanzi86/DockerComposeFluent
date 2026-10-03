@@ -15,12 +15,14 @@ namespace DockerComposeFluent.Serialisation
             emitter.StartMapping();
             emitter.WriteOptionalValue("command", value.Command, serialiser);
             emitter.WriteOptionalScalar("container_name", value.ContainerName);
+            emitter.WriteOptionalSequence("configs", value.Configs, serialiser);
 
             if (value.DependsOn.Count > 0)
             {
                 emitter.WriteOptionalValue("depends_on", value.DependsOn, serialiser);
             }
 
+            emitter.WriteOptionalValue("deploy", value.Deploy, serialiser);
             emitter.WriteOptionalValue("entrypoint", value.Entrypoint, serialiser);
 
             emitter.WriteOptionalSequence("env_file", value.EnvFiles, serialiser);
@@ -30,6 +32,7 @@ namespace DockerComposeFluent.Serialisation
                 emitter.WriteOptionalValue("environment", value.Environment, serialiser);
             }
 
+            emitter.WriteOptionalValue("extends", value.Extends, serialiser);
             emitter.WriteOptionalValue("healthcheck", value.Healthcheck, serialiser);
             emitter.WriteOptionalScalar("image", value.Image);
             emitter.WriteOptionalStringSequence("label_file", value.LabelFiles);
@@ -45,11 +48,14 @@ namespace DockerComposeFluent.Serialisation
                 emitter.WriteOptionalValue("networks", value.Networks, serialiser);
             }
 
+            emitter.WriteOptionalScalar("platform", value.Platform);
             emitter.WriteOptionalSequence("ports", value.Ports, serialiser);
             emitter.WriteOptionalValue("logging", value.Logging, serialiser);
             emitter.WriteOptionalStringSequence("profiles", value.Profiles);
+            emitter.WriteOptionalSequence("secrets", value.Secrets, serialiser);
             emitter.WriteOptionalValue("restart", value.Restart, serialiser);
             emitter.WriteOptionalSequence("volumes", value.Volumes, serialiser);
+            emitter.WriteExtensions(value.Extensions, serialiser);
             emitter.EndMapping();
         }
     }

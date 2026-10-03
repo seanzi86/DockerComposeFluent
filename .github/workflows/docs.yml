@@ -22,7 +22,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       pages: write # only actually used on push, to look up the Pages configuration
 
@@ -82,7 +82,7 @@ jobs:
     # Only deploy from main; a pull request only needs the build above to prove the site still builds.
     if: github.event_name == 'push'
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

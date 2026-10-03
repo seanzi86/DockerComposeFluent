@@ -56,6 +56,27 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         }
 
         [Fact]
+        public void VolumeBuilder_SetsTheRemainingTopLevelFields()
+        {
+            VolumeDefinition volume = new VolumeBuilder()
+                .WithDriverOption("type", "nfs")
+                .WithExternal(true)
+                .Build();
+
+            Assert.Equal("nfs", volume.DriverOptions["type"]);
+            Assert.Equal(true, volume.External);
+        }
+
+        [Fact]
+        public void VolumeBuilder_DriverOptions_SameKeyReplaces()
+        {
+            VolumeDefinition volume = new VolumeBuilder().WithDriverOption("a", "1").WithDriverOption("a", "2").Build();
+
+            Assert.Equal("2", volume.DriverOptions["a"]);
+            Assert.Single(volume.DriverOptions);
+        }
+
+        [Fact]
         public void NetworkBuilder_RawIpamOverload_IsUsedAsGiven()
         {
             IpamDefinition ipam = new IpamDefinition { Driver = "default" };
@@ -78,6 +99,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
             Assert.Throws<ArgumentNullException>(() => new NetworkBuilder().WithIpam((IpamDefinition)null!));
             Assert.Throws<ArgumentNullException>(() => new NetworkBuilder().WithIpam((Action<IpamBuilder>)null!));
             Assert.Throws<ArgumentException>(() => new NetworkBuilder().WithDriverOption(" ", "x"));
+            Assert.Throws<ArgumentException>(() => new VolumeBuilder().WithDriverOption(" ", "x"));
         }
     }
 }

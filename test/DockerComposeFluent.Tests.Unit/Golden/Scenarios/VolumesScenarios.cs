@@ -40,8 +40,12 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                         .WithSource("example/assets:1")
                         .WithTarget("/assets")
                         .WithImageOptions(options => options.WithSubpath("static"))))
-                .WithVolume("db-data", volume => volume.WithDriver("local"))
+                .WithVolume("db-data", volume => volume
+                    .WithDriver("local")
+                    .WithDriverOption("type", "nfs")
+                    .WithDriverOption("o", "addr=10.40.0.199,nolock,soft,rw"))
                 .WithVolume("cache", volume => volume.WithName("app_cache"))
+                .WithVolume("shared", volume => volume.WithExternal(true))
                 .Build();
         }
 
