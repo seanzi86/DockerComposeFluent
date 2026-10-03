@@ -175,6 +175,24 @@ namespace DockerComposeFluent.Serialisation
         }
 
         /// <summary>
+        /// Writes a fixed key and a 64-bit integer value as a plain (unquoted) number, or nothing when
+        /// <paramref name="value"/> is <c>null</c>.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="key">The fixed key to write.</param>
+        /// <param name="value">The value to write, or <c>null</c> to omit the entry.</param>
+        internal static void WriteOptionalLong(this IEmitter emitter, string key, long? value)
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            emitter.WriteKey(key);
+            emitter.Emit(new Scalar(value.Value.ToString(CultureInfo.InvariantCulture)));
+        }
+
+        /// <summary>
         /// Writes a fixed key and a floating-point value as a plain (unquoted) number, or nothing when
         /// <paramref name="value"/> is <c>null</c>.
         /// </summary>
@@ -212,6 +230,32 @@ namespace DockerComposeFluent.Serialisation
             foreach (string value in values)
             {
                 emitter.WriteScalar(value);
+            }
+
+            emitter.EndSequence();
+        }
+
+        /// <summary>
+        /// Writes a fixed key and a list of <c>host:address</c> strings for a mapping of hostnames to addresses,
+        /// or nothing when <paramref name="values"/> is empty. An address containing a colon (IPv6) uses the
+        /// <c>host=address</c> form, which Compose reads unambiguously.
+        /// </summary>
+        /// <param name="emitter">The emitter to write to.</param>
+        /// <param name="key">The fixed key to write.</param>
+        /// <param name="values">The hostnames and their addresses.</param>
+        internal static void WriteOptionalExtraHosts(this IEmitter emitter, string key, IReadOnlyDictionary<string, string> values)
+        {
+            if (values.Count == 0)
+            {
+                return;
+            }
+
+            emitter.WriteKey(key);
+            emitter.StartSequence(SequenceStyle.Block);
+
+            foreach (KeyValuePair<string, string> entry in values)
+            {
+                emitter.WriteScalar(entry.Key + (entry.Value.IndexOf(':') >= 0 ? "=" : ":") + entry.Value);
             }
 
             emitter.EndSequence();

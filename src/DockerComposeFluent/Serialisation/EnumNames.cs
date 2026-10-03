@@ -339,6 +339,29 @@ namespace DockerComposeFluent.Serialisation
             }
         }
 
+        /// <summary>
+        /// Gets the spelling of a cgroup mode, or <c>null</c> when it is not set.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The compose-spec spelling, or <c>null</c>.</returns>
+        internal static string? Of(CgroupMode? value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            switch (value.Value)
+            {
+                case CgroupMode.Host:
+                    return "host";
+                case CgroupMode.Private:
+                    return "private";
+                default:
+                    throw Unknown(value.Value);
+            }
+        }
+
         private static ArgumentOutOfRangeException Unknown<T>(T value)
             where T : struct
         {

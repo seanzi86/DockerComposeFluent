@@ -1,0 +1,35 @@
+services:
+  "db":
+    image: "postgres"
+  "web":
+    image: "example/web"
+    dns:
+      - "8.8.8.8"
+      - "9.9.9.9"
+      - "1.1.1.1"
+    dns_opt:
+      - "use-vc"
+    dns_search:
+      - "dc1.example.com"
+      - "dc2.example.com"
+    expose:
+      - "3000"
+      - "8000-8010"
+    external_links:
+      - "redis"
+      - "legacy:old"
+    links:
+      - "db"
+      - "db:database"
+    tmpfs:
+      - "/run"
+      - "/tmp:size=64m"
+      - "/var/cache"
+    volumes_from:
+      - "db"
+      - "db:ro"
+    extra_hosts:
+      - "somehost:162.242.195.82"
+      - "otherhost:50.31.209.229"
+      - "ipv6host=2001:db8::1"
+      - "host.docker.internal:host-gateway"

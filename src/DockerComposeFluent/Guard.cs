@@ -219,6 +219,21 @@ namespace DockerComposeFluent
         }
 
         /// <summary>
+        /// Throws if <paramref name="value"/> is not a valid ulimit name: lower-case letters only, such as
+        /// <c>nofile</c> or <c>nproc</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ulimits"/>
+        /// </summary>
+        /// <param name="value">The name to check.</param>
+        /// <param name="parameterName">The name of the parameter being checked.</param>
+        internal static void UlimitName(string? value, string parameterName)
+        {
+            if (value == null || !System.Text.RegularExpressions.Regex.IsMatch(value, "^[a-z]+$"))
+            {
+                throw new ArgumentException($"'{value}' is not a ulimit name. Use lower-case letters only, such as nofile.", parameterName);
+            }
+        }
+
+        /// <summary>
         /// Throws if <paramref name="value"/> is not usable as an extension field key: it must not be blank
         /// and must start with the compose-spec <c>x-</c> prefix.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>

@@ -62,6 +62,51 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | [`use_api_socket`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#use_api_socket) | Whether to bind mount the Docker API socket and its required auth into the container. | 2.37.2+ |
 | [`user`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#user) | The username or UID to run the container process as. | Core spec |
 | [`working_dir`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#working_dir) | The working directory the entrypoint or command runs in. | Core spec |
+| [`network_mode`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#network_mode) | The network mode of the container, for example `host`, `none` or `service:<name>`. | Core spec |
+| [`ipc`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ipc) | The IPC isolation mode, for example `shareable` or `service:<name>`. | Core spec |
+| [`pid`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pid) | The PID namespace mode, for example `host` or `service:<name>`. | Core spec |
+| [`uts`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#uts) | The UTS namespace mode, for example `host`. | Core spec |
+| [`userns_mode`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#userns_mode) | The user namespace mode, for example `host`. | Core spec |
+| [`cgroup`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cgroup) | The cgroup namespace to join. | Core spec |
+| [`cgroup_parent`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cgroup_parent) | The parent cgroup for the container. | Core spec |
+| [`cap_add`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_add) | The Linux capabilities to add, for example `NET_ADMIN`. | Core spec |
+| [`cap_drop`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_drop) | The Linux capabilities to drop, for example `ALL`. | Core spec |
+| [`security_opt`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#security_opt) | The security options for the container, for example `no-new-privileges:true`. | Core spec |
+| [`group_add`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#group_add) | The additional groups (names or numeric IDs) the container user joins. | Core spec |
+| [`device_cgroup_rules`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#device_cgroup_rules) | The device cgroup rules, for example `c 1:3 mr`. | Core spec |
+| [`dns`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns) | The custom DNS servers. | Core spec |
+| [`dns_opt`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns_opt) | The custom DNS options. | Core spec |
+| [`dns_search`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns_search) | The custom DNS search domains. | Core spec |
+| [`expose`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#expose) | The ports exposed to linked services without publishing them to the host, for example `3000` or `8000-8010`. | Core spec |
+| [`links`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#links) | The links to other services, as `service` or `service:alias`. | Core spec |
+| [`external_links`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#external_links) | The links to containers started outside this file, as `container` or `container:alias`. | Core spec |
+| [`volumes_from`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes_from) | The services or containers to mount all volumes from, as `service`, `service:ro` or `container:name`. | Core spec |
+| [`tmpfs`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#tmpfs) | The temporary filesystems to mount, as paths with optional options. | Core spec |
+| [`cpus`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpus) | The number of CPUs the container can use, for example `0.5`. | Core spec |
+| [`cpu_count`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_count) | The number of usable CPUs (Windows). | Core spec |
+| [`cpu_percent`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_percent) | The percentage of usable CPU (Windows), from 0 to 100. | Core spec |
+| [`cpu_shares`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_shares) | The relative CPU weight. | Core spec |
+| [`cpu_quota`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_quota) | The CFS CPU quota in microseconds. | Core spec |
+| [`cpu_period`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_period) | The CFS CPU period in microseconds. | Core spec |
+| [`cpu_rt_period`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_rt_period) | The CPU real-time period in microseconds. | Core spec |
+| [`cpu_rt_runtime`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_rt_runtime) | The CPU real-time runtime in microseconds. | Core spec |
+| [`cpuset`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpuset) | The CPUs the container may run on, for example `0-3` or `0,1`. | Core spec |
+| [`mem_limit`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mem_limit) | The memory limit, as a compose-spec byte value such as `512m`. | Core spec |
+| [`mem_reservation`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mem_reservation) | The soft memory limit, as a compose-spec byte value such as `256m`. | Core spec |
+| [`memswap_limit`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#memswap_limit) | The memory plus swap limit, as a compose-spec byte value; `-1` is unlimited swap. | Core spec |
+| [`mem_swappiness`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mem_swappiness) | How readily the kernel swaps container memory, from 0 to 100. | Core spec |
+| [`oom_kill_disable`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#oom_kill_disable) | Whether to disable the out-of-memory killer for the container. | Core spec |
+| [`oom_score_adj`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#oom_score_adj) | The out-of-memory preference, from -1000 to 1000. | Core spec |
+| [`pids_limit`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pids_limit) | The maximum number of processes, or `-1` for unlimited. | Core spec |
+| [`shm_size`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#shm_size) | The size of `/dev/shm`, as a compose-spec byte value such as `64m`. | Core spec |
+| [`blkio_config`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#blkio_config) | The block I/O configuration. | Core spec |
+| [`credential_spec`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#credential_spec) | The credential spec for a managed service account. | Core spec |
+| [`devices`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#devices) | The host devices made available in the container. | Core spec |
+| [`extra_hosts`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extra_hosts) | The additional hostnames added to the container's `/etc/hosts`, keyed by hostname with the address as the value. | Core spec |
+| [`gpus`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#gpus) | The GPUs the container may use. | Core spec |
+| [`storage_opt`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#storage_opt) | The storage driver options for the container. | Core spec |
+| [`sysctls`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#sysctls) | The kernel parameters to set in the container. | Core spec |
+| [`ulimits`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ulimits) | The resource limits for processes in the container, keyed by limit name such as `nofile`. | Core spec |
 
 ### Deploy (`services.<name>.deploy`)
 
@@ -149,6 +194,64 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | `monitor` | How long to monitor each task for failure after it is updated, as a compose-spec duration. | Core spec |
 | `max_failure_ratio` | The failure rate to tolerate during the update, from `0` to `1`. | Core spec |
 | `order` | The order containers are stopped and started in. | Core spec |
+
+### Credential spec (`services.<name>.credential_spec`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `config` | The name of the credential spec config to use. | Core spec |
+| `file` | The path to a credential spec file. | Core spec |
+| `registry` | The path to a credential spec in the Windows registry. | Core spec |
+
+### Device mapping, long syntax (`services.<name>.devices`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `source` | The path of the device on the host. | Core spec |
+| `target` | The path the device is mapped to in the container. | Core spec |
+| `permissions` | The cgroup permissions for the device, a combination of `r`, `w` and `m`. | Core spec |
+
+### GPU request (`services.<name>.gpus`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `capabilities` | The capabilities the GPU must have. | Core spec |
+| `count` | The number of GPUs to use. | Core spec |
+| `device_ids` | The IDs of the specific GPUs to use. | Core spec |
+| `driver` | The GPU driver to use. | Core spec |
+| `options` | Driver-specific options as key-value pairs. | Core spec |
+
+### Ulimit, long syntax (`services.<name>.ulimits.<name>`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `soft` | The soft limit, the value actually enforced. | Core spec |
+| `hard` | The hard limit, the maximum allowed value. | Core spec |
+
+### Block I/O configuration (`services.<name>.blkio_config`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `weight` | The relative block I/O weight of the service, from 10 to 1000. | Core spec |
+| `weight_device` | The block I/O weight for specific devices. | Core spec |
+| `device_read_bps` | The read rate limits in bytes per second. | Core spec |
+| `device_read_iops` | The read rate limits in operations per second. | Core spec |
+| `device_write_bps` | The write rate limits in bytes per second. | Core spec |
+| `device_write_iops` | The write rate limits in operations per second. | Core spec |
+
+### Block I/O device rate limit (`services.<name>.blkio_config.device_*`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `path` | The path of the device, for example `/dev/sda`. | Core spec |
+| `rate` | The rate limit, in bytes per second (for example `12mb`) or operations per second. | Core spec |
+
+### Block I/O device weight (`services.<name>.blkio_config.weight_device`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `path` | The path of the device, for example `/dev/sda`. | Core spec |
+| `weight` | The relative weight for the device, from 10 to 1000. | Core spec |
 
 ### Healthcheck (`services.<name>.healthcheck`)
 

@@ -1,0 +1,14 @@
+services:
+  "modes":
+    image: "example/app"
+    cgroup: "private"
+    cgroup_parent: "m-executor-abcd"
+    ipc: "shareable"
+    network_mode: "host"
+    pid: "host"
+    userns_mode: "host"
+    uts: "host"
+  "joined":
+    image: "example/sidecar"
+    cgroup: "host"
+    network_mode: "service:modes"

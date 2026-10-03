@@ -1,0 +1,51 @@
+services:
+  "secure":
+    image: "example/app"
+    cap_add:
+      - "NET_ADMIN"
+      - "SYS_TIME"
+    cap_drop:
+      - "ALL"
+    device_cgroup_rules:
+      - "c 1:3 mr"
+      - "a 7:* rmw"
+    group_add:
+      - "mail"
+      - "1001"
+    security_opt:
+      - "no-new-privileges:true"
+    credential_spec:
+      config: "my_credential_spec"
+    devices:
+      - "/dev/ttyUSB0"
+      - "/dev/sda:/dev/xvda"
+      - "/dev/nvme0:/dev/nvme0:rw"
+      - permissions: "r"
+        source: "/dev/video0"
+        target: "/dev/video0"
+        x-note: camera
+  "file-spec":
+    image: "example/app"
+    credential_spec:
+      file: "my-credential-spec.json"
+  "registry-spec":
+    image: "example/app"
+    credential_spec:
+      registry: "HKLM\\SOFTWARE\\Spec"
+  "all-gpus":
+    image: "example/gpu"
+    gpus: "all"
+  "some-gpus":
+    image: "example/gpu"
+    gpus:
+      - capabilities:
+          - "compute"
+          - "utility"
+        count: 2
+        driver: "nvidia"
+      - capabilities:
+          - "gpu"
+        device_ids:
+          - "GPU-3a23c669"
+        options:
+          "virtualization": "false"

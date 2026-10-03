@@ -268,6 +268,276 @@ namespace DockerComposeFluent.Models
         public string? WorkingDir { get; init; }
 
         /// <summary>
+        /// The network mode of the container, for example <c>host</c>, <c>none</c> or <c>service:&lt;name&gt;</c>, as specified by <c>network_mode</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#network_mode"/>
+        /// </summary>
+        public string? NetworkMode { get; init; }
+
+        /// <summary>
+        /// The IPC isolation mode, for example <c>shareable</c> or <c>service:&lt;name&gt;</c>, as specified by <c>ipc</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ipc"/>
+        /// </summary>
+        public string? Ipc { get; init; }
+
+        /// <summary>
+        /// The PID namespace mode, for example <c>host</c> or <c>service:&lt;name&gt;</c>, as specified by <c>pid</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pid"/>
+        /// </summary>
+        public string? Pid { get; init; }
+
+        /// <summary>
+        /// The UTS namespace mode, for example <c>host</c>, as specified by <c>uts</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#uts"/>
+        /// </summary>
+        public string? Uts { get; init; }
+
+        /// <summary>
+        /// The user namespace mode, for example <c>host</c>, as specified by <c>userns_mode</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#userns_mode"/>
+        /// </summary>
+        public string? UsernsMode { get; init; }
+
+        /// <summary>
+        /// The cgroup namespace to join, as specified by <c>cgroup</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cgroup"/>
+        /// </summary>
+        public CgroupMode? Cgroup { get; init; }
+
+        /// <summary>
+        /// The parent cgroup for the container, as specified by <c>cgroup_parent</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cgroup_parent"/>
+        /// </summary>
+        public string? CgroupParent { get; init; }
+
+        /// <summary>
+        /// The Linux capabilities to add, for example <c>NET_ADMIN</c>, as specified by <c>cap_add</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_add"/>
+        /// </summary>
+        public IReadOnlyList<string> CapAdd { get; init; } = Array.Empty<string>();
+
+        /// <summary>
+        /// The Linux capabilities to drop, for example <c>ALL</c>, as specified by <c>cap_drop</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_drop"/>
+        /// </summary>
+        public IReadOnlyList<string> CapDrop { get; init; } = Array.Empty<string>();
+
+        /// <summary>
+        /// The security options for the container, for example <c>no-new-privileges:true</c>, as specified by <c>security_opt</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#security_opt"/>
+        /// </summary>
+        public IReadOnlyList<string> SecurityOpt { get; init; } = Array.Empty<string>();
+
+        /// <summary>
+        /// The additional groups (names or numeric IDs) the container user joins, as specified by <c>group_add</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#group_add"/>
+        /// </summary>
+        public IReadOnlyList<string> GroupAdd { get; init; } = Array.Empty<string>();
+
+        /// <summary>
+        /// The device cgroup rules, for example <c>c 1:3 mr</c>, as specified by <c>device_cgroup_rules</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#device_cgroup_rules"/>
+        /// </summary>
+        public IReadOnlyList<string> DeviceCgroupRules { get; init; } = Array.Empty<string>();
+
+        /// <summary>
+        /// The custom DNS servers, as specified by <c>dns</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns"/>
+        /// </summary>
+        public IReadOnlyList<string> Dns { get; init; } = Array.Empty<string>();
+
+        /// <summary>
+        /// The custom DNS options, as specified by <c>dns_opt</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns_opt"/>
+        /// </summary>
+        public IReadOnlyList<string> DnsOpt { get; init; } = Array.Empty<string>();
+
+        /// <summary>
+        /// The custom DNS search domains, as specified by <c>dns_search</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns_search"/>
+        /// </summary>
+        public IReadOnlyList<string> DnsSearch { get; init; } = Array.Empty<string>();
+
+        /// <summary>
+        /// The ports exposed to linked services without publishing them to the host, for example <c>3000</c> or <c>8000-8010</c>, as specified by <c>expose</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#expose"/>
+        /// </summary>
+        public IReadOnlyList<string> Expose { get; init; } = Array.Empty<string>();
+
+        /// <summary>
+        /// The links to other services, as <c>service</c> or <c>service:alias</c>, as specified by <c>links</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#links"/>
+        /// </summary>
+        public IReadOnlyList<string> Links { get; init; } = Array.Empty<string>();
+
+        /// <summary>
+        /// The links to containers started outside this file, as <c>container</c> or <c>container:alias</c>, as specified by <c>external_links</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#external_links"/>
+        /// </summary>
+        public IReadOnlyList<string> ExternalLinks { get; init; } = Array.Empty<string>();
+
+        /// <summary>
+        /// The services or containers to mount all volumes from, as <c>service</c>, <c>service:ro</c> or <c>container:name</c>, as specified by <c>volumes_from</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes_from"/>
+        /// </summary>
+        public IReadOnlyList<string> VolumesFrom { get; init; } = Array.Empty<string>();
+
+        /// <summary>
+        /// The temporary filesystems to mount, as paths with optional options, as specified by <c>tmpfs</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#tmpfs"/>
+        /// </summary>
+        public IReadOnlyList<string> Tmpfs { get; init; } = Array.Empty<string>();
+
+        /// <summary>
+        /// The number of CPUs the container can use, for example <c>0.5</c>, as specified by <c>cpus</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpus"/>
+        /// </summary>
+        public string? Cpus { get; init; }
+
+        /// <summary>
+        /// The number of usable CPUs (Windows), as specified by <c>cpu_count</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_count"/>
+        /// </summary>
+        public int? CpuCount { get; init; }
+
+        /// <summary>
+        /// The percentage of usable CPU (Windows), from 0 to 100, as specified by <c>cpu_percent</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_percent"/>
+        /// </summary>
+        public int? CpuPercent { get; init; }
+
+        /// <summary>
+        /// The relative CPU weight, as specified by <c>cpu_shares</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_shares"/>
+        /// </summary>
+        public long? CpuShares { get; init; }
+
+        /// <summary>
+        /// The CFS CPU quota in microseconds, as specified by <c>cpu_quota</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_quota"/>
+        /// </summary>
+        public long? CpuQuota { get; init; }
+
+        /// <summary>
+        /// The CFS CPU period in microseconds, as specified by <c>cpu_period</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_period"/>
+        /// </summary>
+        public long? CpuPeriod { get; init; }
+
+        /// <summary>
+        /// The CPU real-time period in microseconds, as specified by <c>cpu_rt_period</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_rt_period"/>
+        /// </summary>
+        public long? CpuRtPeriod { get; init; }
+
+        /// <summary>
+        /// The CPU real-time runtime in microseconds, as specified by <c>cpu_rt_runtime</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_rt_runtime"/>
+        /// </summary>
+        public long? CpuRtRuntime { get; init; }
+
+        /// <summary>
+        /// The CPUs the container may run on, for example <c>0-3</c> or <c>0,1</c>, as specified by <c>cpuset</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpuset"/>
+        /// </summary>
+        public string? Cpuset { get; init; }
+
+        /// <summary>
+        /// The memory limit, as a compose-spec byte value such as <c>512m</c>, as specified by <c>mem_limit</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mem_limit"/>
+        /// </summary>
+        public string? MemLimit { get; init; }
+
+        /// <summary>
+        /// The soft memory limit, as a compose-spec byte value such as <c>256m</c>, as specified by <c>mem_reservation</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mem_reservation"/>
+        /// </summary>
+        public string? MemReservation { get; init; }
+
+        /// <summary>
+        /// The memory plus swap limit, as a compose-spec byte value; <c>-1</c> is unlimited swap, as specified by <c>memswap_limit</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#memswap_limit"/>
+        /// </summary>
+        public string? MemswapLimit { get; init; }
+
+        /// <summary>
+        /// How readily the kernel swaps container memory, from 0 to 100, as specified by <c>mem_swappiness</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mem_swappiness"/>
+        /// </summary>
+        public int? MemSwappiness { get; init; }
+
+        /// <summary>
+        /// Whether to disable the out-of-memory killer for the container, as specified by <c>oom_kill_disable</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#oom_kill_disable"/>
+        /// </summary>
+        public bool? OomKillDisable { get; init; }
+
+        /// <summary>
+        /// The out-of-memory preference, from -1000 to 1000, as specified by <c>oom_score_adj</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#oom_score_adj"/>
+        /// </summary>
+        public int? OomScoreAdj { get; init; }
+
+        /// <summary>
+        /// The maximum number of processes, or <c>-1</c> for unlimited, as specified by <c>pids_limit</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pids_limit"/>
+        /// </summary>
+        public int? PidsLimit { get; init; }
+
+        /// <summary>
+        /// The size of <c>/dev/shm</c>, as a compose-spec byte value such as <c>64m</c>, as specified by <c>shm_size</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#shm_size"/>
+        /// </summary>
+        public string? ShmSize { get; init; }
+
+        /// <summary>
+        /// The block I/O configuration, as specified by <c>blkio_config</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#blkio_config"/>
+        /// </summary>
+        public BlkioConfigDefinition? BlkioConfig { get; init; }
+
+        /// <summary>
+        /// The credential spec for a managed service account, as specified by <c>credential_spec</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#credential_spec"/>
+        /// </summary>
+        public CredentialSpecDefinition? CredentialSpec { get; init; }
+
+        /// <summary>
+        /// The host devices made available in the container, as specified by <c>devices</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#devices"/>
+        /// </summary>
+        public IReadOnlyList<DeviceMappingDefinition> Devices { get; init; } = Array.Empty<DeviceMappingDefinition>();
+
+        /// <summary>
+        /// The additional hostnames added to the container's <c>/etc/hosts</c>, keyed by hostname with the address as the value, as specified by <c>extra_hosts</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extra_hosts"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, string> ExtraHosts { get; init; } = Collections.EmptyDictionary<string>();
+
+        /// <summary>
+        /// The GPUs the container may use, as specified by <c>gpus</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#gpus"/>
+        /// </summary>
+        public GpusDefinition? Gpus { get; init; }
+
+        /// <summary>
+        /// The storage driver options for the container, as specified by <c>storage_opt</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#storage_opt"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, string> StorageOpt { get; init; } = Collections.EmptyDictionary<string>();
+
+        /// <summary>
+        /// The kernel parameters to set in the container, as specified by <c>sysctls</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#sysctls"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, string> Sysctls { get; init; } = Collections.EmptyDictionary<string>();
+
+        /// <summary>
+        /// The resource limits for processes in the container, keyed by limit name such as <c>nofile</c>, as specified by <c>ulimits</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ulimits"/>
+        /// </summary>
+        public IReadOnlyDictionary<string, UlimitDefinition> Ulimits { get; init; } = Collections.EmptyDictionary<UlimitDefinition>();
+
+        /// <summary>
         /// The extension fields defined on this service, keyed by their <c>x-</c> name. Compose ignores these;
         /// they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
