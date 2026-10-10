@@ -28,6 +28,8 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EnablePackageValidation>true</EnablePackageValidation>
+    <!-- A suppression for an intentional break goes stale once a release ships the change; do not fail on it. -->
+    <ApiCompatPermitUnnecessarySuppressions>true</ApiCompatPermitUnnecessarySuppressions>
     <!-- Local default only: the release workflow overrides it with the version from the git tag. -->
     <Version>0.0.0-dev</Version>
   </PropertyGroup>
