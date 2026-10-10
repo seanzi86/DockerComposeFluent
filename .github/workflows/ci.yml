@@ -86,6 +86,12 @@ jobs:
       - name: Pack
         run: dotnet pack src/DockerComposeFluent/DockerComposeFluent.csproj --no-build --configuration Release
 
+      # Compares the public API with the last release on nuget.org and warns about anything removed or
+      # changed. Advisory while the API is pre-1.0: a break shows as a warning and a job summary but does not
+      # fail the build. Add --enforce to make it fail (planned for 1.0). See CONTRIBUTING.md.
+      - name: Check public API compatibility
+        run: scripts/check-api-compatibility.sh
+
       # Pinned so the version the fixtures are validated against is recorded and reproducible.
       # Dependabot does not update this input, so bump it by hand when a newer Compose is released.
       - name: Set up Docker Compose

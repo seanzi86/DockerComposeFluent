@@ -49,6 +49,36 @@ This library follows a few consistent conventions across the whole fluent API â€
 - CI publishes test results as a check on the PR (pass/fail counts, and the name and stack trace of any failing test), via `dotnet test --logger trx` in `ci.yml` and a separate `test-report.yml` workflow that turns the uploaded `.trx` into that check. Two workflows because a PR from a fork runs CI with a read-only token, which can't create a check run itself; `test-report.yml` runs in the context of `main` instead, so it works for a fork PR too - but only once that workflow file has itself been merged to `main`.
 - CI also collects code coverage (`dotnet test --collect:"XPlat Code Coverage"`, via `coverlet.collector`, already a test-project dependency). A PR gets a coverage summary comment (`irongut/CodeCoverageSummary`); a push to `main` uploads coverage to [Coveralls](https://coveralls.io/github/seanzi86/DockerComposeFluent) (no account setup or secret needed - it identifies the repo from the default token), which is what the README's coverage badge reads from.
 
+## Public API compatibility
+
+CI compares the public API with the latest release on nuget.org (using .NET package validation, through
+`scripts/check-api-compatibility.sh`) and reports anything removed or changed. Adding members is always fine.
+
+While the package is pre-1.0 this is **advisory**: a break appears as a warning annotation and a job summary
+on the run, but does not fail the build. Pass `--enforce` to the script in `ci.yml` and `release.yml` to make
+it fail, which is the plan for 1.0. You can run it yourself:
+
+```bash
+scripts/check-api-compatibility.sh            # advisory
+scripts/check-api-compatibility.sh --enforce  # exit 1 on a break
+```
+
+If nuget.org cannot be reached, it warns and carries on rather than failing.
+
+### Intentional breaking changes
+
+When a break is deliberate, record it so it stops being reported:
+
+```bash
+dotnet pack src/DockerComposeFluent/DockerComposeFluent.csproj -c Release \
+  -p:PackageValidationBaselineVersion=<latest release> -p:Version=<latest release>-dev \
+  -p:ApiCompatGenerateSuppressionFile=true
+```
+
+Commit the `CompatibilitySuppressions.xml` it writes next to the project, and say why in the PR. Once a
+release ships the change the suppression is no longer needed; the check tolerates stale ones, so tidy the
+file up when convenient. Where practical, mark a member `[Obsolete]` for one release before removing it.
+
 ## Dependencies
 
 - Dependabot opens a weekly pull request for NuGet packages and one for GitHub Actions (minor and patch updates grouped, major updates separate). They must pass CI like any other change.

@@ -36,6 +36,11 @@ jobs:
       - name: Test
         run: dotnet test --no-build --configuration Release
 
+      # Advisory, like the same check in CI, but compared against the release before this one. Add --enforce
+      # to stop a release that breaks the API (planned for 1.0). See CONTRIBUTING.md.
+      - name: Check public API compatibility
+        run: scripts/check-api-compatibility.sh ${{ steps.version.outputs.version }}
+
       - name: Pack
         run: dotnet pack src/DockerComposeFluent/DockerComposeFluent.csproj --no-build --configuration Release -p:Version=${{ steps.version.outputs.version }} --output ./artifacts
 
