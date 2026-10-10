@@ -362,6 +362,30 @@ namespace DockerComposeFluent.Serialisation
             }
         }
 
+        /// <summary>
+        /// Gets the spelling of a watch action.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The compose-spec spelling.</returns>
+        internal static string Of(WatchAction value)
+        {
+            switch (value)
+            {
+                case WatchAction.Rebuild:
+                    return "rebuild";
+                case WatchAction.Sync:
+                    return "sync";
+                case WatchAction.Restart:
+                    return "restart";
+                case WatchAction.SyncAndRestart:
+                    return "sync+restart";
+                case WatchAction.SyncAndExec:
+                    return "sync+exec";
+                default:
+                    throw Unknown(value);
+            }
+        }
+
         private static ArgumentOutOfRangeException Unknown<T>(T value)
             where T : struct
         {

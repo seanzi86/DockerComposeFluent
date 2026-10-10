@@ -111,6 +111,7 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | [`post_start`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#post_start) | The commands run after the container starts. | Core spec |
 | [`pre_stop`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop) | The commands run before the container stops. | Core spec |
 | [`build`](https://github.com/compose-spec/compose-spec/blob/main/build.md) | How to build the service's image from source. | Core spec |
+| [`develop`](https://github.com/compose-spec/compose-spec/blob/main/develop.md) | The settings that help while developing the service, such as rules that react to file changes. | 2.22.0+ |
 
 ### Deploy (`services.<name>.deploy`)
 
@@ -287,6 +288,24 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | [`tags`](https://github.com/compose-spec/compose-spec/blob/main/build.md#tags) | The extra tags to apply to the built image. | Core spec |
 | [`target`](https://github.com/compose-spec/compose-spec/blob/main/build.md#target) | The Dockerfile stage to build. | Core spec |
 | [`ulimits`](https://github.com/compose-spec/compose-spec/blob/main/build.md#ulimits) | The resource limits for the build containers, keyed by limit name such as `nofile`. | Core spec |
+
+### Develop (`services.<name>.develop`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| [`watch`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#watch) | The rules that update the service when local files change. | Core spec |
+
+### Develop watch rule (`services.<name>.develop.watch`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| [`path`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#path) | The path to watch, relative to the project directory. | Core spec |
+| [`action`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#action) | What to do when a change is detected. | Core spec |
+| [`target`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#target) | The path in the container that changed files are synchronised to. | Core spec |
+| [`ignore`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#ignore) | The patterns of paths that do not trigger the action. | Core spec |
+| [`include`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#include) | The patterns of paths that are watched. | 2.34.0+ |
+| [`exec`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#exec) | The command to run in the container after synchronising. | 2.32.0+ |
+| [`initial_sync`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#initial_sync) | Whether to check that files in existing containers are up to date when a watch session starts. | 2.39.4+ |
 
 ### Lifecycle hook (`services.<name>.post_start` and `services.<name>.pre_stop`)
 
