@@ -1,0 +1,93 @@
+---
+sidebar_position: 5
+---
+
+# Validating a file
+
+The builders check each value as you give it, but a service builder knows nothing about the other services, so
+it can't tell that `depends_on: db` points at a service that doesn't exist. `Validate()` checks the finished
+file as a whole and tells you about mistakes like that **before** `docker compose` does.
+
+```csharp
+using DockerComposeFluent.Builders;
+using DockerComposeFluent.Models;
+using DockerComposeFluent.Validation;
+
+DockerComposeFile file = new DockerComposeBuilder()
+    .WithService("web", service => service
+        .WithImage("nginx")
+        .WithDependsOn("db")
+        .WithNetwork("front"))
+    .Build();
+
+ValidationResult result = file.Validate();
+
+foreach (ValidationProblem problem in result.Problems)
+{
+    Console.WriteLine(problem);
+}
+```
+
+prints:
+
+```text
+Error DCF001 services.web.depends_on.db: Service "web" depends on service "db", which is not defined.
+Error DCF002 services.web.networks.front: Service "web" uses network "front", which is not defined in the top-level networks.
+```
+
+Validation is **opt-in**. `Build()` and `ToYaml()` never validate, because a partial file is often exactly what
+you want: a fragment meant to be `include`d or extended legitimately refers to things defined elsewhere.
+`Validate()` never throws and never changes the file.
+
+## Errors and warnings
+
+Every problem has a severity, a stable code, a path to the offending property, and a message that names the
+services involved.
+
+- An **error** is something real Compose rejects. These were each checked against `docker compose config`.
+- A **warning** is something Compose accepts but that usually goes wrong at `docker compose up`, or may not be
+  what you meant.
+
+`result.IsValid` is `true` when there are no errors; warnings don't affect it.
+
+| Code | Severity | What it finds |
+| :--- | :--- | :--- |
+| `DCF001` | Error | A service refers to an undefined service, through `depends_on`, `links`, `volumes_from`, `extends`, or a `service:` reference in `network_mode`, `ipc` or `pid`. |
+| `DCF002` | Error | A service joins a network that isn't defined (the implicit `default` network is always fine). |
+| `DCF003` | Error | A service mounts a named volume that isn't defined. Bind mounts, anonymous volumes and other mount types are not checked. |
+| `DCF004` | Error | A service, or its `build`, uses a secret that isn't defined. |
+| `DCF005` | Error | A service uses a config that isn't defined. |
+| `DCF006` | Error | Services depend on, or extend, each other in a cycle. |
+| `DCF007` | Warning | A `service_healthy` dependency points at a service with no healthcheck, so the condition can never be met. |
+| `DCF008` | Warning | Two published ports bind the same host port, protocol and address. |
+
+The codes are available as constants in `ValidationCodes`.
+
+## Things that can't be checked
+
+A few references are skipped because the file alone can't say whether they're right:
+
+- Names containing a variable, such as `${DB_SERVICE}`, are filled in by Compose later.
+- `extends` with a `file` refers to a service in another file.
+- `container:` references in `volumes_from` and `external_links` refer to containers outside the file.
+
+## Files that use `include`
+
+A file with `include` can legitimately refer to services, networks and volumes defined in the included files,
+which `Validate()` can't see. So for those files the undefined-name checks (`DCF001` to `DCF005`) are reported
+as **warnings** instead of errors, with a note that the name may come from an included file. Nothing is hidden,
+and a valid multi-file project is never called invalid.
+
+## Throwing, and turning checks off
+
+```csharp
+// Throws a ComposeValidationException listing the errors. Warnings never throw.
+file.Validate().ThrowIfInvalid();
+
+// Ignore a check you disagree with. The result is a copy, so IsValid and ThrowIfInvalid() follow it too.
+file.Validate()
+    .Ignoring(ValidationCodes.DuplicatePublishedPort)
+    .ThrowIfInvalid();
+```
+
+`Problems`, `Errors` and `Warnings` are ordinary lists, so you can also filter by code or path yourself.

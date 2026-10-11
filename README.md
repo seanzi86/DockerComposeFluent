@@ -84,6 +84,8 @@ volumes:
 - **Top level:** `name`, `include`, `networks` (including `ipam` and `labels`), `volumes` (including `driver_opts`, `external` and `labels`), `secrets` and `configs`.
 - **Extension fields:** every modelled object - the file itself, every service, and every nested setting such as `deploy`, `healthcheck` or a mount's `bind` options - has a `WithExtension(key, value)` for custom `x-` fields, which Compose ignores but many tools and YAML anchors rely on.
 
+Mistakes that span the whole file, such as a `depends_on` pointing at a service that doesn't exist, can be checked before you write anything out with `file.Validate()`; see [Validating a file](https://seanzi86.github.io/DockerComposeFluent/validation).
+
 Each property accepts the forms Compose itself accepts, chosen by the overload you call. For example `WithPort("8080:80")` writes the short syntax, `WithPort(8080, 80)` writes the long syntax, and `WithPort(port => port.WithTarget(80).WithHostIp("127.0.0.1"))` gives full control.
 
 More of the compose-spec is planned; see the [milestones](https://github.com/seanzi86/DockerComposeFluent/milestones).
