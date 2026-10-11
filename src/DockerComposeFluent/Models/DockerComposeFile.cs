@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DockerComposeFluent.Serialisation;
+using DockerComposeFluent.Validation;
 
 namespace DockerComposeFluent.Models
 {
@@ -59,6 +60,22 @@ namespace DockerComposeFluent.Models
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
         /// </summary>
         public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
+
+        /// <summary>
+        /// Checks the file as a whole for mistakes that individual builders cannot see, such as a service that
+        /// depends on a service, network, volume, secret or config that is not defined, a dependency cycle, a
+        /// <c>service_healthy</c> dependency on a service with no healthcheck, or two services publishing the same
+        /// host port. It never throws and never changes the file; see <see cref="ValidationResult"/>.
+        /// </summary>
+        /// <remarks>
+        /// A file that uses <c>include</c> may legitimately refer to names defined in the included files, so
+        /// unknown names are then reported as warnings rather than errors.
+        /// </remarks>
+        /// <returns>Every problem found.</returns>
+        public ValidationResult Validate()
+        {
+            return ComposeValidator.Validate(this);
+        }
 
         /// <summary>
         /// Serialises this compose file to YAML.
