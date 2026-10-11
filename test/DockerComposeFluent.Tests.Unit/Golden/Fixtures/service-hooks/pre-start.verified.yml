@@ -1,0 +1,32 @@
+services:
+  "app":
+    depends_on:
+      "db":
+        condition: "service_healthy"
+    image: "myapp:latest"
+    pre_start:
+      - command: ["./manage.py", "migrate"]
+      - command: "sh -c 'chown -R 1000:1000 /data'"
+        image: "busybox"
+    volumes:
+      - "data:/data"
+  "worker":
+    image: "myapp:latest"
+    pre_start:
+      - command: "./warm-cache.sh"
+      - command: ["sh", "-c", "echo ready"]
+        environment:
+          "MODE": "init"
+        image: "busybox"
+        per_replica: true
+        privileged: true
+        user: "root"
+        working_dir: "/data"
+        x-note: once per replica
+  "db":
+    healthcheck:
+      test: "pg_isready"
+    image: "postgres:16"
+volumes:
+  "data":
+    driver: "local"

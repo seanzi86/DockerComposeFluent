@@ -39,6 +39,7 @@ const sections = [
   { type: "BuildDefinition", title: "Build, long syntax", path: "`services.<name>.build`" },
   { type: "DevelopDefinition", title: "Develop", path: "`services.<name>.develop`" },
   { type: "WatchRuleDefinition", title: "Develop watch rule", path: "`services.<name>.develop.watch`" },
+  { type: "PreStartDefinition", title: "Pre-start step", path: "`services.<name>.pre_start`" },
   { type: "ServiceHookDefinition", title: "Lifecycle hook", path: "`services.<name>.post_start` and `services.<name>.pre_stop`" },
   { type: "GenericResourceDefinition", title: "Deploy generic resource", path: "`services.<name>.deploy.resources.reservations.generic_resources`" },
   { type: "DiscreteResourceSpecDefinition", title: "Deploy discrete resource spec", path: "`services.<name>.deploy.resources.reservations.generic_resources[].discrete_resource_spec`" },

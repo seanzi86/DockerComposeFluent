@@ -112,6 +112,7 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | [`pre_stop`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop) | The commands run before the container stops. | Core spec |
 | [`build`](https://github.com/compose-spec/compose-spec/blob/main/build.md) | How to build the service's image from source. | Core spec |
 | [`develop`](https://github.com/compose-spec/compose-spec/blob/main/develop.md) | The settings that help while developing the service, such as rules that react to file changes. | 2.22.0+ |
+| [`pre_start`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_start) | The init-container steps run to completion before the service starts, in order. | 5.3.0+ |
 
 ### Deploy (`services.<name>.deploy`)
 
@@ -306,6 +307,18 @@ the library's own `<remarks>` on that property; "Core spec" means there's no ext
 | [`include`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#include) | The patterns of paths that are watched. | 2.34.0+ |
 | [`exec`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#exec) | The command to run in the container after synchronising. | 2.32.0+ |
 | [`initial_sync`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#initial_sync) | Whether to check that files in existing containers are up to date when a watch session starts. | 2.39.4+ |
+
+### Pre-start step (`services.<name>.pre_start`)
+
+| Property | Description | Since Compose |
+| :--- | :--- | :--- |
+| `command` | The command to run. | Core spec |
+| `image` | The image for the step's container. | Core spec |
+| `user` | The user to run the command as. | Core spec |
+| `privileged` | Whether the command runs with extended privileges. | Core spec |
+| `working_dir` | The working directory for the command. | Core spec |
+| `environment` | Environment variables added to, or overriding, the service's own for this step. | Core spec |
+| `per_replica` | Whether the step runs once for each replica of the service instead of once for the whole service. | Core spec |
 
 ### Lifecycle hook (`services.<name>.post_start` and `services.<name>.pre_stop`)
 

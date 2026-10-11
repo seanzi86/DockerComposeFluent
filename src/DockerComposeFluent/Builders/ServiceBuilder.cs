@@ -2599,6 +2599,50 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Adds an init-container step that runs a command in the service's own image before the service
+        /// starts, as a shell-form string.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_start"/>
+        /// </summary>
+        /// <remarks>Requires Compose 5.3.0 or later.</remarks>
+        /// <param name="command">The command, for example <c>./manage.py migrate</c>.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPreStart(string command)
+        {
+            return WithPreStart(new PreStartBuilder().WithCommand(command).Build());
+        }
+
+        /// <summary>
+        /// Adds an init-container step, from an existing definition. Steps run in the order added.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_start"/>
+        /// </summary>
+        /// <remarks>Requires Compose 5.3.0 or later.</remarks>
+        /// <param name="step">The step.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPreStart(PreStartDefinition step)
+        {
+            Guard.NotNull(step, nameof(step));
+            _definition = _definition with { PreStart = Collections.Append(_definition.PreStart, step) };
+            return this;
+        }
+
+        /// <summary>
+        /// Adds an init-container step, configured through a <see cref="PreStartBuilder"/>. Steps run in the
+        /// order added.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_start"/>
+        /// </summary>
+        /// <remarks>Requires Compose 5.3.0 or later.</remarks>
+        /// <param name="configure">Configures the step.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithPreStart(Action<PreStartBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            PreStartBuilder builder = new PreStartBuilder();
+            configure(builder);
+            return WithPreStart(builder.Build());
+        }
+
+        /// <summary>
         /// Sets an extension field on this service. Setting the same key again replaces its value. Compose
         /// ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
