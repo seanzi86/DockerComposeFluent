@@ -2569,6 +2569,36 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Sets the development settings, from an existing definition.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/develop.md"/>
+        /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
+        /// <param name="develop">The develop definition.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithDevelop(DevelopDefinition develop)
+        {
+            Guard.NotNull(develop, nameof(develop));
+            _definition = _definition with { Develop = develop };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the development settings, configured through a <see cref="DevelopBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/develop.md"/>
+        /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
+        /// <param name="configure">Configures the development settings.</param>
+        /// <returns>This builder.</returns>
+        public ServiceBuilder WithDevelop(Action<DevelopBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            DevelopBuilder builder = new DevelopBuilder();
+            configure(builder);
+            return WithDevelop(builder.Build());
+        }
+
+        /// <summary>
         /// Sets an extension field on this service. Setting the same key again replaces its value. Compose
         /// ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>

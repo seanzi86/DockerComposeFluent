@@ -565,6 +565,14 @@ namespace DockerComposeFluent.Models
         public BuildDefinition? Build { get; init; }
 
         /// <summary>
+        /// The settings that help while developing the service, such as rules that react to file changes, as
+        /// specified by <c>develop</c>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/develop.md"/>
+        /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
+        public DevelopDefinition? Develop { get; init; }
+
+        /// <summary>
         /// The extension fields defined on this service, keyed by their <c>x-</c> name. Compose ignores these;
         /// they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
