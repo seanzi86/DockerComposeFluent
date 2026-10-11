@@ -573,6 +573,14 @@ namespace DockerComposeFluent.Models
         public DevelopDefinition? Develop { get; init; }
 
         /// <summary>
+        /// The init-container steps run to completion before the service starts, in order, as specified by
+        /// <c>pre_start</c>. Empty when none are set.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_start"/>
+        /// </summary>
+        /// <remarks>Requires Compose 5.3.0 or later.</remarks>
+        public IReadOnlyList<PreStartDefinition> PreStart { get; init; } = Array.Empty<PreStartDefinition>();
+
+        /// <summary>
         /// The extension fields defined on this service, keyed by their <c>x-</c> name. Compose ignores these;
         /// they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
