@@ -1,0 +1,32 @@
+services:
+  "frontend":
+    build: "./webapp"
+    develop:
+      watch:
+        - action: "sync"
+          path: "./webapp/html"
+          target: "/var/www"
+        - action: "rebuild"
+          path: "./webapp/src"
+        - action: "restart"
+          path: "./webapp/package.json"
+        - action: "sync+restart"
+          ignore:
+            - "node_modules/"
+            - "*.tmp"
+          include:
+            - "*.css"
+          initial_sync: true
+          path: "./webapp/static"
+          target: "/var/www/static"
+        - action: "sync+exec"
+          exec:
+            command: "app reload"
+            environment:
+              "MODE": "reload"
+            user: "root"
+          path: "./etc/config"
+          target: "/etc/config/"
+          x-note: no downtime
+      x-owner: frontend team
+    image: "example/webapp"
