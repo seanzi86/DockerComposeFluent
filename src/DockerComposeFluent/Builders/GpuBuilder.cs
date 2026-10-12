@@ -17,7 +17,7 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="capability">The capability, for example <c>compute</c> or <c>utility</c>.</param>
         /// <returns>This builder.</returns>
-        public GpuBuilder WithCapability(string capability)
+        public GpuBuilder WithCapabilities(string capability)
         {
             Guard.NotNullOrWhiteSpace(capability, nameof(capability));
             _definition = _definition with { Capabilities = Collections.Append(_definition.Capabilities, capability) };
@@ -25,7 +25,24 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
-        /// Sets the number of GPUs to use. Mutually exclusive with <see cref="WithDeviceId(string)"/>.
+        /// Adds several capabilities the GPU must have.
+        /// </summary>
+        /// <param name="capabilities">The capabilities.</param>
+        /// <returns>This builder.</returns>
+        public GpuBuilder WithCapabilities(IEnumerable<string> capabilities)
+        {
+            Guard.NotNull(capabilities, nameof(capabilities));
+
+            foreach (string capability in capabilities)
+            {
+                WithCapabilities(capability);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the number of GPUs to use. Mutually exclusive with <see cref="WithDeviceIds(string)"/>.
         /// </summary>
         /// <param name="count">The number of GPUs, which must be positive.</param>
         /// <returns>This builder.</returns>
@@ -45,10 +62,27 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="deviceId">The device ID.</param>
         /// <returns>This builder.</returns>
-        public GpuBuilder WithDeviceId(string deviceId)
+        public GpuBuilder WithDeviceIds(string deviceId)
         {
             Guard.NotNullOrWhiteSpace(deviceId, nameof(deviceId));
             _definition = _definition with { DeviceIds = Collections.Append(_definition.DeviceIds, deviceId) };
+            return this;
+        }
+
+        /// <summary>
+        /// Adds the IDs of several specific GPUs to use. Mutually exclusive with <see cref="WithCount(int)"/>.
+        /// </summary>
+        /// <param name="deviceIds">The device IDs.</param>
+        /// <returns>This builder.</returns>
+        public GpuBuilder WithDeviceIds(IEnumerable<string> deviceIds)
+        {
+            Guard.NotNull(deviceIds, nameof(deviceIds));
+
+            foreach (string deviceId in deviceIds)
+            {
+                WithDeviceIds(deviceId);
+            }
+
             return this;
         }
 

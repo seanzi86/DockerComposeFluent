@@ -18,7 +18,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithPaths_AddsThem()
         {
-            IncludeDefinition include = new IncludeBuilder().WithPaths(new[] { "./a.yml", "./b.yml" }).Build();
+            IncludeDefinition include = new IncludeBuilder().WithPath(new[] { "./a.yml", "./b.yml" }).Build();
 
             Assert.Equal(new[] { "./a.yml", "./b.yml" }, include.Path);
             Assert.False(include.IsPathOnly);

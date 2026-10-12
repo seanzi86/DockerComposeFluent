@@ -36,7 +36,10 @@ Enforced via `.editorconfig` and `EnforceCodeStyleInBuild` (violations fail the 
 This library follows a few consistent conventions across the whole fluent API — please follow them in new code rather than introducing a one-off shape:
 
 1. **Every nested compose concept gets a `Definition` + `Builder` pair.** e.g. a new `HealthcheckDefinition` record should come with a `HealthcheckBuilder`, and the parent builder exposes both a raw-model overload and an `Action<HealthcheckBuilder>` overload.
-2. **Every property with multiple YAML shapes gets a matching overload set** on the same method name: a raw short-form value, a common-params overload for the typical case, and an `Action<XBuilder>` overload for full control. Add a plural `WithXs(IEnumerable<...>)` for bulk-add where it makes sense.
+2. **Every property with multiple YAML shapes gets a matching overload set** on the same method name: a raw short-form value, a common-params overload for the typical case, and an `Action<XBuilder>` overload for full control. Lists follow one of two shapes depending on the items:
+   - **Items with several shapes** (a short string, a long form, a builder lambda: ports, volumes, secrets, configs, networks, env files, includes) get a singular `WithX(...)` family for one item and a plural `WithXs(IEnumerable<...>)` for several.
+   - **Plain strings** (dns, links, cap_add, tmpfs, constraints, aliases...) get a single method named after the YAML key, with both a one-item and an `IEnumerable<string>` overload: `WithDns("8.8.8.8")` and `WithDns(new[] { "8.8.8.8", "1.1.1.1" })`. There is no plural to get wrong, which matters for keys that already end in `s` (`dns`, `links`) or that are not nouns (`cap_add`, `tmpfs`).
+   A test (`ListNamingConventionTests`) fails if a plain-string list is given a singular/plural pair; add to its allow-list only for items that really have several shapes.
 3. **Models are immutable.** Records with init-only properties — fluent calls produce new values, not in-place mutation.
 4. **Serialisation stays out of the models.** YAML conversion logic belongs in the `Serialisation/` layer (`IYamlTypeConverter` implementations), not as attributes or interfaces on the model types.
 

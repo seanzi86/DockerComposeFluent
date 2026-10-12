@@ -26,8 +26,8 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                     .WithNetwork("admin"))
                 .WithService("backend", service => service
                     .WithImage("example/backend")
-                    .WithNetwork("back-tier", network => network.WithAlias("database"))
-                    .WithNetwork("admin", network => network.WithAlias("backend-admin")))
+                    .WithNetwork("back-tier", network => network.WithAliases("database"))
+                    .WithNetwork("admin", network => network.WithAliases("backend-admin")))
                 .WithNetwork("front-tier", network => network.WithDriver("bridge"))
                 .WithNetwork("back-tier", network => network.WithDriver("bridge"))
                 .WithNetwork("admin", network => network.WithDriver("bridge"))

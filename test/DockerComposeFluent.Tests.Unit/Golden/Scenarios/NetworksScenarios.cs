@@ -22,7 +22,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                         .WithDriverOption("foo", "bar")
                         .WithIpv4Address("172.16.238.10")
                         .WithIpv6Address("2001:3984:3989::10")
-                        .WithLinkLocalIp("57.123.22.11")
+                        .WithLinkLocalIps("57.123.22.11")
                         .WithMacAddress("02:42:ac:11:00:02")
                         .WithPriority(100)))
                 .WithNetwork("front", network => network
@@ -57,7 +57,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                 .WithService("single", service => service.WithImage("nginx").WithNetwork("front"))
                 .WithService("aliased", service => service
                     .WithImage("busybox")
-                    .WithNetwork("front", network => network.WithAlias("alias1").WithAlias("alias3"))
+                    .WithNetwork("front", network => network.WithAliases("alias1").WithAliases("alias3"))
                     .WithNetwork("back", network => network.WithAliases(new[] { "alias2" })))
                 .WithService("addressed", service => service
                     .WithImage("busybox")

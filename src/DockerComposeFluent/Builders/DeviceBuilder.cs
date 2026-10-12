@@ -18,7 +18,7 @@ namespace DockerComposeFluent.Builders
         /// <param name="capability">The capability, for example <c>gpu</c> or a driver-specific value such as
         /// <c>nvidia-compute</c>.</param>
         /// <returns>This builder.</returns>
-        public DeviceBuilder WithCapability(string capability)
+        public DeviceBuilder WithCapabilities(string capability)
         {
             Guard.NotNullOrWhiteSpace(capability, nameof(capability));
             _definition = _definition with { Capabilities = Collections.Append(_definition.Capabilities, capability) };
@@ -36,7 +36,7 @@ namespace DockerComposeFluent.Builders
 
             foreach (string capability in capabilities)
             {
-                WithCapability(capability);
+                WithCapabilities(capability);
             }
 
             return this;
@@ -55,7 +55,7 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
-        /// Sets the number of devices to reserve. Mutually exclusive with <see cref="WithDeviceId(string)"/>.
+        /// Sets the number of devices to reserve. Mutually exclusive with <see cref="WithDeviceIds(string)"/>.
         /// </summary>
         /// <param name="count">The number of devices, which must be positive.</param>
         /// <returns>This builder.</returns>
@@ -75,7 +75,7 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="deviceId">The device ID.</param>
         /// <returns>This builder.</returns>
-        public DeviceBuilder WithDeviceId(string deviceId)
+        public DeviceBuilder WithDeviceIds(string deviceId)
         {
             Guard.NotNullOrWhiteSpace(deviceId, nameof(deviceId));
             _definition = _definition with { DeviceIds = Collections.Append(_definition.DeviceIds, deviceId) };
@@ -94,7 +94,7 @@ namespace DockerComposeFluent.Builders
 
             foreach (string deviceId in deviceIds)
             {
-                WithDeviceId(deviceId);
+                WithDeviceIds(deviceId);
             }
 
             return this;

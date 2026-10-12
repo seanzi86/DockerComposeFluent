@@ -54,7 +54,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                         .WithReplicas(2)
                         .WithExtension("x-deploy-note", "scaled for peak traffic")
                         .WithPlacement(placement => placement
-                            .WithConstraint("node.role==worker")
+                            .WithConstraints("node.role==worker")
                             .WithExtension("x-placement-note", "worker only"))
                         .WithResources(resources => resources
                             .WithExtension("x-resources-note", "tuned after load test")
@@ -65,7 +65,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                                 .WithCpus("0.25")
                                 .WithExtension("x-reservations-note", "floor from load test")
                                 .WithDevice(device => device
-                                    .WithCapability("gpu")
+                                    .WithCapabilities("gpu")
                                     .WithExtension("x-device-note", "inference workload"))))
                         .WithRestartPolicy(restartPolicy => restartPolicy
                             .WithCondition(DeployRestartCondition.OnFailure)

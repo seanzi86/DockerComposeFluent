@@ -28,7 +28,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                     .WithImage("nginx")
                     .WithLabels(new Dictionary<string, string> { ["com.example.department"] = "Finance" }))
                 .WithService("single-file", service => service.WithImage("nginx").WithLabelFile("./app.labels"))
-                .WithService("multiple-files", service => service.WithImage("nginx").WithLabelFiles(new[] { "./app.labels", "./additional.labels" }))
+                .WithService("multiple-files", service => service.WithImage("nginx").WithLabelFile(new[] { "./app.labels", "./additional.labels" }))
                 .WithNetwork("front", network => network.WithLabel("com.example.description", "Financial transaction network"))
                 .WithVolume("db-data", volume => volume.WithLabel("com.example.description", "Database volume"))
                 .Build();

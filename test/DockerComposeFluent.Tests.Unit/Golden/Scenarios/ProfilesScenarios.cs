@@ -15,11 +15,11 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
         internal static DockerComposeFile Forms()
         {
             return new DockerComposeBuilder()
-                .WithService("frontend", service => service.WithImage("frontend").WithProfile("frontend"))
+                .WithService("frontend", service => service.WithImage("frontend").WithProfiles("frontend"))
                 .WithService("phpmyadmin", service => service
                     .WithImage("phpmyadmin")
                     .WithDependsOn("db")
-                    .WithProfile("debug"))
+                    .WithProfiles("debug"))
                 .WithService("multiple", service => service.WithImage("nginx").WithProfiles(new[] { "frontend", "debug" }))
                 .WithService("db", service => service.WithImage("postgres"))
                 .WithService("always", service => service.WithImage("nginx"))

@@ -11,13 +11,13 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         public void Build_SetsEverySetting()
         {
             NetworkAttachment attachment = new NetworkAttachmentBuilder()
-                .WithAlias("db")
+                .WithAliases("db")
                 .WithDriverOption("foo", "bar")
                 .WithGatewayPriority(1)
                 .WithInterfaceName("eth0")
                 .WithIpv4Address("172.16.238.10")
                 .WithIpv6Address("2001:3984:3989::10")
-                .WithLinkLocalIp("57.123.22.11")
+                .WithLinkLocalIps("57.123.22.11")
                 .WithMacAddress("02:42:ac:11:00:02")
                 .WithPriority(100)
                 .Build();
@@ -53,9 +53,9 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         public void Aliases_AndLinkLocalIps_Append()
         {
             NetworkAttachment attachment = new NetworkAttachmentBuilder()
-                .WithAlias("a")
+                .WithAliases("a")
                 .WithAliases(new[] { "b", "c" })
-                .WithLinkLocalIp("169.254.1.1")
+                .WithLinkLocalIps("169.254.1.1")
                 .WithLinkLocalIps(new[] { "fe80::1" })
                 .Build();
 
@@ -78,10 +78,10 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void Build_ReturnsSnapshot_UnaffectedByLaterChanges()
         {
-            NetworkAttachmentBuilder builder = new NetworkAttachmentBuilder().WithAlias("a");
+            NetworkAttachmentBuilder builder = new NetworkAttachmentBuilder().WithAliases("a");
             NetworkAttachment first = builder.Build();
 
-            builder.WithAlias("b");
+            builder.WithAliases("b");
 
             Assert.Single(first.Aliases);
         }
@@ -113,14 +113,14 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         {
             NetworkAttachmentBuilder builder = new NetworkAttachmentBuilder();
 
-            Assert.Throws<ArgumentException>(() => builder.WithAlias(" "));
+            Assert.Throws<ArgumentException>(() => builder.WithAliases(" "));
             Assert.Throws<ArgumentException>(() => builder.WithInterfaceName(""));
             Assert.Throws<ArgumentException>(() => builder.WithMacAddress(" "));
-            Assert.Throws<ArgumentException>(() => builder.WithLinkLocalIp("nope"));
+            Assert.Throws<ArgumentException>(() => builder.WithLinkLocalIps("nope"));
             Assert.Throws<ArgumentException>(() => builder.WithDriverOption(" ", "x"));
             Assert.Throws<ArgumentNullException>(() => builder.WithDriverOption("a", null!));
-            Assert.Throws<ArgumentNullException>(() => builder.WithAliases(null!));
-            Assert.Throws<ArgumentNullException>(() => builder.WithLinkLocalIps(null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithAliases((IEnumerable<string>)null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithLinkLocalIps((IEnumerable<string>)null!));
             Assert.Throws<ArgumentNullException>(() => builder.WithDriverOptions(null!));
         }
     }

@@ -39,7 +39,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithPlacement_FromDefinition_SetsIt()
         {
-            PlacementDefinition placement = new PlacementBuilder().WithConstraint("disktype=ssd").Build();
+            PlacementDefinition placement = new PlacementBuilder().WithConstraints("disktype=ssd").Build();
 
             DeployDefinition deploy = new DeployBuilder().WithPlacement(placement).Build();
 

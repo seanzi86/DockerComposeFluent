@@ -44,12 +44,12 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                     .WithImage("example/gpu")
                     .WithGpu(gpu => gpu
                         .WithDriver("nvidia")
-                        .WithCapability("compute")
-                        .WithCapability("utility")
+                        .WithCapabilities("compute")
+                        .WithCapabilities("utility")
                         .WithCount(2))
                     .WithGpu(gpu => gpu
-                        .WithCapability("gpu")
-                        .WithDeviceId("GPU-3a23c669")
+                        .WithCapabilities("gpu")
+                        .WithDeviceIds("GPU-3a23c669")
                         .WithOption("virtualization", "false")))
                 .Build();
         }

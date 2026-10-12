@@ -9,7 +9,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithCapability_AddsIt()
         {
-            DeviceDefinition device = new DeviceBuilder().WithCapability("gpu").Build();
+            DeviceDefinition device = new DeviceBuilder().WithCapabilities("gpu").Build();
 
             Assert.Equal(new[] { "gpu" }, device.Capabilities);
         }
@@ -25,7 +25,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithDriver_SetsIt()
         {
-            DeviceDefinition device = new DeviceBuilder().WithCapability("gpu").WithDriver("nvidia").Build();
+            DeviceDefinition device = new DeviceBuilder().WithCapabilities("gpu").WithDriver("nvidia").Build();
 
             Assert.Equal("nvidia", device.Driver);
         }
@@ -33,7 +33,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithCount_SetsIt()
         {
-            DeviceDefinition device = new DeviceBuilder().WithCapability("gpu").WithCount(2).Build();
+            DeviceDefinition device = new DeviceBuilder().WithCapabilities("gpu").WithCount(2).Build();
 
             Assert.Equal(2, device.Count);
             Assert.Empty(device.DeviceIds);
@@ -42,7 +42,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithDeviceId_AddsIt()
         {
-            DeviceDefinition device = new DeviceBuilder().WithCapability("gpu").WithDeviceId("GPU-1").Build();
+            DeviceDefinition device = new DeviceBuilder().WithCapabilities("gpu").WithDeviceIds("GPU-1").Build();
 
             Assert.Equal(new[] { "GPU-1" }, device.DeviceIds);
             Assert.Null(device.Count);
@@ -51,7 +51,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithOption_SetsIt()
         {
-            DeviceDefinition device = new DeviceBuilder().WithCapability("gpu").WithOption("virtualization", "false").Build();
+            DeviceDefinition device = new DeviceBuilder().WithCapabilities("gpu").WithOption("virtualization", "false").Build();
 
             Assert.Equal("false", device.Options["virtualization"]);
         }
@@ -65,7 +65,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void Build_CountAndDeviceId_Throws()
         {
-            Assert.Throws<InvalidOperationException>(() => new DeviceBuilder().WithCapability("gpu").WithCount(1).WithDeviceId("GPU-1").Build());
+            Assert.Throws<InvalidOperationException>(() => new DeviceBuilder().WithCapabilities("gpu").WithCount(1).WithDeviceIds("GPU-1").Build());
         }
 
         [Fact]
@@ -79,9 +79,9 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         {
             DeviceBuilder builder = new DeviceBuilder();
 
-            Assert.Throws<ArgumentException>(() => builder.WithCapability(" "));
+            Assert.Throws<ArgumentException>(() => builder.WithCapabilities(" "));
             Assert.Throws<ArgumentException>(() => builder.WithDriver(" "));
-            Assert.Throws<ArgumentException>(() => builder.WithDeviceId(" "));
+            Assert.Throws<ArgumentException>(() => builder.WithDeviceIds(" "));
         }
     }
 }
