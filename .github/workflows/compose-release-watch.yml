@@ -1,0 +1,29 @@
+name: Compose release watch
+
+# Opens an issue when Docker Compose has released a newer version than the one CI validates the golden
+# fixtures against. Dependabot cannot do this, because it does not update the version input of
+# docker/setup-compose-action. The logic lives in scripts/check-compose-release.sh so it can be run locally
+# with --dry-run.
+
+on:
+  schedule:
+    # Weekly, on Monday morning.
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write # opens or updates the issue, and creates its label
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Check for a newer Docker Compose
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: scripts/check-compose-release.sh
