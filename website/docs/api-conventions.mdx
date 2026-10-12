@@ -54,11 +54,23 @@ service.WithPort(port => port
     .WithHostIp("127.0.0.1"));
 ```
 
-A property that can repeat also gets a plural `WithXs(IEnumerable<...>)` for adding several at once:
+A property that can repeat also takes several values at once. How depends on what the items are:
 
-```csharp
-service.WithPorts(new[] { "80", "8080:80" });
-```
+- **Items that have several shapes** (ports, volumes, secrets, networks...) have a singular method for one item
+  and a plural `WithXs(IEnumerable<...>)` for several:
+
+  ```csharp
+  service.WithPort(port => port.WithTarget(80));
+  service.WithPorts(new[] { "80", "8080:80" });
+  ```
+
+- **Items that are plain strings** (`dns`, `links`, `cap_add`, `tmpfs`...) have one method named after the
+  compose key, which takes either one value or a list, so there is never a plural to guess:
+
+  ```csharp
+  service.WithDns("8.8.8.8");
+  service.WithDns(new[] { "9.9.9.9", "1.1.1.1" });
+  ```
 
 ## Models are immutable; builders are mutable
 

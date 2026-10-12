@@ -80,7 +80,7 @@ namespace DockerComposeFluent.Builders
         /// <remarks>Requires Compose 2.32.0 or later.</remarks>
         /// <param name="paths">The paths, resolved relative to the Compose file's folder.</param>
         /// <returns>This builder.</returns>
-        public ServiceBuilder WithLabelFiles(IEnumerable<string> paths)
+        public ServiceBuilder WithLabelFile(IEnumerable<string> paths)
         {
             Guard.NotNull(paths, nameof(paths));
 
@@ -761,7 +761,7 @@ namespace DockerComposeFluent.Builders
         /// <param name="profile">The profile name: at least two characters, starting with a letter or digit, and
         /// otherwise letters, digits, <c>_</c>, <c>.</c> or <c>-</c>.</param>
         /// <returns>This builder.</returns>
-        public ServiceBuilder WithProfile(string profile)
+        public ServiceBuilder WithProfiles(string profile)
         {
             Guard.ProfileName(profile, nameof(profile));
             _definition = _definition with { Profiles = Collections.Append(_definition.Profiles, profile) };
@@ -780,7 +780,7 @@ namespace DockerComposeFluent.Builders
 
             foreach (string profile in profiles)
             {
-                WithProfile(profile);
+                WithProfiles(profile);
             }
 
             return this;
@@ -1501,13 +1501,13 @@ namespace DockerComposeFluent.Builders
         /// Sets: the Linux capabilities to add, for example <c>NET_ADMIN</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_add"/>
         /// </summary>
-        /// <param name="capabilitys">The capabilitys to add.</param>
+        /// <param name="capabilities">The capabilities to add.</param>
         /// <returns>This builder.</returns>
-        public ServiceBuilder WithCapAdd(IEnumerable<string> capabilitys)
+        public ServiceBuilder WithCapAdd(IEnumerable<string> capabilities)
         {
-            Guard.NotNull(capabilitys, nameof(capabilitys));
+            Guard.NotNull(capabilities, nameof(capabilities));
 
-            foreach (string capability in capabilitys)
+            foreach (string capability in capabilities)
             {
                 WithCapAdd(capability);
             }
@@ -1532,13 +1532,13 @@ namespace DockerComposeFluent.Builders
         /// Sets: the Linux capabilities to drop, for example <c>ALL</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_drop"/>
         /// </summary>
-        /// <param name="capabilitys">The capabilitys to add.</param>
+        /// <param name="capabilities">The capabilities to add.</param>
         /// <returns>This builder.</returns>
-        public ServiceBuilder WithCapDrop(IEnumerable<string> capabilitys)
+        public ServiceBuilder WithCapDrop(IEnumerable<string> capabilities)
         {
-            Guard.NotNull(capabilitys, nameof(capabilitys));
+            Guard.NotNull(capabilities, nameof(capabilities));
 
-            foreach (string capability in capabilitys)
+            foreach (string capability in capabilities)
             {
                 WithCapDrop(capability);
             }

@@ -29,7 +29,7 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="paths">The file paths.</param>
         /// <returns>This builder.</returns>
-        public IncludeBuilder WithPaths(IEnumerable<string> paths)
+        public IncludeBuilder WithPath(IEnumerable<string> paths)
         {
             Guard.NotNull(paths, nameof(paths));
 
@@ -60,7 +60,7 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="paths">The file paths.</param>
         /// <returns>This builder.</returns>
-        public IncludeBuilder WithEnvFiles(IEnumerable<string> paths)
+        public IncludeBuilder WithEnvFile(IEnumerable<string> paths)
         {
             Guard.NotNull(paths, nameof(paths));
 

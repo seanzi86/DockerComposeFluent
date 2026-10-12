@@ -17,7 +17,7 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="alias">The alias.</param>
         /// <returns>This builder.</returns>
-        public NetworkAttachmentBuilder WithAlias(string alias)
+        public NetworkAttachmentBuilder WithAliases(string alias)
         {
             Guard.NotNullOrWhiteSpace(alias, nameof(alias));
 
@@ -36,7 +36,7 @@ namespace DockerComposeFluent.Builders
 
             foreach (string alias in aliases)
             {
-                WithAlias(alias);
+                WithAliases(alias);
             }
 
             return this;
@@ -133,7 +133,7 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="linkLocalIp">The IPv4 or IPv6 address.</param>
         /// <returns>This builder.</returns>
-        public NetworkAttachmentBuilder WithLinkLocalIp(string linkLocalIp)
+        public NetworkAttachmentBuilder WithLinkLocalIps(string linkLocalIp)
         {
             Guard.IpAddress(linkLocalIp, nameof(linkLocalIp));
 
@@ -152,7 +152,7 @@ namespace DockerComposeFluent.Builders
 
             foreach (string linkLocalIp in linkLocalIps)
             {
-                WithLinkLocalIp(linkLocalIp);
+                WithLinkLocalIps(linkLocalIp);
             }
 
             return this;

@@ -26,9 +26,9 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                         .WithReplicas(6)
                         .WithLabel("com.example.description", "Front-end web service")
                         .WithPlacement(placement => placement
-                            .WithConstraint("node.role==worker")
-                            .WithConstraint("disktype=ssd")
-                            .WithPreference("node.labels.zone")
+                            .WithConstraints("node.role==worker")
+                            .WithConstraints("disktype=ssd")
+                            .WithPreferences("node.labels.zone")
                             .WithMaxReplicasPerNode(2))
                         .WithRestartPolicy(restartPolicy => restartPolicy
                             .WithCondition(DeployRestartCondition.OnFailure)
@@ -105,7 +105,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                                 .WithCpus("0.25")
                                 .WithMemory("20M")
                                 .WithDevice(device => device
-                                    .WithCapability("gpu")
+                                    .WithCapabilities("gpu")
                                     .WithDriver("nvidia")
                                     .WithCount(2))))))
                 .WithService("accelerated", service => service
@@ -114,7 +114,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                         .WithResources(resources => resources
                             .WithReservations(reservations => reservations
                                 .WithDevice(device => device
-                                    .WithCapability("gpu")
+                                    .WithCapabilities("gpu")
                                     .WithDeviceIds(new[] { "GPU-f123d1c9-26bb-df9b-1c23-4a731f61d8c7" })
                                     .WithOption("virtualization", "false"))))))
                 .Build();

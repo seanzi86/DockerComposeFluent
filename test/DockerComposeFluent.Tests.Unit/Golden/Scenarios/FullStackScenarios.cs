@@ -23,7 +23,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                     .WithPort(port => port.WithTarget(443).WithPublished(443).WithHostIp("0.0.0.0").WithName("https"))
                     .WithVolume("./proxy/nginx.conf", "/etc/nginx/nginx.conf", readOnly: true)
                     .WithNetwork("public")
-                    .WithNetwork("private", network => network.WithAlias("proxy.internal")))
+                    .WithNetwork("private", network => network.WithAliases("proxy.internal")))
                 .WithService("api", service => service
                     .WithImage("ghcr.io/example/api:2.4.1")
                     .WithCommand(new[] { "dotnet", "Api.dll", "--urls", "http://+:8080" })
@@ -38,7 +38,7 @@ namespace DockerComposeFluent.Tests.Unit.Golden.Scenarios
                     .WithImage("postgres:17")
                     .WithEnvironment(new[] { "POSTGRES_DB=app", "POSTGRES_USER=app", "POSTGRES_PASSWORD" })
                     .WithVolume("db-data", "/var/lib/postgresql/data")
-                    .WithNetwork("private", network => network.WithAlias("database")))
+                    .WithNetwork("private", network => network.WithAliases("database")))
                 .WithService("cache", service => service
                     .WithImage("redis:7")
                     .WithCommand("redis-server --save 60 1 --loglevel warning")

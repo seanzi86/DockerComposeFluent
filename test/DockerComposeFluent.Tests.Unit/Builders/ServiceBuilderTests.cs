@@ -311,7 +311,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         public void WithNetwork_Configure_AttachesWithSettings()
         {
             ServiceDefinition service = new ServiceBuilder()
-                .WithNetwork("back", network => network.WithAlias("db").WithIpv4Address("172.16.238.10"))
+                .WithNetwork("back", network => network.WithAliases("db").WithIpv4Address("172.16.238.10"))
                 .Build();
 
             Assert.Equal(new[] { "db" }, service.Networks["back"].Aliases);
@@ -780,7 +780,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithProfile_AddsIt()
         {
-            ServiceDefinition service = new ServiceBuilder().WithProfile("frontend").Build();
+            ServiceDefinition service = new ServiceBuilder().WithProfiles("frontend").Build();
 
             Assert.Equal(new[] { "frontend" }, service.Profiles);
         }
@@ -796,7 +796,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithProfile_CalledSeveralTimes_KeepsEachOne()
         {
-            ServiceDefinition service = new ServiceBuilder().WithProfile("a1").WithProfile("a2").Build();
+            ServiceDefinition service = new ServiceBuilder().WithProfiles("a1").WithProfiles("a2").Build();
 
             Assert.Equal(new[] { "a1", "a2" }, service.Profiles);
         }
@@ -811,13 +811,13 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [InlineData("a b")]
         public void WithProfile_InvalidName_Throws(string profile)
         {
-            Assert.Throws<ArgumentException>(() => new ServiceBuilder().WithProfile(profile));
+            Assert.Throws<ArgumentException>(() => new ServiceBuilder().WithProfiles(profile));
         }
 
         [Fact]
         public void WithProfile_Null_Throws()
         {
-            Assert.Throws<ArgumentException>(() => new ServiceBuilder().WithProfile(null!));
+            Assert.Throws<ArgumentException>(() => new ServiceBuilder().WithProfiles((string)null!));
         }
 
         [Theory]
@@ -829,7 +829,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [InlineData("a-b")]
         public void WithProfile_ValidName_IsAccepted(string profile)
         {
-            ServiceDefinition service = new ServiceBuilder().WithProfile(profile).Build();
+            ServiceDefinition service = new ServiceBuilder().WithProfiles(profile).Build();
 
             Assert.Equal(new[] { profile }, service.Profiles);
         }
@@ -837,7 +837,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithProfiles_Null_Throws()
         {
-            Assert.Throws<ArgumentNullException>(() => new ServiceBuilder().WithProfiles(null!));
+            Assert.Throws<ArgumentNullException>(() => new ServiceBuilder().WithProfiles((IEnumerable<string>)null!));
         }
 
         [Fact]

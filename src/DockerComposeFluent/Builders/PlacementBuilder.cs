@@ -17,7 +17,7 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="constraint">The constraint, for example <c>disktype=ssd</c>.</param>
         /// <returns>This builder.</returns>
-        public PlacementBuilder WithConstraint(string constraint)
+        public PlacementBuilder WithConstraints(string constraint)
         {
             Guard.NotNullOrWhiteSpace(constraint, nameof(constraint));
             _definition = _definition with { Constraints = Collections.Append(_definition.Constraints, constraint) };
@@ -35,7 +35,7 @@ namespace DockerComposeFluent.Builders
 
             foreach (string constraint in constraints)
             {
-                WithConstraint(constraint);
+                WithConstraints(constraint);
             }
 
             return this;
@@ -46,10 +46,27 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="nodeLabel">The node label, for example <c>node.labels.zone</c>.</param>
         /// <returns>This builder.</returns>
-        public PlacementBuilder WithPreference(string nodeLabel)
+        public PlacementBuilder WithPreferences(string nodeLabel)
         {
             Guard.NotNullOrWhiteSpace(nodeLabel, nameof(nodeLabel));
             _definition = _definition with { Preferences = Collections.Append(_definition.Preferences, nodeLabel) };
+            return this;
+        }
+
+        /// <summary>
+        /// Adds several node labels to spread tasks evenly across, each written as a <c>spread</c> preference.
+        /// </summary>
+        /// <param name="nodeLabels">The node labels.</param>
+        /// <returns>This builder.</returns>
+        public PlacementBuilder WithPreferences(IEnumerable<string> nodeLabels)
+        {
+            Guard.NotNull(nodeLabels, nameof(nodeLabels));
+
+            foreach (string nodeLabel in nodeLabels)
+            {
+                WithPreferences(nodeLabel);
+            }
+
             return this;
         }
 

@@ -127,9 +127,47 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         }
 
         [Fact]
+        public void Gpu_PlainStringLists_TakeOneValueOrSeveralUnderTheKeyName()
+        {
+            GpuDefinition gpu = new GpuBuilder()
+                .WithCapabilities("compute")
+                .WithCapabilities(new[] { "utility", "graphics" })
+                .WithDeviceIds("GPU-1")
+                .WithDeviceIds(new[] { "GPU-2" })
+                .Build();
+
+            Assert.Equal(new[] { "compute", "utility", "graphics" }, gpu.Capabilities);
+            Assert.Equal(new[] { "GPU-1", "GPU-2" }, gpu.DeviceIds);
+        }
+
+        [Fact]
+        public void Placement_PreferencesAndConstraints_TakeOneValueOrSeveral()
+        {
+            PlacementDefinition placement = new PlacementBuilder()
+                .WithPreferences("node.labels.zone")
+                .WithPreferences(new[] { "node.labels.rack" })
+                .WithConstraints("disktype=ssd")
+                .WithConstraints(new[] { "node.role==worker" })
+                .Build();
+
+            Assert.Equal(new[] { "node.labels.zone", "node.labels.rack" }, placement.Preferences);
+            Assert.Equal(new[] { "disktype=ssd", "node.role==worker" }, placement.Constraints);
+        }
+
+        [Fact]
+        public void CapAdd_UsesACorrectlySpeltParameterName()
+        {
+            System.Reflection.ParameterInfo parameter = typeof(ServiceBuilder)
+                .GetMethod(nameof(ServiceBuilder.WithCapAdd), new[] { typeof(System.Collections.Generic.IEnumerable<string>) })!
+                .GetParameters()[0];
+
+            Assert.Equal("capabilities", parameter.Name);
+        }
+
+        [Fact]
         public void Gpu_CountAndDeviceIds_AreExclusive()
         {
-            Assert.Throws<InvalidOperationException>(() => new GpuBuilder().WithCount(1).WithDeviceId("g").Build());
+            Assert.Throws<InvalidOperationException>(() => new GpuBuilder().WithCount(1).WithDeviceIds("g").Build());
             Assert.Throws<ArgumentOutOfRangeException>(() => new GpuBuilder().WithCount(0));
         }
 

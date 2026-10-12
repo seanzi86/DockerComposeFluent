@@ -88,7 +88,7 @@ namespace DockerComposeFluent.Tests.Unit.Models
         [Fact]
         public void WithLabelFiles_AddsEachOneInOrder()
         {
-            ServiceDefinition service = new ServiceBuilder().WithLabelFiles(new[] { "./app.labels", "./more.labels" }).Build();
+            ServiceDefinition service = new ServiceBuilder().WithLabelFile(new[] { "./app.labels", "./more.labels" }).Build();
 
             Assert.Equal(new[] { "./app.labels", "./more.labels" }, service.LabelFiles);
         }
@@ -99,7 +99,7 @@ namespace DockerComposeFluent.Tests.Unit.Models
             ServiceBuilder builder = new ServiceBuilder();
 
             Assert.Throws<ArgumentException>(() => builder.WithLabelFile(" "));
-            Assert.Throws<ArgumentNullException>(() => builder.WithLabelFiles(null!));
+            Assert.Throws<ArgumentNullException>(() => builder.WithLabelFile((IEnumerable<string>)null!));
         }
     }
 }
