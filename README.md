@@ -88,7 +88,9 @@ Mistakes that span the whole file, such as a `depends_on` pointing at a service 
 
 Each property accepts the forms Compose itself accepts, chosen by the overload you call. For example `WithPort("8080:80")` writes the short syntax, `WithPort(8080, 80)` writes the long syntax, and `WithPort(port => port.WithTarget(80).WithHostIp("127.0.0.1"))` gives full control.
 
-More of the compose-spec is planned; see the [milestones](https://github.com/seanzi86/DockerComposeFluent/milestones).
+**Not supported yet:** the newer parts of the compose-spec that Compose itself is still building out: top-level `models` and `jobs`, and a service's `models` and `provider`. They are planned for after 1.0. A service's `pre_start` steps support the seven attributes the specification documents (`command`, `image`, `user`, `privileged`, `working_dir`, `environment` and `per_replica`), not the full container specification Compose accepts.
+
+See the [milestones](https://github.com/seanzi86/DockerComposeFluent/milestones) for what is planned.
 
 ## Docker Compose versions
 

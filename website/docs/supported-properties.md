@@ -8,6 +8,12 @@ Every property below has a `WithX` builder method that produces it; see the [API
 for the exact overloads. "Since Compose" is the minimum Docker Compose version the property needs, taken from
 the library's own `<remarks>` on that property; "Core spec" means there's no extra requirement.
 
+**Not supported yet:** top-level `models` and `jobs`, and a service's `models` and `provider`. These are the newer
+parts of the specification that Compose is still building out (Compose 5.6.0 added only partial `jobs` support),
+so they are planned for after 1.0. A `pre_start` step supports the seven attributes the specification documents
+(`command`, `image`, `user`, `privileged`, `working_dir`, `environment` and `per_replica`), not the full container
+specification Compose accepts.
+
 <!-- supported-properties:begin -->
 
 ### Include (`include`)
