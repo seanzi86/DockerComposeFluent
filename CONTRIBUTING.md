@@ -79,6 +79,17 @@ Commit the `CompatibilitySuppressions.xml` it writes next to the project, and sa
 release ships the change the suppression is no longer needed; the check tolerates stale ones, so tidy the
 file up when convenient. Where practical, mark a member `[Obsolete]` for one release before removing it.
 
+## Docker Compose releases
+
+CI validates the golden fixtures with the Docker Compose version pinned in `ci.yml`. Dependabot cannot bump
+that input, so the `compose-release-watch` workflow checks weekly and opens an issue (labelled
+`compose-release`) when a newer Compose is out. The issue lists how to catch up: read the release notes,
+bump the pin, and re-run the parity audit for new attributes. You can run the check yourself:
+
+```bash
+scripts/check-compose-release.sh --dry-run
+```
+
 ## Dependencies
 
 - Dependabot opens a weekly pull request for NuGet packages and one for GitHub Actions (minor and patch updates grouped, major updates separate). They must pass CI like any other change.
