@@ -4,7 +4,7 @@ namespace DockerComposeFluent.Models
 {
     /// <summary>
     /// Extra options for an image mount, as specified by <c>image</c>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
     /// </summary>
     /// <remarks>Requires Compose 2.35.0 or later.</remarks>
     public sealed record ImageOptions

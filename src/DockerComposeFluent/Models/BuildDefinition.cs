@@ -14,6 +14,7 @@ namespace DockerComposeFluent.Models
         /// The additional named build contexts, keyed by name with the location as the value, as specified by <c>additional_contexts</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#additional_contexts"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.17.0 or later.</remarks>
         public IReadOnlyDictionary<string, string> AdditionalContexts
         {
             get { return _additionalContexts; }
@@ -50,6 +51,7 @@ namespace DockerComposeFluent.Models
         /// The locations to export the build cache to, as specified by <c>cache_to</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#cache_to"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.4.0 or later.</remarks>
         public IReadOnlyList<string> CacheTo
         {
             get { return _cacheTo; }
@@ -74,6 +76,7 @@ namespace DockerComposeFluent.Models
         /// The Dockerfile contents, defined inline, as specified by <c>dockerfile_inline</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#dockerfile_inline"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.17.0 or later.</remarks>
         public string? DockerfileInline { get; init; }
 
         /// <summary>
@@ -124,6 +127,7 @@ namespace DockerComposeFluent.Models
         /// Whether to build without using the cache, as specified by <c>no_cache</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#no_cache"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.4.0 or later.</remarks>
         public bool? NoCache { get; init; }
 
         /// <summary>
@@ -143,6 +147,7 @@ namespace DockerComposeFluent.Models
         /// The platforms to build the image for, for example <c>linux/amd64</c>, as specified by <c>platforms</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#platforms"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.10.0 or later.</remarks>
         public IReadOnlyList<string> Platforms
         {
             get { return _platforms; }
@@ -155,6 +160,7 @@ namespace DockerComposeFluent.Models
         /// Whether the build runs with extended privileges, as specified by <c>privileged</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#privileged"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.15.0 or later.</remarks>
         public bool? Privileged { get; init; }
 
         /// <summary>
@@ -168,6 +174,7 @@ namespace DockerComposeFluent.Models
         /// Whether to always pull newer versions of the base images, as specified by <c>pull</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#pull"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.4.0 or later.</remarks>
         public bool? Pull { get; init; }
 
         /// <summary>
@@ -181,6 +188,7 @@ namespace DockerComposeFluent.Models
         /// The secrets the build can access, as specified by <c>secrets</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#secrets"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.5.0 or later.</remarks>
         public IReadOnlyList<SecretReference> Secrets
         {
             get { return _secrets; }
@@ -199,6 +207,7 @@ namespace DockerComposeFluent.Models
         /// The SSH agent sockets or keys the build can use, as <c>default</c> or <c>id=path</c>, as specified by <c>ssh</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#ssh"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.4.0 or later.</remarks>
         public IReadOnlyList<string> Ssh
         {
             get { return _ssh; }
@@ -211,6 +220,7 @@ namespace DockerComposeFluent.Models
         /// The extra tags to apply to the built image, as specified by <c>tags</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#tags"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.5.1 or later.</remarks>
         public IReadOnlyList<string> Tags
         {
             get { return _tags; }

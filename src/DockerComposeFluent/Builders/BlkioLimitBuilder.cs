@@ -5,7 +5,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds a <see cref="BlkioLimitDefinition"/>. A path and a rate are required.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#blkio_config"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#blkio_config"/>
     /// </summary>
     public sealed class BlkioLimitBuilder
     {

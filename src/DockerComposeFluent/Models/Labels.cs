@@ -6,7 +6,7 @@ namespace DockerComposeFluent.Models
     /// The labels attached to a service, network or volume, as specified by <c>labels</c>. Compose allows a
     /// mapping (<c>KEY: value</c>) or a list (<c>- KEY=value</c>); the list form is used when it was asked for.
     /// Unlike <see cref="EnvironmentVariables"/>, every label has a value (which may be empty).
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#labels"/>
     /// </summary>
     public sealed record Labels
     {

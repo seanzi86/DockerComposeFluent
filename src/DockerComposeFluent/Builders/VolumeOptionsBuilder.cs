@@ -4,7 +4,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds <see cref="VolumeOptions"/>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
     /// </summary>
     public sealed class VolumeOptionsBuilder
     {
@@ -24,6 +24,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets a path inside the volume to mount instead of the volume root.
         /// </summary>
+        /// <remarks>Requires Compose 2.24.0 or later.</remarks>
         /// <param name="subpath">The path inside the volume.</param>
         /// <returns>This builder.</returns>
         public VolumeOptionsBuilder WithSubpath(string subpath)

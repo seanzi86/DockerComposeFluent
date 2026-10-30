@@ -14,6 +14,7 @@ namespace DockerComposeFluent.Models
         /// when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/develop.md#watch"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
         public IReadOnlyList<WatchRuleDefinition> Watch
         {
             get { return _watch; }

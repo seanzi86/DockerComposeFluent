@@ -4,7 +4,7 @@ namespace DockerComposeFluent.Models
 {
     /// <summary>
     /// Extra options for a tmpfs mount, as specified by <c>tmpfs</c>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
     /// </summary>
     public sealed record TmpfsOptions
     {

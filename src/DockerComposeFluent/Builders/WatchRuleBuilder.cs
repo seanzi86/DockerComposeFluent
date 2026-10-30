@@ -16,6 +16,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the path to watch.
         /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
         /// <param name="path">The path, relative to the project directory.</param>
         /// <returns>This builder.</returns>
         public WatchRuleBuilder WithPath(string path)
@@ -28,6 +29,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets what to do when a change is detected.
         /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
         /// <param name="action">The action.</param>
         /// <returns>This builder.</returns>
         public WatchRuleBuilder WithAction(WatchAction action)
@@ -44,6 +46,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the path in the container that changed files are synchronised to.
         /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
         /// <param name="target">The container path.</param>
         /// <returns>This builder.</returns>
         public WatchRuleBuilder WithTarget(string target)
@@ -56,6 +59,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Adds a pattern of paths that do not trigger the action, using <c>.dockerignore</c> syntax.
         /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
         /// <param name="pattern">The pattern, for example <c>node_modules/</c>.</param>
         /// <returns>This builder.</returns>
         public WatchRuleBuilder WithIgnore(string pattern)
@@ -68,6 +72,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Adds several patterns of paths that do not trigger the action.
         /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
         /// <param name="patterns">The patterns.</param>
         /// <returns>This builder.</returns>
         public WatchRuleBuilder WithIgnore(IEnumerable<string> patterns)

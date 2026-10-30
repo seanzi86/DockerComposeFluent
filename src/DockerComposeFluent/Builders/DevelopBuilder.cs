@@ -15,6 +15,7 @@ namespace DockerComposeFluent.Builders
         /// Adds a watch rule that does not need a target or command: <see cref="WatchAction.Rebuild"/> or
         /// <see cref="WatchAction.Restart"/>.
         /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
         /// <param name="path">The path to watch.</param>
         /// <param name="action">The action to take on a change.</param>
         /// <returns>This builder.</returns>
@@ -37,6 +38,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Adds a watch rule, from an existing definition.
         /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
         /// <param name="rule">The watch rule.</param>
         /// <returns>This builder.</returns>
         public DevelopBuilder WithWatch(WatchRuleDefinition rule)
@@ -49,6 +51,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Adds a watch rule, configured through a <see cref="WatchRuleBuilder"/>.
         /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
         /// <param name="configure">Configures the rule.</param>
         /// <returns>This builder.</returns>
         public DevelopBuilder WithWatch(Action<WatchRuleBuilder> configure)

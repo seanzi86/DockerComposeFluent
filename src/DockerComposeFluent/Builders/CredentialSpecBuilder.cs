@@ -5,7 +5,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds a <see cref="CredentialSpecDefinition"/>. Exactly one source is required.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#credential_spec"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#credential_spec"/>
     /// </summary>
     public sealed class CredentialSpecBuilder
     {

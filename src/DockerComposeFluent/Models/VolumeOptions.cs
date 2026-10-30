@@ -4,7 +4,7 @@ namespace DockerComposeFluent.Models
 {
     /// <summary>
     /// Extra options for a named volume mount, as specified by <c>volume</c>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
     /// </summary>
     public sealed record VolumeOptions
     {
@@ -17,6 +17,7 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// A path inside the volume to mount instead of the volume root, as specified by <c>subpath</c>.
         /// </summary>
+        /// <remarks>Requires Compose 2.24.0 or later.</remarks>
         public string? Subpath { get; init; }
 
         /// <summary>

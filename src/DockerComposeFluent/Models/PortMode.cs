@@ -2,7 +2,7 @@ namespace DockerComposeFluent.Models
 {
     /// <summary>
     /// How a port is published, as specified by <c>mode</c>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#ports"/>
     /// </summary>
     public enum PortMode
     {

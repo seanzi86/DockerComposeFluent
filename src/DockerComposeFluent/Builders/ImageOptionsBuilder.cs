@@ -4,7 +4,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds <see cref="ImageOptions"/>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
     /// </summary>
     /// <remarks>Requires Compose 2.35.0 or later.</remarks>
     public sealed class ImageOptionsBuilder

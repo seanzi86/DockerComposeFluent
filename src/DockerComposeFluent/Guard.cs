@@ -135,7 +135,7 @@ namespace DockerComposeFluent
         /// Throws if <paramref name="value"/> is not usable as a label key: it must not be blank, and must not
         /// start with the reserved <c>com.docker.compose</c> prefix, which Compose sets itself and rejects at
         /// runtime if the file also sets it.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#labels"/>
         /// </summary>
         /// <param name="value">The key to check.</param>
         /// <param name="parameterName">The name of the parameter being checked.</param>
@@ -204,7 +204,7 @@ namespace DockerComposeFluent
         /// Throws if <paramref name="value"/> is not a valid compose-spec pull policy: <c>always</c>,
         /// <c>never</c>, <c>build</c>, <c>if_not_present</c>, <c>missing</c>, <c>refresh</c>, <c>daily</c>,
         /// <c>weekly</c> or <c>every_&lt;duration&gt;</c>, such as <c>every_12h</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_policy"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#pull_policy"/>
         /// </summary>
         /// <param name="value">The policy to check.</param>
         /// <param name="parameterName">The name of the parameter being checked.</param>
@@ -221,7 +221,7 @@ namespace DockerComposeFluent
         /// <summary>
         /// Throws if <paramref name="value"/> is not a valid ulimit name: lower-case letters only, such as
         /// <c>nofile</c> or <c>nproc</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ulimits"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#ulimits"/>
         /// </summary>
         /// <param name="value">The name to check.</param>
         /// <param name="parameterName">The name of the parameter being checked.</param>

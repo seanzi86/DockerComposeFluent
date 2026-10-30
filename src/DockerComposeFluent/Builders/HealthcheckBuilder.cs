@@ -6,7 +6,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds a <see cref="HealthcheckDefinition"/>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
     /// </summary>
     public sealed class HealthcheckBuilder
     {
@@ -17,7 +17,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the check as a shell-form string, written to YAML as a string. Compose runs it with
         /// <c>CMD-SHELL</c>, using the container's default shell.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="command">The command, for example <c>curl -f http://localhost || exit 1</c>.</param>
         /// <returns>This builder.</returns>
@@ -31,7 +31,7 @@ namespace DockerComposeFluent.Builders
         /// Sets the check as a list, written to YAML as a list. The first item must be <c>CMD</c>,
         /// <c>CMD-SHELL</c> or <c>NONE</c>. Use <see cref="WithCommand(IEnumerable{string})"/> to have <c>CMD</c>
         /// added for you.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="test">The list, for example <c>CMD</c>, <c>curl</c>, <c>-f</c>, <c>http://localhost</c>.</param>
         /// <returns>This builder.</returns>
@@ -51,7 +51,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the check to run a command directly, without a shell: <c>CMD</c> followed by the arguments.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="arguments">The command and its arguments, for example <c>curl</c>, <c>-f</c>,
         /// <c>http://localhost</c>.</param>
@@ -72,7 +72,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the time between checks.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="interval">The interval, which must be positive and a whole number of microseconds.</param>
         /// <returns>This builder.</returns>
@@ -83,7 +83,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the time between checks from a compose-spec duration.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="interval">The interval, such as <c>30s</c> or <c>1m30s</c>.</param>
         /// <returns>This builder.</returns>
@@ -96,7 +96,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets how long a single check may run before it counts as failed.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="timeout">The timeout, which must be positive and a whole number of microseconds.</param>
         /// <returns>This builder.</returns>
@@ -107,7 +107,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets how long a single check may run before it counts as failed, from a compose-spec duration.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="timeout">The timeout, such as <c>10s</c>.</param>
         /// <returns>This builder.</returns>
@@ -120,7 +120,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the number of consecutive failures before the container is considered unhealthy.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="retries">The number of retries, which must not be negative.</param>
         /// <returns>This builder.</returns>
@@ -137,7 +137,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets how long the container has to start before failed checks count.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="startPeriod">The start period, which must be positive and a whole number of microseconds.</param>
         /// <returns>This builder.</returns>
@@ -148,7 +148,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets how long the container has to start before failed checks count, from a compose-spec duration.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="startPeriod">The start period, such as <c>40s</c>.</param>
         /// <returns>This builder.</returns>
@@ -161,7 +161,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the time between checks during the start period.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <remarks>Requires Compose 2.20.2 or later.</remarks>
         /// <param name="startInterval">The interval, which must be positive and a whole number of microseconds.</param>
@@ -173,7 +173,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the time between checks during the start period, from a compose-spec duration.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <remarks>Requires Compose 2.20.2 or later.</remarks>
         /// <param name="startInterval">The interval, such as <c>5s</c>.</param>
@@ -187,7 +187,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets whether the healthcheck set by the image is disabled.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="disable"><c>true</c> to disable the image's healthcheck.</param>
         /// <returns>This builder.</returns>

@@ -4,7 +4,7 @@ namespace DockerComposeFluent.Models
 {
     /// <summary>
     /// The logging configuration for a service, as specified by <c>logging</c>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#logging"/>
     /// </summary>
     public sealed record LoggingDefinition
     {

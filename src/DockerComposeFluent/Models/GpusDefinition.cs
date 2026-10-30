@@ -6,7 +6,7 @@ namespace DockerComposeFluent.Models
     /// <summary>
     /// The GPUs a service may use (the <c>gpus</c> entry): either all of them, written as the string
     /// <c>all</c>, or a list of specific requests.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#gpus"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#gpus"/>
     /// </summary>
     /// <remarks>
     /// The one definition without its own builder: <c>ServiceBuilder.WithAllGpus</c> and <c>WithGpu</c> cover

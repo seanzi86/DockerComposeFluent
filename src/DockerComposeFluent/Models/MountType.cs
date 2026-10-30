@@ -2,7 +2,7 @@ namespace DockerComposeFluent.Models
 {
     /// <summary>
     /// The kind of mount, as specified by <c>type</c> in the long syntax.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
     /// </summary>
     public enum MountType
     {

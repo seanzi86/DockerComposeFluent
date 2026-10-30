@@ -5,7 +5,7 @@ namespace DockerComposeFluent.Models
     /// <summary>
     /// The environment variables of a service, as specified by <c>environment</c>. Compose allows a mapping
     /// (<c>KEY: value</c>) or a list (<c>- KEY=value</c>); the list form is used when it was asked for.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#environment"/>
     /// </summary>
     public sealed record EnvironmentVariables
     {

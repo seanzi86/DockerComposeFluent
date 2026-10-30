@@ -38,6 +38,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the container's PID limit.
         /// </summary>
+        /// <remarks>Requires Compose 2.3.0 or later.</remarks>
         /// <param name="pids">The limit, which must be positive.</param>
         /// <returns>This builder.</returns>
         public ResourceLimitsBuilder WithPids(int pids)

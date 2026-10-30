@@ -5,7 +5,7 @@ namespace DockerComposeFluent.Models
 {
     /// <summary>
     /// The block I/O configuration of a service (the <c>blkio_config</c> entry).
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#blkio_config"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#blkio_config"/>
     /// </summary>
     public sealed record BlkioConfigDefinition
     {

@@ -6,7 +6,7 @@ namespace DockerComposeFluent.Models
     /// Grants a service access to one secret (an entry of <c>services.&lt;name&gt;.secrets</c>). An entry
     /// with only <see cref="Source"/> is written to YAML as a plain string; any other setting makes it a
     /// mapping.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#secrets"/>
     /// </summary>
     public sealed record SecretReference
     {

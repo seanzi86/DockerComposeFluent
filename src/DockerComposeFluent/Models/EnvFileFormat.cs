@@ -2,7 +2,7 @@ namespace DockerComposeFluent.Models
 {
     /// <summary>
     /// An alternative parsing format for an <c>env_file</c> entry, as specified by <c>format</c>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#format"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#format"/>
     /// </summary>
     public enum EnvFileFormat
     {

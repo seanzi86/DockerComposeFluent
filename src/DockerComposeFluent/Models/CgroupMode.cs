@@ -2,7 +2,7 @@ namespace DockerComposeFluent.Models
 {
     /// <summary>
     /// The cgroup namespace a container joins, as specified by <c>cgroup</c>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cgroup"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cgroup"/>
     /// </summary>
     public enum CgroupMode
     {

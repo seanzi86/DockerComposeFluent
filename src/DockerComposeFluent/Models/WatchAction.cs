@@ -18,8 +18,9 @@ namespace DockerComposeFluent.Models
         Sync,
 
         /// <summary>
-        /// Restart the service container (<c>restart</c>). Requires Compose 2.32.0 or later.
+        /// Restart the service container (<c>restart</c>).
         /// </summary>
+        /// <remarks>Requires Compose 2.32.0 or later.</remarks>
         Restart,
 
         /// <summary>
@@ -28,9 +29,9 @@ namespace DockerComposeFluent.Models
         SyncAndRestart,
 
         /// <summary>
-        /// Synchronise the changed files, then run a command in the container (<c>sync+exec</c>). Requires
-        /// Compose 2.32.0 or later.
+        /// Synchronise the changed files, then run a command in the container (<c>sync+exec</c>).
         /// </summary>
+        /// <remarks>Requires Compose 2.32.0 or later.</remarks>
         SyncAndExec
     }
 }

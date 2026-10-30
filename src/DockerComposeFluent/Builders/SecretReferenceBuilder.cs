@@ -4,7 +4,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds a <see cref="SecretReference"/>: how a service accesses one secret.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#secrets"/>
     /// </summary>
     public sealed class SecretReferenceBuilder
     {

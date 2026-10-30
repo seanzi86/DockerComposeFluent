@@ -24,6 +24,7 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// The container's PID limit, as specified by <c>pids</c>.
         /// </summary>
+        /// <remarks>Requires Compose 2.3.0 or later.</remarks>
         public int? Pids { get; init; }
 
         /// <summary>

@@ -2,7 +2,7 @@ namespace DockerComposeFluent.Models
 {
     /// <summary>
     /// A block I/O weight for one device (an entry of <c>weight_device</c> in <c>blkio_config</c>).
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#blkio_config"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#blkio_config"/>
     /// </summary>
     public sealed record BlkioWeightDefinition
     {

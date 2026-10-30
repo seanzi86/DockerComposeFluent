@@ -32,6 +32,12 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration Release
 
+      # Spec links and anchors, spellings, parameter docs and version remarks. Needs the network for the spec.
+      - name: Audit doc comments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/audit-docs.mjs
+
       - name: Test
         run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" --results-directory TestResults
 
@@ -107,3 +113,17 @@ jobs:
             echo "Validating $fixture"
             docker compose -f "$fixture" config --quiet || exit 1
           done
+
+  # Checks the "Requires Compose X or later" remarks against Compose's own history. Its own job because it
+  # clones Compose and compose-go (about a minute), so it runs alongside the build rather than after it.
+  compose-versions:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Check Compose version remarks
+        run: python3 scripts/check-compose-versions.py

@@ -14,7 +14,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets a label, keeping the mapping form. Setting the same key again replaces its value.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#labels"/>
         /// </summary>
         /// <param name="key">The label key, which must not start with the reserved <c>com.docker.compose</c>
         /// prefix.</param>
@@ -28,7 +28,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets several labels from key/value pairs, keeping the mapping form.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#labels"/>
         /// </summary>
         /// <param name="labels">The labels.</param>
         /// <returns>This builder.</returns>
@@ -47,7 +47,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets several labels from <c>KEY=value</c> strings, or a bare <c>KEY</c> for an empty value. Makes the
         /// YAML use the list form (<c>- KEY=value</c>).
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#labels"/>
         /// </summary>
         /// <param name="entries">The entries, split at the first <c>=</c>.</param>
         /// <returns>This builder.</returns>
@@ -61,7 +61,7 @@ namespace DockerComposeFluent.Builders
         /// Adds a file to load labels from. Files are read in the order added; a later file overrides values
         /// from an earlier one, and a label set directly with <see cref="WithLabel(string, string)"/> overrides
         /// either.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#label_file"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#label_file"/>
         /// </summary>
         /// <remarks>Requires Compose 2.32.0 or later.</remarks>
         /// <param name="path">The path, resolved relative to the Compose file's folder.</param>
@@ -75,7 +75,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds several files to load labels from.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#label_file"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#label_file"/>
         /// </summary>
         /// <remarks>Requires Compose 2.32.0 or later.</remarks>
         /// <param name="paths">The paths, resolved relative to the Compose file's folder.</param>
@@ -95,7 +95,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the healthcheck to a shell-form command (Compose runs it with <c>CMD-SHELL</c>). Use
         /// <see cref="WithHealthcheck(Action{HealthcheckBuilder})"/> to set the interval, timeout and so on.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="test">The command, for example <c>curl -f http://localhost || exit 1</c>.</param>
         /// <returns>This builder.</returns>
@@ -106,7 +106,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the healthcheck from an existing definition.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="healthcheck">The healthcheck definition.</param>
         /// <returns>This builder.</returns>
@@ -119,7 +119,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the healthcheck, configured through a <see cref="HealthcheckBuilder"/>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <param name="configure">Configures the healthcheck.</param>
         /// <returns>This builder.</returns>
@@ -134,7 +134,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Disables the healthcheck set by the image (written as <c>healthcheck: disable: true</c>).
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck"/>
         /// </summary>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithoutHealthcheck()
@@ -144,7 +144,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the image to start the container from.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#image"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#image"/>
         /// </summary>
         /// <param name="image">The image name, optionally including a tag or digest.</param>
         /// <returns>This builder.</returns>
@@ -157,7 +157,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the command as a single shell-form string, written to YAML as a string.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#command"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#command"/>
         /// </summary>
         /// <param name="command">The command, for example <c>nginx -g "daemon off;"</c>.</param>
         /// <returns>This builder.</returns>
@@ -170,7 +170,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the command as an exec-form list of arguments, written to YAML as a list.
         /// An empty list clears the command defined by the image.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#command"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#command"/>
         /// </summary>
         /// <param name="arguments">The arguments, for example <c>nginx</c>, <c>-g</c>, <c>daemon off;</c>.</param>
         /// <returns>This builder.</returns>
@@ -196,7 +196,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Makes the service depend on another service with no settings. When no dependency has settings, they
         /// are written to YAML as a plain list of names. Depending on the same service again replaces it.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#depends_on"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#depends_on"/>
         /// </summary>
         /// <param name="service">The name of another service in the file.</param>
         /// <returns>This builder.</returns>
@@ -207,7 +207,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Makes the service depend on several other services, each with no settings.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#depends_on"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#depends_on"/>
         /// </summary>
         /// <param name="services">The names of other services in the file.</param>
         /// <returns>This builder.</returns>
@@ -227,7 +227,7 @@ namespace DockerComposeFluent.Builders
         /// Makes the service depend on another service until a condition is met. Any dependency with settings
         /// makes the dependencies be written to YAML as a mapping, including when the condition is
         /// <see cref="DependencyCondition.ServiceStarted"/>, since it was asked for explicitly.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#long-syntax"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#long-syntax"/>
         /// </summary>
         /// <param name="service">The name of another service in the file.</param>
         /// <param name="condition">When the dependency is considered satisfied.</param>
@@ -239,7 +239,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Makes the service depend on another service with existing settings.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#long-syntax"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#long-syntax"/>
         /// </summary>
         /// <param name="service">The name of another service in the file.</param>
         /// <param name="dependency">The settings for this dependency.</param>
@@ -254,7 +254,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Makes the service depend on another service, with settings configured through a
         /// <see cref="DependencyBuilder"/>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#long-syntax"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#long-syntax"/>
         /// </summary>
         /// <param name="service">The name of another service in the file.</param>
         /// <param name="configure">Configures the dependency.</param>
@@ -299,7 +299,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the entrypoint as a single shell-form string, written to YAML as a string.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#entrypoint"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#entrypoint"/>
         /// </summary>
         /// <param name="entrypoint">The entrypoint, for example <c>nginx -g "daemon off;"</c>.</param>
         /// <returns>This builder.</returns>
@@ -312,7 +312,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the entrypoint as an exec-form list of arguments, written to YAML as a list.
         /// An empty list clears the entrypoint defined by the image.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#entrypoint"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#entrypoint"/>
         /// </summary>
         /// <param name="arguments">The arguments, for example <c>nginx</c>, <c>-g</c>, <c>daemon off;</c>.</param>
         /// <returns>This builder.</returns>
@@ -380,7 +380,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds a port mapping in short syntax, written to YAML as a string. Each call adds another port.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#ports"/>
         /// </summary>
         /// <param name="port">The mapping, for example <c>8080:80</c> or <c>127.0.0.1:8080:80/udp</c>.</param>
         /// <returns>This builder.</returns>
@@ -392,7 +392,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Adds a container port with no published port, so the runtime assigns a host port, written to YAML
         /// in long syntax. Each call adds another port.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#ports"/>
         /// </summary>
         /// <param name="target">The container port, from 1 to 65535.</param>
         /// <returns>This builder.</returns>
@@ -404,7 +404,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Adds a port mapping from a published and a target port, written to YAML in long syntax.
         /// Each call adds another port.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#ports"/>
         /// </summary>
         /// <param name="published">The publicly exposed port, from 1 to 65535.</param>
         /// <param name="target">The container port, from 1 to 65535.</param>
@@ -425,7 +425,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds a port mapping from an existing long-syntax definition. Each call adds another port.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#ports"/>
         /// </summary>
         /// <param name="port">The port definition.</param>
         /// <returns>This builder.</returns>
@@ -436,7 +436,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds a port mapping configured through a <see cref="PortBuilder"/>. Each call adds another port.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#ports"/>
         /// </summary>
         /// <param name="configure">Configures the port.</param>
         /// <returns>This builder.</returns>
@@ -451,7 +451,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds several port mappings in short syntax.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#ports"/>
         /// </summary>
         /// <param name="ports">The mappings, for example <c>8080:80</c>.</param>
         /// <returns>This builder.</returns>
@@ -469,7 +469,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds several port mappings from existing long-syntax definitions.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#ports"/>
         /// </summary>
         /// <param name="ports">The port definitions.</param>
         /// <returns>This builder.</returns>
@@ -551,7 +551,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds a mount in short syntax, written to YAML as a string. Each call adds another mount.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
         /// </summary>
         /// <param name="mount">The mount, for example <c>db-data:/var/lib/db</c> or <c>./src:/app:ro</c>.</param>
         /// <returns>This builder.</returns>
@@ -565,7 +565,7 @@ namespace DockerComposeFluent.Builders
         /// (<c>source:target</c> or <c>source:target:ro</c>) so that Compose decides whether the source is a
         /// named volume or a host path. Use <see cref="WithVolume(Action{MountBuilder})"/> to state the type.
         /// Each call adds another mount.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
         /// </summary>
         /// <param name="source">A volume name or a host path.</param>
         /// <param name="target">The path in the container.</param>
@@ -582,7 +582,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds a mount from an existing long-syntax definition. Each call adds another mount.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
         /// </summary>
         /// <param name="mount">The mount definition.</param>
         /// <returns>This builder.</returns>
@@ -593,7 +593,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds a mount configured through a <see cref="MountBuilder"/>. Each call adds another mount.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
         /// </summary>
         /// <param name="configure">Configures the mount.</param>
         /// <returns>This builder.</returns>
@@ -608,7 +608,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds several mounts in short syntax.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
         /// </summary>
         /// <param name="mounts">The mounts, for example <c>db-data:/var/lib/db</c>.</param>
         /// <returns>This builder.</returns>
@@ -626,7 +626,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds several mounts from existing long-syntax definitions.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
         /// </summary>
         /// <param name="mounts">The mount definitions.</param>
         /// <returns>This builder.</returns>
@@ -645,7 +645,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Adds an environment file with no settings, written to YAML as a plain path. Each call adds another
         /// file; files are read in the order added, and a later file overrides values from an earlier one.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#env_file"/>
         /// </summary>
         /// <param name="path">The path, resolved relative to the Compose file's folder.</param>
         /// <returns>This builder.</returns>
@@ -656,7 +656,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds an environment file, stating whether it must exist. Each call adds another file.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#required"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#required"/>
         /// </summary>
         /// <remarks>Requires Compose 2.24.0 or later.</remarks>
         /// <param name="path">The path, resolved relative to the Compose file's folder.</param>
@@ -670,7 +670,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds several environment files, each with no settings.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#env_file"/>
         /// </summary>
         /// <param name="paths">The paths, resolved relative to the Compose file's folder.</param>
         /// <returns>This builder.</returns>
@@ -688,7 +688,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds an environment file from an existing entry. Each call adds another file.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#env_file"/>
         /// </summary>
         /// <param name="entry">The entry.</param>
         /// <returns>This builder.</returns>
@@ -700,7 +700,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds an environment file, configured through an <see cref="EnvFileEntryBuilder"/>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#env_file"/>
         /// </summary>
         /// <param name="configure">Configures the entry.</param>
         /// <returns>This builder.</returns>
@@ -716,7 +716,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the logging driver, with no options. Use
         /// <see cref="WithLogging(Action{LoggingBuilder})"/> to also set options.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#logging"/>
         /// </summary>
         /// <param name="driver">The driver name, for example <c>json-file</c> or <c>syslog</c>.</param>
         /// <returns>This builder.</returns>
@@ -728,7 +728,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the logging configuration from an existing definition.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#logging"/>
         /// </summary>
         /// <param name="logging">The logging definition.</param>
         /// <returns>This builder.</returns>
@@ -741,7 +741,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the logging configuration, configured through a <see cref="LoggingBuilder"/>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#logging"/>
         /// </summary>
         /// <param name="configure">Configures the logging definition.</param>
         /// <returns>This builder.</returns>
@@ -790,7 +790,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Grants the service access to a config with no settings, written to YAML as a plain source name.
         /// Each call adds another config.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#configs"/>
         /// </summary>
         /// <param name="source">The name of a config defined at the top level.</param>
         /// <returns>This builder.</returns>
@@ -802,7 +802,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Grants the service access to several configs, each with no settings.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#configs"/>
         /// </summary>
         /// <param name="sources">The names of configs defined at the top level.</param>
         /// <returns>This builder.</returns>
@@ -821,7 +821,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Grants the service access to a config, mounted under a different file path. Each call adds another
         /// config.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#configs"/>
         /// </summary>
         /// <param name="source">The name of a config defined at the top level.</param>
         /// <param name="target">The path and name of the mounted file.</param>
@@ -835,7 +835,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Grants the service access to a config from an existing reference. Each call adds another config.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#configs"/>
         /// </summary>
         /// <param name="config">The config reference.</param>
         /// <returns>This builder.</returns>
@@ -847,7 +847,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Grants the service access to a config, configured through a <see cref="ConfigReferenceBuilder"/>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#configs"/>
         /// </summary>
         /// <param name="configure">Configures the config reference.</param>
         /// <returns>This builder.</returns>
@@ -863,7 +863,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Grants the service access to a secret with no settings, written to YAML as a plain source name.
         /// Each call adds another secret.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#secrets"/>
         /// </summary>
         /// <param name="source">The name of a secret defined at the top level.</param>
         /// <returns>This builder.</returns>
@@ -875,7 +875,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Grants the service access to several secrets, each with no settings.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#secrets"/>
         /// </summary>
         /// <param name="sources">The names of secrets defined at the top level.</param>
         /// <returns>This builder.</returns>
@@ -894,7 +894,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Grants the service access to a secret, mounted under a different file name. Each call adds another
         /// secret.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#secrets"/>
         /// </summary>
         /// <param name="source">The name of a secret defined at the top level.</param>
         /// <param name="target">The name of the mounted file, or an absolute path.</param>
@@ -908,7 +908,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Grants the service access to a secret from an existing reference. Each call adds another secret.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#secrets"/>
         /// </summary>
         /// <param name="secret">The secret reference.</param>
         /// <returns>This builder.</returns>
@@ -920,7 +920,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Grants the service access to a secret, configured through a <see cref="SecretReferenceBuilder"/>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#secrets"/>
         /// </summary>
         /// <param name="configure">Configures the secret reference.</param>
         /// <returns>This builder.</returns>
@@ -936,7 +936,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Attaches the service to a network with no settings. When no attached network has settings, the
         /// networks are written to YAML as a plain list of names. Attaching the same network again replaces it.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#networks"/>
         /// </summary>
         /// <param name="name">The name of a network defined at the top level.</param>
         /// <returns>This builder.</returns>
@@ -948,7 +948,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Attaches the service to a network with existing settings. Any network with settings makes the
         /// networks be written to YAML as a mapping. Attaching the same network again replaces it.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#networks"/>
         /// </summary>
         /// <param name="name">The name of a network defined at the top level.</param>
         /// <param name="attachment">The settings for this network.</param>
@@ -963,7 +963,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Attaches the service to a network with settings configured through a
         /// <see cref="NetworkAttachmentBuilder"/>. Attaching the same network again replaces it.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#networks"/>
         /// </summary>
         /// <param name="name">The name of a network defined at the top level.</param>
         /// <param name="configure">Configures the settings for this network.</param>
@@ -980,7 +980,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Attaches the service to several networks with no settings.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#networks"/>
         /// </summary>
         /// <param name="names">The names of networks defined at the top level.</param>
         /// <returns>This builder.</returns>
@@ -998,7 +998,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the target platform to run the container on.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#platform"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#platform"/>
         /// </summary>
         /// <param name="platform">The platform, for example <c>linux/amd64</c> or <c>linux/arm64</c>.</param>
         /// <returns>This builder.</returns>
@@ -1011,7 +1011,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets an environment variable. Setting the same name again replaces it.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#environment"/>
         /// </summary>
         /// <param name="key">The variable name, which must not contain <c>=</c>.</param>
         /// <param name="value">The value, which may be empty.</param>
@@ -1025,7 +1025,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets an environment variable to <c>true</c> or <c>false</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#environment"/>
         /// </summary>
         /// <param name="key">The variable name, which must not contain <c>=</c>.</param>
         /// <param name="value">The value.</param>
@@ -1037,7 +1037,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets an environment variable to a number.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#environment"/>
         /// </summary>
         /// <param name="key">The variable name, which must not contain <c>=</c>.</param>
         /// <param name="value">The value.</param>
@@ -1049,7 +1049,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets an environment variable to a number.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#environment"/>
         /// </summary>
         /// <param name="key">The variable name, which must not contain <c>=</c>.</param>
         /// <param name="value">The value.</param>
@@ -1061,7 +1061,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets an environment variable to a number, written with a <c>.</c> as the decimal separator.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#environment"/>
         /// </summary>
         /// <param name="key">The variable name, which must not contain <c>=</c>.</param>
         /// <param name="value">The value.</param>
@@ -1074,7 +1074,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Declares an environment variable with no value, so Compose takes it from the environment of the
         /// machine running it. If it is not set there, the variable is removed from the container.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#environment"/>
         /// </summary>
         /// <param name="key">The variable name, which must not contain <c>=</c>.</param>
         /// <returns>This builder.</returns>
@@ -1085,7 +1085,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets several environment variables from name and value pairs.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#environment"/>
         /// </summary>
         /// <param name="variables">The variables.</param>
         /// <returns>This builder.</returns>
@@ -1104,7 +1104,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets several environment variables from <c>KEY=value</c> strings, or a bare <c>KEY</c> for a
         /// variable with no value. Giving a list makes the YAML use the list form (<c>- KEY=value</c>).
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#environment"/>
         /// </summary>
         /// <param name="entries">The entries, split at the first <c>=</c>.</param>
         /// <returns>This builder.</returns>
@@ -1135,6 +1135,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: whether Compose collects the service's logs when attached (<c>docker compose up</c>).
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#attach"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.20.0 or later.</remarks>
         /// <param name="attach"><c>true</c> to enable it.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithAttach(bool attach)
@@ -1145,7 +1146,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the custom domain name for the container.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#domainname"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#domainname"/>
         /// </summary>
         /// <param name="domainName">The value.</param>
         /// <returns>This builder.</returns>
@@ -1158,7 +1159,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the custom hostname for the container.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#hostname"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#hostname"/>
         /// </summary>
         /// <param name="hostname">The value.</param>
         /// <returns>This builder.</returns>
@@ -1171,7 +1172,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: whether to run an init process inside the container that forwards signals and reaps processes.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#init"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#init"/>
         /// </summary>
         /// <param name="init"><c>true</c> to enable it.</param>
         /// <returns>This builder.</returns>
@@ -1183,7 +1184,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the container isolation technology; supported values are platform-specific.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#isolation"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#isolation"/>
         /// </summary>
         /// <param name="isolation">The value.</param>
         /// <returns>This builder.</returns>
@@ -1196,7 +1197,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the MAC address of the container.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mac_address"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#mac_address"/>
         /// </summary>
         /// <param name="macAddress">The value.</param>
         /// <returns>This builder.</returns>
@@ -1209,7 +1210,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: whether the container has extended privileges.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#privileged"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#privileged"/>
         /// </summary>
         /// <param name="privileged"><c>true</c> to enable it.</param>
         /// <returns>This builder.</returns>
@@ -1221,7 +1222,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: when to pull the image: <c>always</c>, <c>never</c>, <c>missing</c>, <c>if_not_present</c>, <c>build</c>, <c>refresh</c>, <c>daily</c>, <c>weekly</c> or <c>every_&lt;duration&gt;</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_policy"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#pull_policy"/>
         /// </summary>
         /// <param name="pullPolicy">The value.</param>
         /// <returns>This builder.</returns>
@@ -1233,9 +1234,10 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
-        /// Sets: how long after which to refresh the image, as a compose-spec duration, used with a <c>refresh</c> pull policy.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_refresh_after"/>
+        /// Sets: how long after which to refresh the image, as a compose-spec duration, used with a <c>refresh</c> pull policy. The compose-spec text does not describe this key; it appears only in the compose-go schema.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#pull_policy"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.34.0 or later.</remarks>
         /// <param name="pullRefreshAfter">The duration, which must be positive and a whole number of microseconds.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithPullRefreshAfter(TimeSpan pullRefreshAfter)
@@ -1244,9 +1246,10 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
-        /// Sets: how long after which to refresh the image, as a compose-spec duration, used with a <c>refresh</c> pull policy.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_refresh_after"/>
+        /// Sets: how long after which to refresh the image, as a compose-spec duration, used with a <c>refresh</c> pull policy. The compose-spec text does not describe this key; it appears only in the compose-go schema.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#pull_policy"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.34.0 or later.</remarks>
         /// <param name="pullRefreshAfter">The duration, such as <c>30s</c> or <c>1m30s</c>.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithPullRefreshAfter(string pullRefreshAfter)
@@ -1258,7 +1261,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: whether the container's filesystem is mounted read-only.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#read_only"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#read_only"/>
         /// </summary>
         /// <param name="readOnly"><c>true</c> to enable it.</param>
         /// <returns>This builder.</returns>
@@ -1270,7 +1273,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the runtime to use for the container, for example <c>runc</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#runtime"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#runtime"/>
         /// </summary>
         /// <param name="runtime">The value.</param>
         /// <returns>This builder.</returns>
@@ -1300,7 +1303,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: whether to keep STDIN open even if not attached.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stdin_open"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#stdin_open"/>
         /// </summary>
         /// <param name="stdinOpen"><c>true</c> to enable it.</param>
         /// <returns>This builder.</returns>
@@ -1312,7 +1315,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: how long to wait for the container to stop gracefully before sending SIGKILL, as a compose-spec duration.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stop_grace_period"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#stop_grace_period"/>
         /// </summary>
         /// <param name="stopGracePeriod">The duration, which must be positive and a whole number of microseconds.</param>
         /// <returns>This builder.</returns>
@@ -1323,7 +1326,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: how long to wait for the container to stop gracefully before sending SIGKILL, as a compose-spec duration.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stop_grace_period"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#stop_grace_period"/>
         /// </summary>
         /// <param name="stopGracePeriod">The duration, such as <c>30s</c> or <c>1m30s</c>.</param>
         /// <returns>This builder.</returns>
@@ -1336,7 +1339,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the signal used to stop the container, for example <c>SIGTERM</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stop_signal"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#stop_signal"/>
         /// </summary>
         /// <param name="stopSignal">The value.</param>
         /// <returns>This builder.</returns>
@@ -1349,7 +1352,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: whether to allocate a pseudo-TTY.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#tty"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#tty"/>
         /// </summary>
         /// <param name="tty"><c>true</c> to enable it.</param>
         /// <returns>This builder.</returns>
@@ -1361,8 +1364,9 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: whether to bind mount the Docker API socket and its required auth into the container.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#use_api_socket"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#use_api_socket"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.37.2 or later.</remarks>
         /// <param name="useApiSocket"><c>true</c> to enable it.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithUseApiSocket(bool useApiSocket)
@@ -1373,7 +1377,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the username or UID to run the container process as.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#user"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#user"/>
         /// </summary>
         /// <param name="user">The value.</param>
         /// <returns>This builder.</returns>
@@ -1386,7 +1390,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the working directory the entrypoint or command runs in.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#working_dir"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#working_dir"/>
         /// </summary>
         /// <param name="workingDir">The value.</param>
         /// <returns>This builder.</returns>
@@ -1399,7 +1403,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the network mode of the container, for example <c>host</c>, <c>none</c> or <c>service:&lt;name&gt;</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#network_mode"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#network_mode"/>
         /// </summary>
         /// <param name="networkMode">The value.</param>
         /// <returns>This builder.</returns>
@@ -1412,7 +1416,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the IPC isolation mode, for example <c>shareable</c> or <c>service:&lt;name&gt;</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ipc"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#ipc"/>
         /// </summary>
         /// <param name="ipc">The value.</param>
         /// <returns>This builder.</returns>
@@ -1425,7 +1429,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the PID namespace mode, for example <c>host</c> or <c>service:&lt;name&gt;</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pid"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#pid"/>
         /// </summary>
         /// <param name="pid">The value.</param>
         /// <returns>This builder.</returns>
@@ -1438,8 +1442,9 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the UTS namespace mode, for example <c>host</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#uts"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#uts"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.15.1 or later.</remarks>
         /// <param name="uts">The value.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithUts(string uts)
@@ -1451,7 +1456,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the user namespace mode, for example <c>host</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#userns_mode"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#userns_mode"/>
         /// </summary>
         /// <param name="usernsMode">The value.</param>
         /// <returns>This builder.</returns>
@@ -1464,8 +1469,9 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the cgroup namespace to join.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cgroup"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cgroup"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.16.0 or later.</remarks>
         /// <param name="cgroup">The cgroup namespace.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithCgroup(CgroupMode cgroup)
@@ -1481,7 +1487,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the parent cgroup for the container.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cgroup_parent"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cgroup_parent"/>
         /// </summary>
         /// <param name="cgroupParent">The value.</param>
         /// <returns>This builder.</returns>
@@ -1494,7 +1500,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the Linux capabilities to add, for example <c>NET_ADMIN</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_add"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cap_add"/>
         /// </summary>
         /// <param name="capability">The capability to add.</param>
         /// <returns>This builder.</returns>
@@ -1507,7 +1513,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the Linux capabilities to add, for example <c>NET_ADMIN</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_add"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cap_add"/>
         /// </summary>
         /// <param name="capabilities">The capabilities to add.</param>
         /// <returns>This builder.</returns>
@@ -1525,7 +1531,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the Linux capabilities to drop, for example <c>ALL</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_drop"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cap_drop"/>
         /// </summary>
         /// <param name="capability">The capability to add.</param>
         /// <returns>This builder.</returns>
@@ -1538,7 +1544,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the Linux capabilities to drop, for example <c>ALL</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_drop"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cap_drop"/>
         /// </summary>
         /// <param name="capabilities">The capabilities to add.</param>
         /// <returns>This builder.</returns>
@@ -1556,7 +1562,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the security options for the container, for example <c>no-new-privileges:true</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#security_opt"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#security_opt"/>
         /// </summary>
         /// <param name="option">The option to add.</param>
         /// <returns>This builder.</returns>
@@ -1569,7 +1575,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the security options for the container, for example <c>no-new-privileges:true</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#security_opt"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#security_opt"/>
         /// </summary>
         /// <param name="options">The options to add.</param>
         /// <returns>This builder.</returns>
@@ -1587,7 +1593,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the additional groups (names or numeric IDs) the container user joins.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#group_add"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#group_add"/>
         /// </summary>
         /// <param name="group">The group to add.</param>
         /// <returns>This builder.</returns>
@@ -1600,7 +1606,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the additional groups (names or numeric IDs) the container user joins.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#group_add"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#group_add"/>
         /// </summary>
         /// <param name="groups">The groups to add.</param>
         /// <returns>This builder.</returns>
@@ -1618,7 +1624,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the device cgroup rules, for example <c>c 1:3 mr</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#device_cgroup_rules"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#device_cgroup_rules"/>
         /// </summary>
         /// <param name="rule">The rule to add.</param>
         /// <returns>This builder.</returns>
@@ -1631,7 +1637,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the device cgroup rules, for example <c>c 1:3 mr</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#device_cgroup_rules"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#device_cgroup_rules"/>
         /// </summary>
         /// <param name="rules">The rules to add.</param>
         /// <returns>This builder.</returns>
@@ -1649,7 +1655,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the custom DNS servers.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#dns"/>
         /// </summary>
         /// <param name="server">The server to add.</param>
         /// <returns>This builder.</returns>
@@ -1662,7 +1668,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the custom DNS servers.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#dns"/>
         /// </summary>
         /// <param name="servers">The servers to add.</param>
         /// <returns>This builder.</returns>
@@ -1680,7 +1686,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the custom DNS options.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns_opt"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#dns_opt"/>
         /// </summary>
         /// <param name="option">The option to add.</param>
         /// <returns>This builder.</returns>
@@ -1693,7 +1699,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the custom DNS options.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns_opt"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#dns_opt"/>
         /// </summary>
         /// <param name="options">The options to add.</param>
         /// <returns>This builder.</returns>
@@ -1711,7 +1717,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the custom DNS search domains.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns_search"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#dns_search"/>
         /// </summary>
         /// <param name="domain">The domain to add.</param>
         /// <returns>This builder.</returns>
@@ -1724,7 +1730,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the custom DNS search domains.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns_search"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#dns_search"/>
         /// </summary>
         /// <param name="domains">The domains to add.</param>
         /// <returns>This builder.</returns>
@@ -1742,7 +1748,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the ports exposed to linked services without publishing them to the host, for example <c>3000</c> or <c>8000-8010</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#expose"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#expose"/>
         /// </summary>
         /// <param name="port">The port to add.</param>
         /// <returns>This builder.</returns>
@@ -1755,7 +1761,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the ports exposed to linked services without publishing them to the host, for example <c>3000</c> or <c>8000-8010</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#expose"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#expose"/>
         /// </summary>
         /// <param name="ports">The ports to add.</param>
         /// <returns>This builder.</returns>
@@ -1835,7 +1841,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the services or containers to mount all volumes from, as <c>service</c>, <c>service:ro</c> or <c>container:name</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes_from"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes_from"/>
         /// </summary>
         /// <param name="source">The source to add.</param>
         /// <returns>This builder.</returns>
@@ -1848,7 +1854,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the services or containers to mount all volumes from, as <c>service</c>, <c>service:ro</c> or <c>container:name</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes_from"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes_from"/>
         /// </summary>
         /// <param name="sources">The sources to add.</param>
         /// <returns>This builder.</returns>
@@ -1866,7 +1872,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the temporary filesystems to mount, as paths with optional options.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#tmpfs"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#tmpfs"/>
         /// </summary>
         /// <param name="mount">The mount to add.</param>
         /// <returns>This builder.</returns>
@@ -1879,7 +1885,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the temporary filesystems to mount, as paths with optional options.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#tmpfs"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#tmpfs"/>
         /// </summary>
         /// <param name="mounts">The mounts to add.</param>
         /// <returns>This builder.</returns>
@@ -1897,7 +1903,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the number of CPUs the container can use, for example <c>0.5</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpus"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpus"/>
         /// </summary>
         /// <param name="cpus">The CPU count, for example <c>0.5</c>.</param>
         /// <returns>This builder.</returns>
@@ -1910,7 +1916,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the number of CPUs the container can use, for example <c>0.5</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpus"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpus"/>
         /// </summary>
         /// <param name="cpus">The CPU count, which must be positive.</param>
         /// <returns>This builder.</returns>
@@ -1926,7 +1932,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the number of usable CPUs (Windows).
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_count"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_count"/>
         /// </summary>
         /// <param name="cpuCount">The value, at least 0.</param>
         /// <returns>This builder.</returns>
@@ -1943,7 +1949,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the percentage of usable CPU (Windows), from 0 to 100.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_percent"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_percent"/>
         /// </summary>
         /// <param name="cpuPercent">The value, between 0 and 100.</param>
         /// <returns>This builder.</returns>
@@ -1960,7 +1966,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the relative CPU weight.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_shares"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_shares"/>
         /// </summary>
         /// <param name="cpuShares">The value, at least 0.</param>
         /// <returns>This builder.</returns>
@@ -1977,7 +1983,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the CFS CPU quota in microseconds.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_quota"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_quota"/>
         /// </summary>
         /// <param name="cpuQuota">The value, at least 0.</param>
         /// <returns>This builder.</returns>
@@ -1994,7 +2000,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the CFS CPU period in microseconds.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_period"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_period"/>
         /// </summary>
         /// <param name="cpuPeriod">The value, at least 0.</param>
         /// <returns>This builder.</returns>
@@ -2011,7 +2017,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the CPU real-time period in microseconds.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_rt_period"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_rt_period"/>
         /// </summary>
         /// <param name="cpuRtPeriod">The value, at least 0.</param>
         /// <returns>This builder.</returns>
@@ -2028,7 +2034,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the CPU real-time runtime in microseconds.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_rt_runtime"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_rt_runtime"/>
         /// </summary>
         /// <param name="cpuRtRuntime">The value, at least 0.</param>
         /// <returns>This builder.</returns>
@@ -2045,7 +2051,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the CPUs the container may run on, for example <c>0-3</c> or <c>0,1</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpuset"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpuset"/>
         /// </summary>
         /// <param name="cpuset">The value.</param>
         /// <returns>This builder.</returns>
@@ -2058,7 +2064,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the memory limit, as a compose-spec byte value such as <c>512m</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mem_limit"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#mem_limit"/>
         /// </summary>
         /// <param name="memLimit">The value.</param>
         /// <returns>This builder.</returns>
@@ -2071,7 +2077,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the soft memory limit, as a compose-spec byte value such as <c>256m</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mem_reservation"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#mem_reservation"/>
         /// </summary>
         /// <param name="memReservation">The value.</param>
         /// <returns>This builder.</returns>
@@ -2084,7 +2090,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the memory plus swap limit, as a compose-spec byte value; <c>-1</c> is unlimited swap.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#memswap_limit"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#memswap_limit"/>
         /// </summary>
         /// <param name="memswapLimit">The value.</param>
         /// <returns>This builder.</returns>
@@ -2097,7 +2103,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: how readily the kernel swaps container memory, from 0 to 100.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mem_swappiness"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#mem_swappiness"/>
         /// </summary>
         /// <param name="memSwappiness">The value, between 0 and 100.</param>
         /// <returns>This builder.</returns>
@@ -2114,7 +2120,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: whether to disable the out-of-memory killer for the container.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#oom_kill_disable"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#oom_kill_disable"/>
         /// </summary>
         /// <param name="oomKillDisable"><c>true</c> to enable it.</param>
         /// <returns>This builder.</returns>
@@ -2126,7 +2132,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the out-of-memory preference, from -1000 to 1000.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#oom_score_adj"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#oom_score_adj"/>
         /// </summary>
         /// <param name="oomScoreAdj">The value, between -1000 and 1000.</param>
         /// <returns>This builder.</returns>
@@ -2143,7 +2149,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the maximum number of processes, or <c>-1</c> for unlimited.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pids_limit"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#pids_limit"/>
         /// </summary>
         /// <param name="pidsLimit">The value, at least -1.</param>
         /// <returns>This builder.</returns>
@@ -2160,7 +2166,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets: the size of <c>/dev/shm</c>, as a compose-spec byte value such as <c>64m</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#shm_size"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#shm_size"/>
         /// </summary>
         /// <param name="shmSize">The value.</param>
         /// <returns>This builder.</returns>
@@ -2173,7 +2179,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds an exposed port.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#expose"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#expose"/>
         /// </summary>
         /// <param name="port">The port, from 1 to 65535.</param>
         /// <returns>This builder.</returns>
@@ -2185,7 +2191,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the block I/O configuration, from an existing definition.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#blkio_config"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#blkio_config"/>
         /// </summary>
         /// <param name="blkioConfig">The block I/O configuration.</param>
         /// <returns>This builder.</returns>
@@ -2198,7 +2204,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the block I/O configuration, configured through a <see cref="BlkioConfigBuilder"/>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#blkio_config"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#blkio_config"/>
         /// </summary>
         /// <param name="configure">Configures the block I/O configuration.</param>
         /// <returns>This builder.</returns>
@@ -2213,7 +2219,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the credential spec, from an existing definition.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#credential_spec"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#credential_spec"/>
         /// </summary>
         /// <param name="credentialSpec">The credential spec.</param>
         /// <returns>This builder.</returns>
@@ -2226,7 +2232,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the credential spec, configured through a <see cref="CredentialSpecBuilder"/>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#credential_spec"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#credential_spec"/>
         /// </summary>
         /// <param name="configure">Configures the credential spec.</param>
         /// <returns>This builder.</returns>
@@ -2241,7 +2247,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Makes a host device available in the container at the same path.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#devices"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#devices"/>
         /// </summary>
         /// <param name="source">The host device path, for example <c>/dev/ttyUSB0</c>.</param>
         /// <returns>This builder.</returns>
@@ -2252,7 +2258,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Makes a host device available in the container at a different path.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#devices"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#devices"/>
         /// </summary>
         /// <param name="source">The host device path.</param>
         /// <param name="target">The path in the container.</param>
@@ -2264,7 +2270,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Makes a host device available in the container, from an existing definition.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#devices"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#devices"/>
         /// </summary>
         /// <param name="device">The device mapping.</param>
         /// <returns>This builder.</returns>
@@ -2277,7 +2283,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Makes a host device available in the container, configured through a <see cref="DeviceMappingBuilder"/>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#devices"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#devices"/>
         /// </summary>
         /// <param name="configure">Configures the device mapping.</param>
         /// <returns>This builder.</returns>
@@ -2292,7 +2298,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds an additional hostname to the container's <c>/etc/hosts</c>. Setting the same hostname again replaces its address.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extra_hosts"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#extra_hosts"/>
         /// </summary>
         /// <param name="host">The hostname.</param>
         /// <param name="address">The IP address, or <c>host-gateway</c>.</param>
@@ -2307,8 +2313,9 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Lets the container use every available GPU. Replaces any specific GPU requests.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#gpus"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#gpus"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithAllGpus()
         {
@@ -2318,8 +2325,9 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds a request for specific GPUs, from an existing definition. Replaces a previous request for all GPUs.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#gpus"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#gpus"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="gpu">The GPU request.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithGpu(GpuDefinition gpu)
@@ -2333,8 +2341,9 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Adds a request for specific GPUs, configured through a <see cref="GpuBuilder"/>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#gpus"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#gpus"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="configure">Configures the GPU request.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithGpu(Action<GpuBuilder> configure)
@@ -2348,7 +2357,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets a storage driver option. Setting the same key again replaces its value.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#storage_opt"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#storage_opt"/>
         /// </summary>
         /// <param name="key">The option name.</param>
         /// <param name="value">The option value.</param>
@@ -2363,7 +2372,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets a kernel parameter. Setting the same key again replaces its value.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#sysctls"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#sysctls"/>
         /// </summary>
         /// <param name="key">The parameter name, for example <c>net.core.somaxconn</c>.</param>
         /// <param name="value">The value.</param>
@@ -2378,7 +2387,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets a numeric kernel parameter. Setting the same key again replaces its value.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#sysctls"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#sysctls"/>
         /// </summary>
         /// <param name="key">The parameter name, for example <c>net.core.somaxconn</c>.</param>
         /// <param name="value">The value.</param>
@@ -2390,7 +2399,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets a resource limit with one value for both the soft and hard limit.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ulimits"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#ulimits"/>
         /// </summary>
         /// <param name="name">The limit name, such as <c>nproc</c> or <c>core</c>.</param>
         /// <param name="limit">The limit. <c>-1</c> means unlimited for most limits.</param>
@@ -2402,7 +2411,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets a resource limit with separate soft and hard limits.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ulimits"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#ulimits"/>
         /// </summary>
         /// <param name="name">The limit name, such as <c>nofile</c>.</param>
         /// <param name="soft">The soft limit, the value actually enforced.</param>
@@ -2415,7 +2424,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets a resource limit, from an existing definition. Setting the same name again replaces it.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ulimits"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#ulimits"/>
         /// </summary>
         /// <param name="name">The limit name, which must be lower-case letters, such as <c>nofile</c>.</param>
         /// <param name="ulimit">The limit definition.</param>
@@ -2430,7 +2439,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets a resource limit, configured through a <see cref="UlimitBuilder"/>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ulimits"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#ulimits"/>
         /// </summary>
         /// <param name="name">The limit name, which must be lower-case letters, such as <c>nofile</c>.</param>
         /// <param name="configure">Configures the limit.</param>
@@ -2447,8 +2456,9 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets an annotation on the container. Setting the same key again replaces its value.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#annotations"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#annotations"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.18.0 or later.</remarks>
         /// <param name="key">The annotation key.</param>
         /// <param name="value">The annotation value.</param>
         /// <returns>This builder.</returns>
@@ -2464,6 +2474,7 @@ namespace DockerComposeFluent.Builders
         /// Adds a command to run after the container starts, as a shell-form string.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#post_start"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="command">The command.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithPostStart(string command)
@@ -2475,6 +2486,7 @@ namespace DockerComposeFluent.Builders
         /// Adds a command to run after the container starts, from an existing definition.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#post_start"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="hook">The hook.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithPostStart(ServiceHookDefinition hook)
@@ -2488,6 +2500,7 @@ namespace DockerComposeFluent.Builders
         /// Adds a command to run after the container starts, configured through a <see cref="ServiceHookBuilder"/>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#post_start"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="configure">Configures the hook.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithPostStart(Action<ServiceHookBuilder> configure)
@@ -2503,6 +2516,7 @@ namespace DockerComposeFluent.Builders
         /// Adds a command to run before the container stops, as a shell-form string.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="command">The command.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithPreStop(string command)
@@ -2514,6 +2528,7 @@ namespace DockerComposeFluent.Builders
         /// Adds a command to run before the container stops, from an existing definition.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="hook">The hook.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithPreStop(ServiceHookDefinition hook)
@@ -2527,6 +2542,7 @@ namespace DockerComposeFluent.Builders
         /// Adds a command to run before the container stops, configured through a <see cref="ServiceHookBuilder"/>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="configure">Configures the hook.</param>
         /// <returns>This builder.</returns>
         public ServiceBuilder WithPreStop(Action<ServiceHookBuilder> configure)

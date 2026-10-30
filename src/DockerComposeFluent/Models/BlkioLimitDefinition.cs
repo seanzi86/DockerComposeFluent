@@ -3,7 +3,7 @@ namespace DockerComposeFluent.Models
     /// <summary>
     /// A block I/O rate limit for one device (an entry of the <c>device_*_bps</c> and <c>device_*_iops</c>
     /// lists of <c>blkio_config</c>).
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#blkio_config"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#blkio_config"/>
     /// </summary>
     public sealed record BlkioLimitDefinition
     {

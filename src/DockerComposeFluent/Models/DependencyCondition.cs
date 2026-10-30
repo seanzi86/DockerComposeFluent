@@ -3,7 +3,7 @@ namespace DockerComposeFluent.Models
     /// <summary>
     /// When a dependency of a service is considered satisfied, as specified by <c>condition</c> under
     /// <c>depends_on</c>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#long-syntax"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#long-syntax"/>
     /// </summary>
     public enum DependencyCondition
     {

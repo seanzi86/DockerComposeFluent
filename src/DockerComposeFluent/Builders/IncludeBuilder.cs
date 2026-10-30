@@ -15,6 +15,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Adds a path to a Compose file to include.
         /// </summary>
+        /// <remarks>Requires Compose 2.19.1 or later.</remarks>
         /// <param name="path">The file path.</param>
         /// <returns>This builder.</returns>
         public IncludeBuilder WithPath(string path)
@@ -27,6 +28,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Adds several paths to Compose files to include.
         /// </summary>
+        /// <remarks>Requires Compose 2.19.1 or later.</remarks>
         /// <param name="paths">The file paths.</param>
         /// <returns>This builder.</returns>
         public IncludeBuilder WithPath(IEnumerable<string> paths)
@@ -45,6 +47,7 @@ namespace DockerComposeFluent.Builders
         /// Adds a path to an environment file that provides default values when interpolating variables in
         /// the included files.
         /// </summary>
+        /// <remarks>Requires Compose 2.19.1 or later.</remarks>
         /// <param name="path">The file path.</param>
         /// <returns>This builder.</returns>
         public IncludeBuilder WithEnvFile(string path)
@@ -58,6 +61,7 @@ namespace DockerComposeFluent.Builders
         /// Adds several paths to environment files that provide default values when interpolating variables
         /// in the included files.
         /// </summary>
+        /// <remarks>Requires Compose 2.19.1 or later.</remarks>
         /// <param name="paths">The file paths.</param>
         /// <returns>This builder.</returns>
         public IncludeBuilder WithEnvFile(IEnumerable<string> paths)

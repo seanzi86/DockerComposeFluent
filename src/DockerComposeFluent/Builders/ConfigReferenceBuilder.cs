@@ -4,7 +4,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds a <see cref="ConfigReference"/>: how a service accesses one config.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#configs"/>
     /// </summary>
     public sealed class ConfigReferenceBuilder
     {

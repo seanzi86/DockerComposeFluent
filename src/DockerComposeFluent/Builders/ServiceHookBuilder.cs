@@ -15,6 +15,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the command as a single shell-form string, written to YAML as a string.
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="command">The command, for example <c>./migrate.sh</c>.</param>
         /// <returns>This builder.</returns>
         public ServiceHookBuilder WithCommand(string command)
@@ -26,6 +27,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the command as an exec-form list of arguments, written to YAML as a list.
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="arguments">The command and its arguments.</param>
         /// <returns>This builder.</returns>
         public ServiceHookBuilder WithCommand(IEnumerable<string> arguments)
@@ -37,6 +39,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the user to run the command as.
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="user">The user name or ID.</param>
         /// <returns>This builder.</returns>
         public ServiceHookBuilder WithUser(string user)
@@ -49,6 +52,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets whether the command runs with extended privileges.
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="privileged"><c>true</c> to run it privileged.</param>
         /// <returns>This builder.</returns>
         public ServiceHookBuilder WithPrivileged(bool privileged)
@@ -60,6 +64,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the working directory for the command.
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="workingDir">The directory.</param>
         /// <returns>This builder.</returns>
         public ServiceHookBuilder WithWorkingDir(string workingDir)
@@ -72,6 +77,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets an environment variable for the command. Setting the same name again replaces it.
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="key">The variable name, which must not contain <c>=</c>.</param>
         /// <param name="value">The value.</param>
         /// <returns>This builder.</returns>

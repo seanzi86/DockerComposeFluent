@@ -5,7 +5,7 @@ namespace DockerComposeFluent.Models
     /// <summary>
     /// One resource limit for processes in the container (an entry of <c>services.&lt;name&gt;.ulimits</c>):
     /// a single value for both limits, written as a plain number, or separate soft and hard limits.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ulimits"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#ulimits"/>
     /// </summary>
     public sealed record UlimitDefinition
     {
