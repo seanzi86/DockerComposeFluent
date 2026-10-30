@@ -261,6 +261,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public ServiceBuilder WithDependsOn(string service, Action<DependencyBuilder> configure)
         {
+            Guard.NotNullOrWhiteSpace(service, nameof(service));
             Guard.NotNull(configure, nameof(configure));
 
             DependencyBuilder builder = new DependencyBuilder();
@@ -795,6 +796,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public ServiceBuilder WithConfig(string source)
         {
+            Guard.NotNullOrWhiteSpace(source, nameof(source));
             return AddConfig(new ConfigReference { Source = source });
         }
 
@@ -826,6 +828,8 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public ServiceBuilder WithConfig(string source, string target)
         {
+            Guard.NotNullOrWhiteSpace(source, nameof(source));
+            Guard.NotNullOrWhiteSpace(target, nameof(target));
             return AddConfig(new ConfigReference { Source = source, Target = target });
         }
 
@@ -865,6 +869,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public ServiceBuilder WithSecret(string source)
         {
+            Guard.NotNullOrWhiteSpace(source, nameof(source));
             return AddSecret(new SecretReference { Source = source });
         }
 
@@ -896,6 +901,8 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public ServiceBuilder WithSecret(string source, string target)
         {
+            Guard.NotNullOrWhiteSpace(source, nameof(source));
+            Guard.NotNullOrWhiteSpace(target, nameof(target));
             return AddSecret(new SecretReference { Source = source, Target = target });
         }
 
@@ -963,6 +970,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public ServiceBuilder WithNetwork(string name, Action<NetworkAttachmentBuilder> configure)
         {
+            Guard.NotNullOrWhiteSpace(name, nameof(name));
             Guard.NotNull(configure, nameof(configure));
 
             NetworkAttachmentBuilder builder = new NetworkAttachmentBuilder();
@@ -2429,6 +2437,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public ServiceBuilder WithUlimit(string name, Action<UlimitBuilder> configure)
         {
+            Guard.UlimitName(name, nameof(name));
             Guard.NotNull(configure, nameof(configure));
 
             UlimitBuilder builder = new UlimitBuilder();
@@ -2681,12 +2690,16 @@ namespace DockerComposeFluent.Builders
 
         private ServiceBuilder AddConfig(ConfigReference config)
         {
+            Guard.NotNullOrWhiteSpace(config.Source, "source");
+
             _definition = _definition with { Configs = Collections.Append(_definition.Configs, config) };
             return this;
         }
 
         private ServiceBuilder AddSecret(SecretReference secret)
         {
+            Guard.NotNullOrWhiteSpace(secret.Source, "source");
+
             _definition = _definition with { Secrets = Collections.Append(_definition.Secrets, secret) };
             return this;
         }

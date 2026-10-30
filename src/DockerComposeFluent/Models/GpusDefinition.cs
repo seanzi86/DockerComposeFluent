@@ -8,6 +8,10 @@ namespace DockerComposeFluent.Models
     /// <c>all</c>, or a list of specific requests.
     /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#gpus"/>
     /// </summary>
+    /// <remarks>
+    /// The one definition without its own builder: <c>ServiceBuilder.WithAllGpus</c> and <c>WithGpu</c> cover
+    /// everything a builder would offer.
+    /// </remarks>
     public sealed record GpusDefinition
     {
         /// <summary>

@@ -134,6 +134,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public DockerComposeBuilder WithService(string name, Action<ServiceBuilder> configure)
         {
+            Guard.NotNullOrWhiteSpace(name, nameof(name));
             Guard.NotNull(configure, nameof(configure));
 
             ServiceBuilder builder = new ServiceBuilder();
@@ -166,6 +167,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public DockerComposeBuilder WithNetwork(string name, Action<NetworkBuilder> configure)
         {
+            Guard.NotNullOrWhiteSpace(name, nameof(name));
             Guard.NotNull(configure, nameof(configure));
 
             NetworkBuilder builder = new NetworkBuilder();
@@ -198,6 +200,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public DockerComposeBuilder WithVolume(string name, Action<VolumeBuilder> configure)
         {
+            Guard.NotNullOrWhiteSpace(name, nameof(name));
             Guard.NotNull(configure, nameof(configure));
 
             VolumeBuilder builder = new VolumeBuilder();
@@ -230,6 +233,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public DockerComposeBuilder WithSecret(string name, Action<SecretBuilder> configure)
         {
+            Guard.NotNullOrWhiteSpace(name, nameof(name));
             Guard.NotNull(configure, nameof(configure));
 
             SecretBuilder builder = new SecretBuilder();
@@ -262,6 +266,7 @@ namespace DockerComposeFluent.Builders
         /// <returns>This builder.</returns>
         public DockerComposeBuilder WithConfig(string name, Action<ConfigBuilder> configure)
         {
+            Guard.NotNullOrWhiteSpace(name, nameof(name));
             Guard.NotNull(configure, nameof(configure));
 
             ConfigBuilder builder = new ConfigBuilder();
