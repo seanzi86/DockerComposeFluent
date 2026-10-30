@@ -99,8 +99,7 @@ scripts/check-compose-release.sh --dry-run
 spellings, builder members document every parameter and return value, model properties name their
 compose-spec key, and version remarks use the exact wording, name a real Compose release, and agree between a
 definition and its builder. `scripts/check-compose-versions.py` (about a minute, it clones Compose and
-compose-go) checks the remarks against Compose's history; run it when you add a property or after a Compose
-release. Both exit non-zero on a problem.
+compose-go) checks the remarks against Compose's history, in its own CI job. Both exit non-zero on a problem.
 
 ```bash
 node scripts/audit-docs.mjs
