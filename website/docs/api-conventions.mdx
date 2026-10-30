@@ -84,18 +84,13 @@ ServiceDefinition service = new ServiceBuilder()
     .WithContainerName("web")
     .Build();
 
-// `service` is a plain value - two services built the same way, from scalar properties, are equal.
+// `service` is a plain value: two services with the same content are equal, lists and dictionaries included.
 Assert.Equal(service, new ServiceBuilder().WithImage("nginx").WithContainerName("web").Build());
 ```
 
-:::info[A limit worth knowing]
-
-Record equality is structural for scalar properties, but a list-typed property (`Ports`, `Volumes`, and so
-on) is a plain array under the hood, and C# records don't deep-compare those - two services built with the
-same ports are `Equals`-equal only if it's the very same array instance. Don't rely on `Equals` once a
-`Definition` has any list-typed property set; compare the properties you care about instead.
-
-:::
+List and dictionary properties are compared by content, and their order counts because it decides the order of
+the generated YAML. A collection you assign by hand (`new ServiceDefinition { Dns = myList }`) is copied, so
+changing `myList` afterwards cannot reach the definition.
 
 ## Serialisation stays out of the models
 

@@ -14,13 +14,25 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// The paths to the Compose files to include, as specified by <c>path</c>. Never empty.
         /// </summary>
-        public IReadOnlyList<string> Path { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> Path
+        {
+            get { return _path; }
+            init { _path = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _path = Collections.EmptyList<string>();
 
         /// <summary>
         /// The paths to environment files that provide default values when interpolating variables in the
         /// included files, as specified by <c>env_file</c>. Empty when none are set.
         /// </summary>
-        public IReadOnlyList<string> EnvFile { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> EnvFile
+        {
+            get { return _envFile; }
+            init { _envFile = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _envFile = Collections.EmptyList<string>();
 
         /// <summary>
         /// The directory relative paths in the included file are resolved against, as specified by

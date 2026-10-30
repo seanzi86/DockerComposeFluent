@@ -11,7 +11,7 @@ namespace DockerComposeFluent.Models
         private CommandLine(string? shell, IReadOnlyList<string>? arguments)
         {
             Shell = shell;
-            Arguments = arguments;
+            Arguments = arguments == null ? null : Collections.Seal(arguments);
         }
 
         /// <summary>

@@ -13,7 +13,13 @@ namespace DockerComposeFluent.Models
         /// The capabilities the GPU must have, as specified by <c>capabilities</c>, for example
         /// <c>compute</c> or <c>utility</c>. Empty when none are set.
         /// </summary>
-        public IReadOnlyList<string> Capabilities { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> Capabilities
+        {
+            get { return _capabilities; }
+            init { _capabilities = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _capabilities = Collections.EmptyList<string>();
 
         /// <summary>
         /// The number of GPUs to use, as specified by <c>count</c>. Mutually exclusive with
@@ -25,7 +31,13 @@ namespace DockerComposeFluent.Models
         /// The IDs of the specific GPUs to use, as specified by <c>device_ids</c>. Mutually exclusive with
         /// <c>Count</c>. Empty when none are set.
         /// </summary>
-        public IReadOnlyList<string> DeviceIds { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> DeviceIds
+        {
+            get { return _deviceIds; }
+            init { _deviceIds = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _deviceIds = Collections.EmptyList<string>();
 
         /// <summary>
         /// The GPU driver to use, as specified by <c>driver</c>, for example <c>nvidia</c>.
@@ -36,6 +48,12 @@ namespace DockerComposeFluent.Models
         /// Driver-specific options as key-value pairs, as specified by <c>options</c>. Empty when none are
         /// set.
         /// </summary>
-        public IReadOnlyDictionary<string, string> Options { get; init; } = Collections.EmptyDictionary<string>();
+        public IReadOnlyDictionary<string, string> Options
+        {
+            get { return _options; }
+            init { _options = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string> _options = Collections.EmptyDictionary<string>();
     }
 }

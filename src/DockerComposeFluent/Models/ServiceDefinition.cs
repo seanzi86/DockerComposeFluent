@@ -32,7 +32,13 @@ namespace DockerComposeFluent.Models
         /// <c>depends_on</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#depends_on"/>
         /// </summary>
-        public IReadOnlyDictionary<string, DependencyDefinition> DependsOn { get; init; } = Collections.EmptyDictionary<DependencyDefinition>();
+        public IReadOnlyDictionary<string, DependencyDefinition> DependsOn
+        {
+            get { return _dependsOn; }
+            init { _dependsOn = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, DependencyDefinition> _dependsOn = Collections.EmptyDictionary<DependencyDefinition>();
 
         /// <summary>
         /// Deployment metadata for the service, so a platform such as Docker Swarm can allocate and configure
@@ -52,7 +58,13 @@ namespace DockerComposeFluent.Models
         /// set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file"/>
         /// </summary>
-        public IReadOnlyList<EnvFileEntry> EnvFiles { get; init; } = Array.Empty<EnvFileEntry>();
+        public IReadOnlyList<EnvFileEntry> EnvFiles
+        {
+            get { return _envFiles; }
+            init { _envFiles = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<EnvFileEntry> _envFiles = Collections.EmptyList<EnvFileEntry>();
 
         /// <summary>
         /// The environment variables set in the container, as specified by <c>environment</c>.
@@ -82,7 +94,13 @@ namespace DockerComposeFluent.Models
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#label_file"/>
         /// </summary>
         /// <remarks>Requires Compose 2.32.0 or later.</remarks>
-        public IReadOnlyList<string> LabelFiles { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> LabelFiles
+        {
+            get { return _labelFiles; }
+            init { _labelFiles = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _labelFiles = Collections.EmptyList<string>();
 
         /// <summary>
         /// The check that decides whether the service's containers are healthy, as specified by
@@ -96,7 +114,13 @@ namespace DockerComposeFluent.Models
         /// <c>networks</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
         /// </summary>
-        public IReadOnlyDictionary<string, NetworkAttachment> Networks { get; init; } = Collections.EmptyDictionary<NetworkAttachment>();
+        public IReadOnlyDictionary<string, NetworkAttachment> Networks
+        {
+            get { return _networks; }
+            init { _networks = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, NetworkAttachment> _networks = Collections.EmptyDictionary<NetworkAttachment>();
 
         /// <summary>
         /// The target platform to run the container on, as specified by <c>platform</c>, for example
@@ -109,7 +133,13 @@ namespace DockerComposeFluent.Models
         /// The ports to expose, as specified by <c>ports</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
         /// </summary>
-        public IReadOnlyList<PortMapping> Ports { get; init; } = Array.Empty<PortMapping>();
+        public IReadOnlyList<PortMapping> Ports
+        {
+            get { return _ports; }
+            init { _ports = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<PortMapping> _ports = Collections.EmptyList<PortMapping>();
 
         /// <summary>
         /// When the container is restarted, as specified by <c>restart</c>.
@@ -129,27 +159,51 @@ namespace DockerComposeFluent.Models
         /// set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#profiles"/>
         /// </summary>
-        public IReadOnlyList<string> Profiles { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> Profiles
+        {
+            get { return _profiles; }
+            init { _profiles = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _profiles = Collections.EmptyList<string>();
 
         /// <summary>
         /// The configs this service is granted access to, as specified by <c>configs</c>. Empty when none are
         /// set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs"/>
         /// </summary>
-        public IReadOnlyList<ConfigReference> Configs { get; init; } = Array.Empty<ConfigReference>();
+        public IReadOnlyList<ConfigReference> Configs
+        {
+            get { return _configs; }
+            init { _configs = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<ConfigReference> _configs = Collections.EmptyList<ConfigReference>();
 
         /// <summary>
         /// The secrets this service is granted access to, as specified by <c>secrets</c>. Empty when none are
         /// set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets"/>
         /// </summary>
-        public IReadOnlyList<SecretReference> Secrets { get; init; } = Array.Empty<SecretReference>();
+        public IReadOnlyList<SecretReference> Secrets
+        {
+            get { return _secrets; }
+            init { _secrets = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<SecretReference> _secrets = Collections.EmptyList<SecretReference>();
 
         /// <summary>
         /// The mounts (volumes, bind mounts and so on), as specified by <c>volumes</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
         /// </summary>
-        public IReadOnlyList<MountMapping> Volumes { get; init; } = Array.Empty<MountMapping>();
+        public IReadOnlyList<MountMapping> Volumes
+        {
+            get { return _volumes; }
+            init { _volumes = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<MountMapping> _volumes = Collections.EmptyList<MountMapping>();
 
         /// <summary>
         /// Whether Compose collects the service's logs when attached (<c>docker compose up</c>), as specified by <c>attach</c>.
@@ -313,79 +367,157 @@ namespace DockerComposeFluent.Models
         /// The Linux capabilities to add, for example <c>NET_ADMIN</c>, as specified by <c>cap_add</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_add"/>
         /// </summary>
-        public IReadOnlyList<string> CapAdd { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> CapAdd
+        {
+            get { return _capAdd; }
+            init { _capAdd = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _capAdd = Collections.EmptyList<string>();
 
         /// <summary>
         /// The Linux capabilities to drop, for example <c>ALL</c>, as specified by <c>cap_drop</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_drop"/>
         /// </summary>
-        public IReadOnlyList<string> CapDrop { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> CapDrop
+        {
+            get { return _capDrop; }
+            init { _capDrop = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _capDrop = Collections.EmptyList<string>();
 
         /// <summary>
         /// The security options for the container, for example <c>no-new-privileges:true</c>, as specified by <c>security_opt</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#security_opt"/>
         /// </summary>
-        public IReadOnlyList<string> SecurityOpt { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> SecurityOpt
+        {
+            get { return _securityOpt; }
+            init { _securityOpt = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _securityOpt = Collections.EmptyList<string>();
 
         /// <summary>
         /// The additional groups (names or numeric IDs) the container user joins, as specified by <c>group_add</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#group_add"/>
         /// </summary>
-        public IReadOnlyList<string> GroupAdd { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> GroupAdd
+        {
+            get { return _groupAdd; }
+            init { _groupAdd = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _groupAdd = Collections.EmptyList<string>();
 
         /// <summary>
         /// The device cgroup rules, for example <c>c 1:3 mr</c>, as specified by <c>device_cgroup_rules</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#device_cgroup_rules"/>
         /// </summary>
-        public IReadOnlyList<string> DeviceCgroupRules { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> DeviceCgroupRules
+        {
+            get { return _deviceCgroupRules; }
+            init { _deviceCgroupRules = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _deviceCgroupRules = Collections.EmptyList<string>();
 
         /// <summary>
         /// The custom DNS servers, as specified by <c>dns</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns"/>
         /// </summary>
-        public IReadOnlyList<string> Dns { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> Dns
+        {
+            get { return _dns; }
+            init { _dns = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _dns = Collections.EmptyList<string>();
 
         /// <summary>
         /// The custom DNS options, as specified by <c>dns_opt</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns_opt"/>
         /// </summary>
-        public IReadOnlyList<string> DnsOpt { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> DnsOpt
+        {
+            get { return _dnsOpt; }
+            init { _dnsOpt = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _dnsOpt = Collections.EmptyList<string>();
 
         /// <summary>
         /// The custom DNS search domains, as specified by <c>dns_search</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns_search"/>
         /// </summary>
-        public IReadOnlyList<string> DnsSearch { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> DnsSearch
+        {
+            get { return _dnsSearch; }
+            init { _dnsSearch = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _dnsSearch = Collections.EmptyList<string>();
 
         /// <summary>
         /// The ports exposed to linked services without publishing them to the host, for example <c>3000</c> or <c>8000-8010</c>, as specified by <c>expose</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#expose"/>
         /// </summary>
-        public IReadOnlyList<string> Expose { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> Expose
+        {
+            get { return _expose; }
+            init { _expose = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _expose = Collections.EmptyList<string>();
 
         /// <summary>
         /// The links to other services, as <c>service</c> or <c>service:alias</c>, as specified by <c>links</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#links"/>
         /// </summary>
-        public IReadOnlyList<string> Links { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> Links
+        {
+            get { return _links; }
+            init { _links = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _links = Collections.EmptyList<string>();
 
         /// <summary>
         /// The links to containers started outside this file, as <c>container</c> or <c>container:alias</c>, as specified by <c>external_links</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#external_links"/>
         /// </summary>
-        public IReadOnlyList<string> ExternalLinks { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> ExternalLinks
+        {
+            get { return _externalLinks; }
+            init { _externalLinks = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _externalLinks = Collections.EmptyList<string>();
 
         /// <summary>
         /// The services or containers to mount all volumes from, as <c>service</c>, <c>service:ro</c> or <c>container:name</c>, as specified by <c>volumes_from</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes_from"/>
         /// </summary>
-        public IReadOnlyList<string> VolumesFrom { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> VolumesFrom
+        {
+            get { return _volumesFrom; }
+            init { _volumesFrom = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _volumesFrom = Collections.EmptyList<string>();
 
         /// <summary>
         /// The temporary filesystems to mount, as paths with optional options, as specified by <c>tmpfs</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#tmpfs"/>
         /// </summary>
-        public IReadOnlyList<string> Tmpfs { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> Tmpfs
+        {
+            get { return _tmpfs; }
+            init { _tmpfs = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _tmpfs = Collections.EmptyList<string>();
 
         /// <summary>
         /// The number of CPUs the container can use, for example <c>0.5</c>, as specified by <c>cpus</c>.
@@ -505,13 +637,25 @@ namespace DockerComposeFluent.Models
         /// The host devices made available in the container, as specified by <c>devices</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#devices"/>
         /// </summary>
-        public IReadOnlyList<DeviceMappingDefinition> Devices { get; init; } = Array.Empty<DeviceMappingDefinition>();
+        public IReadOnlyList<DeviceMappingDefinition> Devices
+        {
+            get { return _devices; }
+            init { _devices = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<DeviceMappingDefinition> _devices = Collections.EmptyList<DeviceMappingDefinition>();
 
         /// <summary>
         /// The additional hostnames added to the container's <c>/etc/hosts</c>, keyed by hostname with the address as the value, as specified by <c>extra_hosts</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extra_hosts"/>
         /// </summary>
-        public IReadOnlyDictionary<string, string> ExtraHosts { get; init; } = Collections.EmptyDictionary<string>();
+        public IReadOnlyDictionary<string, string> ExtraHosts
+        {
+            get { return _extraHosts; }
+            init { _extraHosts = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string> _extraHosts = Collections.EmptyDictionary<string>();
 
         /// <summary>
         /// The GPUs the container may use, as specified by <c>gpus</c>.
@@ -523,40 +667,76 @@ namespace DockerComposeFluent.Models
         /// The storage driver options for the container, as specified by <c>storage_opt</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#storage_opt"/>
         /// </summary>
-        public IReadOnlyDictionary<string, string> StorageOpt { get; init; } = Collections.EmptyDictionary<string>();
+        public IReadOnlyDictionary<string, string> StorageOpt
+        {
+            get { return _storageOpt; }
+            init { _storageOpt = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string> _storageOpt = Collections.EmptyDictionary<string>();
 
         /// <summary>
         /// The kernel parameters to set in the container, as specified by <c>sysctls</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#sysctls"/>
         /// </summary>
-        public IReadOnlyDictionary<string, string> Sysctls { get; init; } = Collections.EmptyDictionary<string>();
+        public IReadOnlyDictionary<string, string> Sysctls
+        {
+            get { return _sysctls; }
+            init { _sysctls = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string> _sysctls = Collections.EmptyDictionary<string>();
 
         /// <summary>
         /// The resource limits for processes in the container, keyed by limit name such as <c>nofile</c>, as specified by <c>ulimits</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ulimits"/>
         /// </summary>
-        public IReadOnlyDictionary<string, UlimitDefinition> Ulimits { get; init; } = Collections.EmptyDictionary<UlimitDefinition>();
+        public IReadOnlyDictionary<string, UlimitDefinition> Ulimits
+        {
+            get { return _ulimits; }
+            init { _ulimits = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, UlimitDefinition> _ulimits = Collections.EmptyDictionary<UlimitDefinition>();
 
         /// <summary>
         /// The annotations attached to the container, as specified by <c>annotations</c>. Empty when none are
         /// set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#annotations"/>
         /// </summary>
-        public IReadOnlyDictionary<string, string> Annotations { get; init; } = Collections.EmptyDictionary<string>();
+        public IReadOnlyDictionary<string, string> Annotations
+        {
+            get { return _annotations; }
+            init { _annotations = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string> _annotations = Collections.EmptyDictionary<string>();
 
         /// <summary>
         /// The commands run after the container starts, as specified by <c>post_start</c>. Empty when none are
         /// set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#post_start"/>
         /// </summary>
-        public IReadOnlyList<ServiceHookDefinition> PostStart { get; init; } = Array.Empty<ServiceHookDefinition>();
+        public IReadOnlyList<ServiceHookDefinition> PostStart
+        {
+            get { return _postStart; }
+            init { _postStart = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<ServiceHookDefinition> _postStart = Collections.EmptyList<ServiceHookDefinition>();
 
         /// <summary>
         /// The commands run before the container stops, as specified by <c>pre_stop</c>. Empty when none are
         /// set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop"/>
         /// </summary>
-        public IReadOnlyList<ServiceHookDefinition> PreStop { get; init; } = Array.Empty<ServiceHookDefinition>();
+        public IReadOnlyList<ServiceHookDefinition> PreStop
+        {
+            get { return _preStop; }
+            init { _preStop = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<ServiceHookDefinition> _preStop = Collections.EmptyList<ServiceHookDefinition>();
 
         /// <summary>
         /// How to build the service's image from source, as specified by <c>build</c>.
@@ -578,13 +758,25 @@ namespace DockerComposeFluent.Models
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_start"/>
         /// </summary>
         /// <remarks>Requires Compose 5.3.0 or later.</remarks>
-        public IReadOnlyList<PreStartDefinition> PreStart { get; init; } = Array.Empty<PreStartDefinition>();
+        public IReadOnlyList<PreStartDefinition> PreStart
+        {
+            get { return _preStart; }
+            init { _preStart = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<PreStartDefinition> _preStart = Collections.EmptyList<PreStartDefinition>();
 
         /// <summary>
         /// The extension fields defined on this service, keyed by their <c>x-</c> name. Compose ignores these;
         /// they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
+        public IReadOnlyDictionary<string, object?> Extensions
+        {
+            get { return _extensions; }
+            init { _extensions = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, object?> _extensions = Collections.EmptyDictionary<object?>();
     }
 }

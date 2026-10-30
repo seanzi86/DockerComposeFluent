@@ -5,12 +5,12 @@ using YamlDotNet.Serialization;
 namespace DockerComposeFluent.Serialisation
 {
     /// <summary>
-    /// Writes a <see cref="DeviceDefinition"/> as an entry of <c>deploy.resources.reservations.devices</c>.
+    /// Writes a <see cref="DeviceReservationDefinition"/> as an entry of <c>deploy.resources.reservations.devices</c>.
     /// </summary>
-    internal sealed class DeviceDefinitionYamlConverter : YamlConverter<DeviceDefinition>
+    internal sealed class DeviceReservationDefinitionYamlConverter : YamlConverter<DeviceReservationDefinition>
     {
         /// <inheritdoc />
-        protected override void Write(IEmitter emitter, DeviceDefinition value, ObjectSerializer serialiser)
+        protected override void Write(IEmitter emitter, DeviceReservationDefinition value, ObjectSerializer serialiser)
         {
             emitter.StartMapping();
             emitter.WriteOptionalStringSequence("capabilities", value.Capabilities);

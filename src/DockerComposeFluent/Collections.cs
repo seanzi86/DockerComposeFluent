@@ -16,7 +16,40 @@ namespace DockerComposeFluent
         /// <returns>The shared empty dictionary.</returns>
         internal static IReadOnlyDictionary<string, TValue> EmptyDictionary<TValue>()
         {
-            return EmptyDictionaryHolder<TValue>.Instance;
+            return EquatableDictionary<TValue>.Empty;
+        }
+
+        /// <summary>
+        /// Gets a shared empty read-only list.
+        /// </summary>
+        /// <typeparam name="T">The item type.</typeparam>
+        /// <returns>The shared empty list.</returns>
+        internal static IReadOnlyList<T> EmptyList<T>()
+        {
+            return EquatableList<T>.Empty;
+        }
+
+        /// <summary>
+        /// Takes a private, value-comparable copy of a list, so models holding equal items compare equal and
+        /// later changes to the caller's list cannot reach the model.
+        /// </summary>
+        /// <typeparam name="T">The item type.</typeparam>
+        /// <param name="items">The list to copy.</param>
+        /// <returns>The copy, or the same instance when it is already one.</returns>
+        internal static IReadOnlyList<T> Seal<T>(IReadOnlyList<T> items)
+        {
+            return items == null || items is EquatableList<T> ? items! : new EquatableList<T>(items);
+        }
+
+        /// <summary>
+        /// Takes a private, value-comparable copy of a dictionary.
+        /// </summary>
+        /// <typeparam name="TValue">The value type.</typeparam>
+        /// <param name="entries">The dictionary to copy.</param>
+        /// <returns>The copy, or the same instance when it is already one.</returns>
+        internal static IReadOnlyDictionary<string, TValue> Seal<TValue>(IReadOnlyDictionary<string, TValue> entries)
+        {
+            return entries == null || entries is EquatableDictionary<TValue> ? entries! : new EquatableDictionary<TValue>(entries);
         }
 
         /// <summary>
@@ -51,12 +84,6 @@ namespace DockerComposeFluent
 
             copy[key] = value;
             return copy;
-        }
-
-        private static class EmptyDictionaryHolder<TValue>
-        {
-            internal static readonly IReadOnlyDictionary<string, TValue> Instance =
-                new ReadOnlyDictionary<string, TValue>(new Dictionary<string, TValue>());
         }
     }
 }

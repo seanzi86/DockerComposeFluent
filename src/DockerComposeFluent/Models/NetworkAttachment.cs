@@ -13,13 +13,25 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// Alternative hostnames for the service on this network, as specified by <c>aliases</c>.
         /// </summary>
-        public IReadOnlyList<string> Aliases { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> Aliases
+        {
+            get { return _aliases; }
+            init { _aliases = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _aliases = Collections.EmptyList<string>();
 
         /// <summary>
         /// Driver-specific options as key-value pairs, as specified by <c>driver_opts</c>.
         /// </summary>
         /// <remarks>Requires Compose 2.27.1 or later.</remarks>
-        public IReadOnlyDictionary<string, string> DriverOptions { get; init; } = Collections.EmptyDictionary<string>();
+        public IReadOnlyDictionary<string, string> DriverOptions
+        {
+            get { return _driverOptions; }
+            init { _driverOptions = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string> _driverOptions = Collections.EmptyDictionary<string>();
 
         /// <summary>
         /// The priority for selecting this network as the default gateway, as specified by <c>gw_priority</c>.
@@ -46,7 +58,13 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// Link-local IP addresses, as specified by <c>link_local_ips</c>.
         /// </summary>
-        public IReadOnlyList<string> LinkLocalIps { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> LinkLocalIps
+        {
+            get { return _linkLocalIps; }
+            init { _linkLocalIps = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _linkLocalIps = Collections.EmptyList<string>();
 
         /// <summary>
         /// The MAC address used when connecting to this network, as specified by <c>mac_address</c>.
@@ -65,7 +83,13 @@ namespace DockerComposeFluent.Models
         /// these; they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
+        public IReadOnlyDictionary<string, object?> Extensions
+        {
+            get { return _extensions; }
+            init { _extensions = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, object?> _extensions = Collections.EmptyDictionary<object?>();
 
         /// <summary>
         /// Whether no setting is used, so the attachment is just a network name.

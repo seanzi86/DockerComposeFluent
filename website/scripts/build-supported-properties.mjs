@@ -25,7 +25,7 @@ const sections = [
   { type: "ResourcesDefinition", title: "Deploy resources", path: "`services.<name>.deploy.resources`" },
   { type: "ResourceLimitsDefinition", title: "Deploy resource limits", path: "`services.<name>.deploy.resources.limits`" },
   { type: "ResourceReservationsDefinition", title: "Deploy resource reservations", path: "`services.<name>.deploy.resources.reservations`" },
-  { type: "DeviceDefinition", title: "Deploy device reservation", path: "`services.<name>.deploy.resources.reservations.devices`" },
+  { type: "DeviceReservationDefinition", title: "Deploy device reservation", path: "`services.<name>.deploy.resources.reservations.devices`" },
   { type: "DeployRestartPolicyDefinition", title: "Deploy restart policy", path: "`services.<name>.deploy.restart_policy`" },
   { type: "RollbackConfigDefinition", title: "Deploy rollback configuration", path: "`services.<name>.deploy.rollback_config`" },
   { type: "UpdateConfigDefinition", title: "Deploy update configuration", path: "`services.<name>.deploy.update_config`" },

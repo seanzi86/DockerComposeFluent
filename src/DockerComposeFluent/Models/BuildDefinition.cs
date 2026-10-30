@@ -14,25 +14,49 @@ namespace DockerComposeFluent.Models
         /// The additional named build contexts, keyed by name with the location as the value, as specified by <c>additional_contexts</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#additional_contexts"/>
         /// </summary>
-        public IReadOnlyDictionary<string, string> AdditionalContexts { get; init; } = Collections.EmptyDictionary<string>();
+        public IReadOnlyDictionary<string, string> AdditionalContexts
+        {
+            get { return _additionalContexts; }
+            init { _additionalContexts = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string> _additionalContexts = Collections.EmptyDictionary<string>();
 
         /// <summary>
         /// The build arguments, keyed by name, as specified by <c>args</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#args"/>
         /// </summary>
-        public IReadOnlyDictionary<string, string> Args { get; init; } = Collections.EmptyDictionary<string>();
+        public IReadOnlyDictionary<string, string> Args
+        {
+            get { return _args; }
+            init { _args = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string> _args = Collections.EmptyDictionary<string>();
 
         /// <summary>
         /// The sources to use as the image cache, as specified by <c>cache_from</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#cache_from"/>
         /// </summary>
-        public IReadOnlyList<string> CacheFrom { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> CacheFrom
+        {
+            get { return _cacheFrom; }
+            init { _cacheFrom = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _cacheFrom = Collections.EmptyList<string>();
 
         /// <summary>
         /// The locations to export the build cache to, as specified by <c>cache_to</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#cache_to"/>
         /// </summary>
-        public IReadOnlyList<string> CacheTo { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> CacheTo
+        {
+            get { return _cacheTo; }
+            init { _cacheTo = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _cacheTo = Collections.EmptyList<string>();
 
         /// <summary>
         /// The path to the build context: a directory containing a Dockerfile, or a git repository URL, as specified by <c>context</c>.
@@ -57,14 +81,26 @@ namespace DockerComposeFluent.Models
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#entitlements"/>
         /// </summary>
         /// <remarks>Requires Compose 2.27.0 or later.</remarks>
-        public IReadOnlyList<string> Entitlements { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> Entitlements
+        {
+            get { return _entitlements; }
+            init { _entitlements = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _entitlements = Collections.EmptyList<string>();
 
         /// <summary>
         /// The additional hostnames added to the build containers' <c>/etc/hosts</c>, keyed by hostname with the
         /// address as the value, as specified by <c>extra_hosts</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#extra_hosts"/>
         /// </summary>
-        public IReadOnlyDictionary<string, string> ExtraHosts { get; init; } = Collections.EmptyDictionary<string>();
+        public IReadOnlyDictionary<string, string> ExtraHosts
+        {
+            get { return _extraHosts; }
+            init { _extraHosts = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string> _extraHosts = Collections.EmptyDictionary<string>();
 
         /// <summary>
         /// The container isolation technology used for the build; supported values are platform-specific, as specified by <c>isolation</c>.
@@ -95,13 +131,25 @@ namespace DockerComposeFluent.Models
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#no_cache"/>
         /// </summary>
         /// <remarks>Requires Compose 5.0.0 or later.</remarks>
-        public IReadOnlyList<string> NoCacheFilter { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> NoCacheFilter
+        {
+            get { return _noCacheFilter; }
+            init { _noCacheFilter = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _noCacheFilter = Collections.EmptyList<string>();
 
         /// <summary>
         /// The platforms to build the image for, for example <c>linux/amd64</c>, as specified by <c>platforms</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#platforms"/>
         /// </summary>
-        public IReadOnlyList<string> Platforms { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> Platforms
+        {
+            get { return _platforms; }
+            init { _platforms = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _platforms = Collections.EmptyList<string>();
 
         /// <summary>
         /// Whether the build runs with extended privileges, as specified by <c>privileged</c>.
@@ -133,7 +181,13 @@ namespace DockerComposeFluent.Models
         /// The secrets the build can access, as specified by <c>secrets</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#secrets"/>
         /// </summary>
-        public IReadOnlyList<SecretReference> Secrets { get; init; } = Array.Empty<SecretReference>();
+        public IReadOnlyList<SecretReference> Secrets
+        {
+            get { return _secrets; }
+            init { _secrets = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<SecretReference> _secrets = Collections.EmptyList<SecretReference>();
 
         /// <summary>
         /// The size of <c>/dev/shm</c> for the build, as a compose-spec byte value such as <c>64m</c>, as specified by <c>shm_size</c>.
@@ -145,13 +199,25 @@ namespace DockerComposeFluent.Models
         /// The SSH agent sockets or keys the build can use, as <c>default</c> or <c>id=path</c>, as specified by <c>ssh</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#ssh"/>
         /// </summary>
-        public IReadOnlyList<string> Ssh { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> Ssh
+        {
+            get { return _ssh; }
+            init { _ssh = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _ssh = Collections.EmptyList<string>();
 
         /// <summary>
         /// The extra tags to apply to the built image, as specified by <c>tags</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#tags"/>
         /// </summary>
-        public IReadOnlyList<string> Tags { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> Tags
+        {
+            get { return _tags; }
+            init { _tags = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<string> _tags = Collections.EmptyList<string>();
 
         /// <summary>
         /// The Dockerfile stage to build, as specified by <c>target</c>.
@@ -164,14 +230,26 @@ namespace DockerComposeFluent.Models
         /// by <c>ulimits</c>. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#ulimits"/>
         /// </summary>
-        public IReadOnlyDictionary<string, UlimitDefinition> Ulimits { get; init; } = Collections.EmptyDictionary<UlimitDefinition>();
+        public IReadOnlyDictionary<string, UlimitDefinition> Ulimits
+        {
+            get { return _ulimits; }
+            init { _ulimits = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, UlimitDefinition> _ulimits = Collections.EmptyDictionary<UlimitDefinition>();
 
         /// <summary>
         /// The extension fields defined on this build, keyed by their <c>x-</c> name. Compose ignores these;
         /// they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
+        public IReadOnlyDictionary<string, object?> Extensions
+        {
+            get { return _extensions; }
+            init { _extensions = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, object?> _extensions = Collections.EmptyDictionary<object?>();
 
         /// <summary>
         /// Whether only a <see cref="Context"/> is set, so the build is just a context string.

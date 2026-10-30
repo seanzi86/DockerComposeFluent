@@ -49,7 +49,13 @@ namespace DockerComposeFluent.Models
         /// set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, string> DriverOptions { get; init; } = Collections.EmptyDictionary<string>();
+        public IReadOnlyDictionary<string, string> DriverOptions
+        {
+            get { return _driverOptions; }
+            init { _driverOptions = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string> _driverOptions = Collections.EmptyDictionary<string>();
 
         /// <summary>
         /// The labels attached to the secret, as specified by <c>labels</c>.
@@ -68,6 +74,12 @@ namespace DockerComposeFluent.Models
         /// they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
+        public IReadOnlyDictionary<string, object?> Extensions
+        {
+            get { return _extensions; }
+            init { _extensions = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, object?> _extensions = Collections.EmptyDictionary<object?>();
     }
 }
