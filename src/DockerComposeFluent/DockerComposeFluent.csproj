@@ -16,7 +16,7 @@
     <Description>A fluent API for building and generating docker-compose.yml files in .NET.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/seanzi86/DockerComposeFluent</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/seanzi86/DockerComposeFluent</PackageProjectUrl>
+    <PackageProjectUrl>https://seanzi86.github.io/DockerComposeFluent/</PackageProjectUrl>
     <PackageTags>docker;docker-compose;compose;fluent;fluent-api;yaml;devops;infrastructure-as-code</PackageTags>
     <Copyright>Copyright (c) 2026 Sean Carrington</Copyright>
     <PackageReadmeFile>README.md</PackageReadmeFile>
