@@ -5,7 +5,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds a <see cref="LoggingDefinition"/>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#logging"/>
     /// </summary>
     public sealed class LoggingBuilder
     {

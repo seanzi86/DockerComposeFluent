@@ -5,7 +5,7 @@ namespace DockerComposeFluent.Models
     /// <summary>
     /// The credential spec for a managed service account (the <c>credential_spec</c> entry). Exactly one of
     /// <see cref="Config"/>, <see cref="File"/> or <see cref="Registry"/> is set.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#credential_spec"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#credential_spec"/>
     /// </summary>
     public sealed record CredentialSpecDefinition
     {

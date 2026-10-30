@@ -5,7 +5,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds a <see cref="UlimitDefinition"/>: either a single value or both a soft and a hard limit.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ulimits"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#ulimits"/>
     /// </summary>
     public sealed class UlimitBuilder
     {

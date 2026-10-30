@@ -6,7 +6,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds a <see cref="GpuDefinition"/>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#gpus"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#gpus"/>
     /// </summary>
     public sealed class GpuBuilder
     {
@@ -15,6 +15,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Adds a capability the GPU must have.
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="capability">The capability, for example <c>compute</c> or <c>utility</c>.</param>
         /// <returns>This builder.</returns>
         public GpuBuilder WithCapabilities(string capability)
@@ -27,6 +28,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Adds several capabilities the GPU must have.
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="capabilities">The capabilities.</param>
         /// <returns>This builder.</returns>
         public GpuBuilder WithCapabilities(IEnumerable<string> capabilities)
@@ -44,6 +46,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the number of GPUs to use. Mutually exclusive with <see cref="WithDeviceIds(string)"/>.
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="count">The number of GPUs, which must be positive.</param>
         /// <returns>This builder.</returns>
         public GpuBuilder WithCount(int count)
@@ -60,6 +63,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Adds the ID of a specific GPU to use. Mutually exclusive with <see cref="WithCount(int)"/>.
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="deviceId">The device ID.</param>
         /// <returns>This builder.</returns>
         public GpuBuilder WithDeviceIds(string deviceId)
@@ -72,6 +76,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Adds the IDs of several specific GPUs to use. Mutually exclusive with <see cref="WithCount(int)"/>.
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="deviceIds">The device IDs.</param>
         /// <returns>This builder.</returns>
         public GpuBuilder WithDeviceIds(IEnumerable<string> deviceIds)
@@ -89,6 +94,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the GPU driver to use.
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="driver">The driver name, for example <c>nvidia</c>.</param>
         /// <returns>This builder.</returns>
         public GpuBuilder WithDriver(string driver)
@@ -101,6 +107,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets a driver-specific option. Setting the same key again replaces its value.
         /// </summary>
+        /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="key">The option name.</param>
         /// <param name="value">The option value.</param>
         /// <returns>This builder.</returns>

@@ -6,7 +6,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds <see cref="TmpfsOptions"/>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
     /// </summary>
     public sealed class TmpfsOptionsBuilder
     {

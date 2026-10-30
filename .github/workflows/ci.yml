@@ -32,6 +32,12 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration Release
 
+      # Spec links and anchors, spellings, parameter docs and version remarks. Needs the network for the spec.
+      - name: Audit doc comments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/audit-docs.mjs
+
       - name: Test
         run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" --results-directory TestResults
 

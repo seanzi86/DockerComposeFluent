@@ -6,7 +6,7 @@ namespace DockerComposeFluent.Models
     /// <summary>
     /// The settings for one network that a service joins, as specified under <c>services.&lt;name&gt;.networks</c>.
     /// A service whose networks all have no settings is written as a plain list of network names.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#networks"/>
     /// </summary>
     public sealed record NetworkAttachment
     {

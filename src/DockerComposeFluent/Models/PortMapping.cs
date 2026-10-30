@@ -3,7 +3,7 @@ namespace DockerComposeFluent.Models
     /// <summary>
     /// A port mapping, given either as a short-syntax string (<c>"127.0.0.1:8080:80/tcp"</c>) or as a
     /// long-syntax <see cref="PortDefinition"/>. The form chosen is preserved in the generated YAML.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#ports"/>
     /// </summary>
     public sealed record PortMapping
     {

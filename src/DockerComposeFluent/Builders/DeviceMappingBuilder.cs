@@ -6,7 +6,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds a <see cref="DeviceMappingDefinition"/>. A source is required.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#devices"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#devices"/>
     /// </summary>
     public sealed class DeviceMappingBuilder
     {
@@ -15,6 +15,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the path of the device on the host.
         /// </summary>
+        /// <remarks>Requires Compose 2.29.3 or later.</remarks>
         /// <param name="source">The host path, for example <c>/dev/ttyUSB0</c>.</param>
         /// <returns>This builder.</returns>
         public DeviceMappingBuilder WithSource(string source)
@@ -27,6 +28,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the path the device is mapped to in the container. Defaults to the source path.
         /// </summary>
+        /// <remarks>Requires Compose 2.29.3 or later.</remarks>
         /// <param name="target">The container path.</param>
         /// <returns>This builder.</returns>
         public DeviceMappingBuilder WithTarget(string target)

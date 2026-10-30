@@ -3,7 +3,7 @@ namespace DockerComposeFluent.Models
     /// <summary>
     /// One file of environment variables for a service, as specified under <c>env_file</c>. An entry with only a
     /// <see cref="Path"/> is written to YAML as a plain string; any other setting makes it a mapping.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#env_file"/>
     /// </summary>
     public sealed record EnvFileEntry
     {
@@ -14,7 +14,7 @@ namespace DockerComposeFluent.Models
 
         /// <summary>
         /// The alternative parsing format for the file, as specified by <c>format</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#format"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#format"/>
         /// </summary>
         /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         public EnvFileFormat? Format { get; init; }
@@ -22,7 +22,7 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// Whether the file must exist. When <c>false</c>, Compose silently ignores a missing file. Compose
         /// treats an unset value as <c>true</c>.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#required"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#required"/>
         /// </summary>
         /// <remarks>Requires Compose 2.24.0 or later.</remarks>
         public bool? Required { get; init; }

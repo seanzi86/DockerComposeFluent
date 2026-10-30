@@ -4,7 +4,7 @@ namespace DockerComposeFluent.Models
 {
     /// <summary>
     /// A port mapping in long syntax, with every field the compose-spec supports.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#ports"/>
     /// </summary>
     public sealed record PortDefinition
     {
@@ -43,6 +43,7 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// A human-readable name documenting the port's use, as specified by <c>name</c>.
         /// </summary>
+        /// <remarks>Requires Compose 2.24.0 or later.</remarks>
         public string? Name { get; init; }
 
         /// <summary>

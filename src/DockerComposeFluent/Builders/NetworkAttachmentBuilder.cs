@@ -6,7 +6,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds a <see cref="NetworkAttachment"/>: the settings for one network that a service joins.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#networks"/>
     /// </summary>
     public sealed class NetworkAttachmentBuilder
     {

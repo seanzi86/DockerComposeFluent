@@ -28,7 +28,7 @@ Enforced via `.editorconfig` and `EnforceCodeStyleInBuild` (violations fail the 
 - **Private fields use an underscore prefix** (`_camelCase`, e.g. `_services`), but **constants are PascalCase** whatever their accessibility (`OnFailurePolicy`), which is the .NET convention.
 - **UK English** in identifiers, comments and docs (e.g. `Serialise`, `Normalise`), except where a third-party or compose-spec name dictates otherwise.
 - **XML `<summary>` doc comments on every public type and member** — this is a public package, so these become the IntelliSense docs consumers see. Missing docs on public members fail the build (`CS1591`); internal types and members should be documented too, but that is checked in review.
-- **Note the minimum Compose version** when the spec marks a property with a version badge: add `<remarks>Requires Compose 2.35.0 or later.</remarks>` to the model property, its builder methods, and any type that only exists for that property. The target is the current Compose release, so only properties that need something newer than older releases carry a note.
+- **Note the minimum Compose version** when a property needs something newer than Compose 2.0: add `<remarks>Requires Compose 2.35.0 or later.</remarks>` (exactly that wording) to the model property, its builder methods, and any type that only exists for that property. The compose-spec text carries no version badges, so `scripts/check-compose-versions.py` derives the first Compose release that accepts each key from the compose-go schema history and fails if a remark is missing or lower. A remark may be higher when a release note shows the feature arrived later.
 - **Link each summary back to the relevant [compose-spec](https://github.com/compose-spec/compose-spec) section** via `<see href="..."/>`, pointing at `main` (the spec has no tagged releases). An established property's spec text is unlikely to change shape; if the spec does add something new, that's new scope for its own release anyway.
 
 ## API design conventions
@@ -91,6 +91,20 @@ bump the pin, and re-run the parity audit for new attributes. You can run the ch
 
 ```bash
 scripts/check-compose-release.sh --dry-run
+```
+
+## Documentation audit
+
+`scripts/audit-docs.mjs` runs in CI and checks every XML doc comment: spec links and anchors resolve, UK
+spellings, builder members document every parameter and return value, model properties name their
+compose-spec key, and version remarks use the exact wording, name a real Compose release, and agree between a
+definition and its builder. `scripts/check-compose-versions.py` (about a minute, it clones Compose and
+compose-go) checks the remarks against Compose's history; run it when you add a property or after a Compose
+release. Both exit non-zero on a problem.
+
+```bash
+node scripts/audit-docs.mjs
+python3 scripts/check-compose-versions.py
 ```
 
 ## Dependencies

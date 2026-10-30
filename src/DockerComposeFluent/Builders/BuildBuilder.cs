@@ -16,6 +16,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the additional named build contexts, keyed by name with the location as the value.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#additional_contexts"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.17.0 or later.</remarks>
         /// <param name="name">The name.</param>
         /// <param name="location">The location.</param>
         /// <returns>This builder.</returns>
@@ -77,6 +78,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the locations to export the build cache to.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#cache_to"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.4.0 or later.</remarks>
         /// <param name="destination">The value to add.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithCacheTo(string destination)
@@ -90,6 +92,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the locations to export the build cache to.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#cache_to"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.4.0 or later.</remarks>
         /// <param name="values">The values to add.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithCacheTo(IEnumerable<string> values)
@@ -134,6 +137,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the Dockerfile contents, defined inline.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#dockerfile_inline"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.17.0 or later.</remarks>
         /// <param name="dockerfileInline">The value.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithDockerfileInline(string dockerfileInline)
@@ -147,6 +151,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the extra privileged entitlements the build is granted, for example <c>network.host</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#entitlements"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.27.0 or later.</remarks>
         /// <param name="entitlement">The value to add.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithEntitlements(string entitlement)
@@ -160,6 +165,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the extra privileged entitlements the build is granted, for example <c>network.host</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#entitlements"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.27.0 or later.</remarks>
         /// <param name="values">The values to add.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithEntitlements(IEnumerable<string> values)
@@ -204,6 +210,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: whether to build without using the cache.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#no_cache"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.4.0 or later.</remarks>
         /// <param name="noCache"><c>true</c> to enable it.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithNoCache(bool noCache)
@@ -216,6 +223,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the stages that are built without the cache.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#no_cache"/>
         /// </summary>
+        /// <remarks>Requires Compose 5.0.0 or later.</remarks>
         /// <param name="stage">The value to add.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithNoCacheFilter(string stage)
@@ -229,6 +237,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the stages that are built without the cache.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#no_cache"/>
         /// </summary>
+        /// <remarks>Requires Compose 5.0.0 or later.</remarks>
         /// <param name="values">The values to add.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithNoCacheFilter(IEnumerable<string> values)
@@ -247,6 +256,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the platforms to build the image for, for example <c>linux/amd64</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#platforms"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.10.0 or later.</remarks>
         /// <param name="platform">The value to add.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithPlatforms(string platform)
@@ -260,6 +270,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the platforms to build the image for, for example <c>linux/amd64</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#platforms"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.10.0 or later.</remarks>
         /// <param name="values">The values to add.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithPlatforms(IEnumerable<string> values)
@@ -278,6 +289,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: whether the build runs with extended privileges.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#privileged"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.15.0 or later.</remarks>
         /// <param name="privileged"><c>true</c> to enable it.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithPrivileged(bool privileged)
@@ -290,6 +302,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the provenance attestation to add to the image: <c>true</c>, <c>false</c> or a setting such as <c>mode=max</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#provenance"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.39.0 or later.</remarks>
         /// <param name="provenance"><c>true</c> or <c>false</c>.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithProvenance(bool provenance)
@@ -301,6 +314,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the provenance attestation to add to the image: <c>true</c>, <c>false</c> or a setting such as <c>mode=max</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#provenance"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.39.0 or later.</remarks>
         /// <param name="provenance">The setting, for example <c>mode=max</c>.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithProvenance(string provenance)
@@ -314,6 +328,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: whether to always pull newer versions of the base images.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#pull"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.4.0 or later.</remarks>
         /// <param name="pull"><c>true</c> to enable it.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithPull(bool pull)
@@ -326,6 +341,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the SBOM attestation to add to the image: <c>true</c>, <c>false</c> or a setting.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#sbom"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.39.0 or later.</remarks>
         /// <param name="sbom"><c>true</c> or <c>false</c>.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithSbom(bool sbom)
@@ -337,6 +353,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the SBOM attestation to add to the image: <c>true</c>, <c>false</c> or a setting.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#sbom"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.39.0 or later.</remarks>
         /// <param name="sbom">The setting, for example <c>mode=max</c>.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithSbom(string sbom)
@@ -363,6 +380,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the SSH agent sockets or keys the build can use, as <c>default</c> or <c>id=path</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#ssh"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.4.0 or later.</remarks>
         /// <param name="ssh">The value to add.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithSsh(string ssh)
@@ -376,6 +394,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the SSH agent sockets or keys the build can use, as <c>default</c> or <c>id=path</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#ssh"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.4.0 or later.</remarks>
         /// <param name="values">The values to add.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithSsh(IEnumerable<string> values)
@@ -394,6 +413,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the extra tags to apply to the built image.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#tags"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.5.1 or later.</remarks>
         /// <param name="tag">The value to add.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithTags(string tag)
@@ -407,6 +427,7 @@ namespace DockerComposeFluent.Builders
         /// Sets: the extra tags to apply to the built image.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#tags"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.5.1 or later.</remarks>
         /// <param name="values">The values to add.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithTags(IEnumerable<string> values)
@@ -497,6 +518,7 @@ namespace DockerComposeFluent.Builders
         /// Grants the build access to a secret, by name.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#secrets"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.5.0 or later.</remarks>
         /// <param name="source">The name of the secret as defined in the top-level <c>secrets</c> section.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithSecret(string source)
@@ -508,6 +530,7 @@ namespace DockerComposeFluent.Builders
         /// Grants the build access to a secret, from an existing reference.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#secrets"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.5.0 or later.</remarks>
         /// <param name="secret">The secret reference.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithSecret(SecretReference secret)
@@ -522,6 +545,7 @@ namespace DockerComposeFluent.Builders
         /// Grants the build access to a secret, configured through a <see cref="SecretReferenceBuilder"/>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#secrets"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.5.0 or later.</remarks>
         /// <param name="configure">Configures the reference.</param>
         /// <returns>This builder.</returns>
         public BuildBuilder WithSecret(Action<SecretReferenceBuilder> configure)

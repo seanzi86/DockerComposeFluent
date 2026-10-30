@@ -53,6 +53,7 @@ namespace DockerComposeFluent.Builders
         /// Included files are resolved before the rest of this file.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.19.1 or later.</remarks>
         /// <param name="path">The file path.</param>
         /// <returns>This builder.</returns>
         public DockerComposeBuilder WithInclude(string path)
@@ -67,6 +68,7 @@ namespace DockerComposeFluent.Builders
         /// entry that includes several paths together.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.19.1 or later.</remarks>
         /// <param name="paths">The file paths.</param>
         /// <returns>This builder.</returns>
         public DockerComposeBuilder WithIncludes(IEnumerable<string> paths)
@@ -85,6 +87,7 @@ namespace DockerComposeFluent.Builders
         /// Adds a Compose file to include, from an existing definition.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.19.1 or later.</remarks>
         /// <param name="include">The include definition.</param>
         /// <returns>This builder.</returns>
         public DockerComposeBuilder WithInclude(IncludeDefinition include)
@@ -98,6 +101,7 @@ namespace DockerComposeFluent.Builders
         /// Adds a Compose file to include, configured through an <see cref="IncludeBuilder"/>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.19.1 or later.</remarks>
         /// <param name="configure">Configures the include.</param>
         /// <returns>This builder.</returns>
         public DockerComposeBuilder WithInclude(Action<IncludeBuilder> configure)

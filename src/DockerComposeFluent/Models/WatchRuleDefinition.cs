@@ -13,12 +13,14 @@ namespace DockerComposeFluent.Models
         /// The path to watch, relative to the project directory, as specified by <c>path</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/develop.md#path"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
         public string? Path { get; init; }
 
         /// <summary>
         /// What to do when a change is detected, as specified by <c>action</c>.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/develop.md#action"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
         public WatchAction? Action { get; init; }
 
         /// <summary>
@@ -26,6 +28,7 @@ namespace DockerComposeFluent.Models
         /// Used by the <c>sync</c> actions.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/develop.md#target"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
         public string? Target { get; init; }
 
         /// <summary>
@@ -33,6 +36,7 @@ namespace DockerComposeFluent.Models
         /// are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/develop.md#ignore"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.22.0 or later.</remarks>
         public IReadOnlyList<string> Ignore
         {
             get { return _ignore; }

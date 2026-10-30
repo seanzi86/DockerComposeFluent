@@ -14,6 +14,7 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// The paths to the Compose files to include, as specified by <c>path</c>. Never empty.
         /// </summary>
+        /// <remarks>Requires Compose 2.19.1 or later.</remarks>
         public IReadOnlyList<string> Path
         {
             get { return _path; }
@@ -26,6 +27,7 @@ namespace DockerComposeFluent.Models
         /// The paths to environment files that provide default values when interpolating variables in the
         /// included files, as specified by <c>env_file</c>. Empty when none are set.
         /// </summary>
+        /// <remarks>Requires Compose 2.19.1 or later.</remarks>
         public IReadOnlyList<string> EnvFile
         {
             get { return _envFile; }

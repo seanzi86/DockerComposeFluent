@@ -3,7 +3,7 @@ namespace DockerComposeFluent.Models
     /// <summary>
     /// A mount, given either as a short-syntax string (<c>"db-data:/data:ro"</c>) or as a long-syntax
     /// <see cref="MountDefinition"/>. The form chosen is preserved in the generated YAML.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
     /// </summary>
     public sealed record MountMapping
     {

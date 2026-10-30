@@ -20,102 +20,102 @@ specification Compose accepts.
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
-| `path` | The paths to the Compose files to include. | Core spec |
-| `env_file` | The paths to environment files that provide default values when interpolating variables in the included files. | Core spec |
+| `path` | The paths to the Compose files to include. | 2.19.1+ |
+| `env_file` | The paths to environment files that provide default values when interpolating variables in the included files. | 2.19.1+ |
 | `project_directory` | The directory relative paths in the included file are resolved against. | Core spec |
 
 ### Services (`services.<name>`)
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
-| [`image`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#image) | The image to start the container from. | Core spec |
-| [`command`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#command) | The command that overrides the image's default command. | Core spec |
+| [`image`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#image) | The image to start the container from. | Core spec |
+| [`command`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#command) | The command that overrides the image's default command. | Core spec |
 | [`container_name`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#container_name) | The custom container name. | Core spec |
-| [`depends_on`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#depends_on) | The services this service depends on and their settings, keyed by service name. | Core spec |
+| [`depends_on`](https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#depends_on) | The services this service depends on and their settings, keyed by service name. | Core spec |
 | [`deploy`](https://github.com/compose-spec/compose-spec/blob/main/deploy.md) | Deployment metadata for the service, so a platform such as Docker Swarm can allocate and configure resources for it. | Core spec |
-| [`entrypoint`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#entrypoint) | The entrypoint that overrides the image's default entrypoint. | Core spec |
-| [`env_file`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file) | The files to read environment variables from. | Core spec |
-| [`environment`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#environment) | The environment variables set in the container. | Core spec |
+| [`entrypoint`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#entrypoint) | The entrypoint that overrides the image's default entrypoint. | Core spec |
+| [`env_file`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#env_file) | The files to read environment variables from. | Core spec |
+| [`environment`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#environment) | The environment variables set in the container. | Core spec |
 | [`extends`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extends) | The other service this service extends, sharing its configuration as a base. | Core spec |
-| [`labels`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#labels) | The labels attached to the service. | Core spec |
-| [`label_file`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#label_file) | The files to load labels from. | 2.32.0+ |
-| [`healthcheck`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | The check that decides whether the service's containers are healthy. | Core spec |
-| [`networks`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#networks) | The networks the service joins and their settings, keyed by network name. | Core spec |
-| [`platform`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#platform) | The target platform to run the container on. | Core spec |
-| [`ports`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports) | The ports to expose. | Core spec |
+| [`labels`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#labels) | The labels attached to the service. | Core spec |
+| [`label_file`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#label_file) | The files to load labels from. | 2.32.0+ |
+| [`healthcheck`](https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck) | The check that decides whether the service's containers are healthy. | Core spec |
+| [`networks`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#networks) | The networks the service joins and their settings, keyed by network name. | Core spec |
+| [`platform`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#platform) | The target platform to run the container on. | Core spec |
+| [`ports`](https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#ports) | The ports to expose. | Core spec |
 | [`restart`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#restart) | When the container is restarted. | Core spec |
-| [`logging`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#logging) | The logging configuration. | Core spec |
+| [`logging`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#logging) | The logging configuration. | Core spec |
 | [`profiles`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#profiles) | The profiles the service is enabled under. | Core spec |
-| [`configs`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#configs) | The configs this service is granted access to. | Core spec |
-| [`secrets`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#secrets) | The secrets this service is granted access to. | Core spec |
-| [`volumes`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes) | The mounts (volumes, bind mounts and so on). | Core spec |
-| [`attach`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#attach) | Whether Compose collects the service's logs when attached (`docker compose up`). | Core spec |
-| [`domainname`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#domainname) | The custom domain name for the container. | Core spec |
-| [`hostname`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#hostname) | The custom hostname for the container. | Core spec |
-| [`init`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#init) | Whether to run an init process inside the container that forwards signals and reaps processes. | Core spec |
-| [`isolation`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#isolation) | The container isolation technology; supported values are platform-specific. | Core spec |
-| [`mac_address`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mac_address) | The MAC address of the container. | Core spec |
-| [`privileged`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#privileged) | Whether the container has extended privileges. | Core spec |
-| [`pull_policy`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_policy) | When to pull the image: `always`, `never`, `missing`, `if_not_present`, `build`, `refresh`, `daily`, `weekly` or `every_<duration>`. | Core spec |
-| [`pull_refresh_after`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pull_refresh_after) | How long after which to refresh the image, as a compose-spec duration, used with a `refresh` pull policy. | Core spec |
-| [`read_only`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#read_only) | Whether the container's filesystem is mounted read-only. | Core spec |
-| [`runtime`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#runtime) | The runtime to use for the container, for example `runc`. | Core spec |
+| [`configs`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#configs) | The configs this service is granted access to. | Core spec |
+| [`secrets`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#secrets) | The secrets this service is granted access to. | Core spec |
+| [`volumes`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes) | The mounts (volumes, bind mounts and so on). | Core spec |
+| [`attach`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#attach) | Whether Compose collects the service's logs when attached (`docker compose up`). | 2.20.0+ |
+| [`domainname`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#domainname) | The custom domain name for the container. | Core spec |
+| [`hostname`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#hostname) | The custom hostname for the container. | Core spec |
+| [`init`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#init) | Whether to run an init process inside the container that forwards signals and reaps processes. | Core spec |
+| [`isolation`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#isolation) | The container isolation technology; supported values are platform-specific. | Core spec |
+| [`mac_address`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#mac_address) | The MAC address of the container. | Core spec |
+| [`privileged`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#privileged) | Whether the container has extended privileges. | Core spec |
+| [`pull_policy`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#pull_policy) | When to pull the image: `always`, `never`, `missing`, `if_not_present`, `build`, `refresh`, `daily`, `weekly` or `every_<duration>`. | Core spec |
+| [`pull_refresh_after`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#pull_policy) | How long after which to refresh the image, as a compose-spec duration, used with a `refresh` pull policy. | 2.34.0+ |
+| [`read_only`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#read_only) | Whether the container's filesystem is mounted read-only. | Core spec |
+| [`runtime`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#runtime) | The runtime to use for the container, for example `runc`. | Core spec |
 | [`scale`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#scale) | The number of containers to run for the service. | Core spec |
-| [`stdin_open`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stdin_open) | Whether to keep STDIN open even if not attached. | Core spec |
-| [`stop_grace_period`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stop_grace_period) | How long to wait for the container to stop gracefully before sending SIGKILL, as a compose-spec duration. | Core spec |
-| [`stop_signal`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#stop_signal) | The signal used to stop the container, for example `SIGTERM`. | Core spec |
-| [`tty`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#tty) | Whether to allocate a pseudo-TTY. | Core spec |
-| [`use_api_socket`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#use_api_socket) | Whether to bind mount the Docker API socket and its required auth into the container. | 2.37.2+ |
-| [`user`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#user) | The username or UID to run the container process as. | Core spec |
-| [`working_dir`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#working_dir) | The working directory the entrypoint or command runs in. | Core spec |
-| [`network_mode`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#network_mode) | The network mode of the container, for example `host`, `none` or `service:<name>`. | Core spec |
-| [`ipc`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ipc) | The IPC isolation mode, for example `shareable` or `service:<name>`. | Core spec |
-| [`pid`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pid) | The PID namespace mode, for example `host` or `service:<name>`. | Core spec |
-| [`uts`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#uts) | The UTS namespace mode, for example `host`. | Core spec |
-| [`userns_mode`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#userns_mode) | The user namespace mode, for example `host`. | Core spec |
-| [`cgroup`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cgroup) | The cgroup namespace to join. | Core spec |
-| [`cgroup_parent`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cgroup_parent) | The parent cgroup for the container. | Core spec |
-| [`cap_add`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_add) | The Linux capabilities to add, for example `NET_ADMIN`. | Core spec |
-| [`cap_drop`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cap_drop) | The Linux capabilities to drop, for example `ALL`. | Core spec |
-| [`security_opt`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#security_opt) | The security options for the container, for example `no-new-privileges:true`. | Core spec |
-| [`group_add`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#group_add) | The additional groups (names or numeric IDs) the container user joins. | Core spec |
-| [`device_cgroup_rules`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#device_cgroup_rules) | The device cgroup rules, for example `c 1:3 mr`. | Core spec |
-| [`dns`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns) | The custom DNS servers. | Core spec |
-| [`dns_opt`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns_opt) | The custom DNS options. | Core spec |
-| [`dns_search`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#dns_search) | The custom DNS search domains. | Core spec |
-| [`expose`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#expose) | The ports exposed to linked services without publishing them to the host, for example `3000` or `8000-8010`. | Core spec |
+| [`stdin_open`](https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#stdin_open) | Whether to keep STDIN open even if not attached. | Core spec |
+| [`stop_grace_period`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#stop_grace_period) | How long to wait for the container to stop gracefully before sending SIGKILL, as a compose-spec duration. | Core spec |
+| [`stop_signal`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#stop_signal) | The signal used to stop the container, for example `SIGTERM`. | Core spec |
+| [`tty`](https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#tty) | Whether to allocate a pseudo-TTY. | Core spec |
+| [`use_api_socket`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#use_api_socket) | Whether to bind mount the Docker API socket and its required auth into the container. | 2.37.2+ |
+| [`user`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#user) | The username or UID to run the container process as. | Core spec |
+| [`working_dir`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#working_dir) | The working directory the entrypoint or command runs in. | Core spec |
+| [`network_mode`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#network_mode) | The network mode of the container, for example `host`, `none` or `service:<name>`. | Core spec |
+| [`ipc`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#ipc) | The IPC isolation mode, for example `shareable` or `service:<name>`. | Core spec |
+| [`pid`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#pid) | The PID namespace mode, for example `host` or `service:<name>`. | Core spec |
+| [`uts`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#uts) | The UTS namespace mode, for example `host`. | 2.15.1+ |
+| [`userns_mode`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#userns_mode) | The user namespace mode, for example `host`. | Core spec |
+| [`cgroup`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cgroup) | The cgroup namespace to join. | 2.16.0+ |
+| [`cgroup_parent`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cgroup_parent) | The parent cgroup for the container. | Core spec |
+| [`cap_add`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cap_add) | The Linux capabilities to add, for example `NET_ADMIN`. | Core spec |
+| [`cap_drop`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cap_drop) | The Linux capabilities to drop, for example `ALL`. | Core spec |
+| [`security_opt`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#security_opt) | The security options for the container, for example `no-new-privileges:true`. | Core spec |
+| [`group_add`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#group_add) | The additional groups (names or numeric IDs) the container user joins. | Core spec |
+| [`device_cgroup_rules`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#device_cgroup_rules) | The device cgroup rules, for example `c 1:3 mr`. | Core spec |
+| [`dns`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#dns) | The custom DNS servers. | Core spec |
+| [`dns_opt`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#dns_opt) | The custom DNS options. | Core spec |
+| [`dns_search`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#dns_search) | The custom DNS search domains. | Core spec |
+| [`expose`](https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#expose) | The ports exposed to linked services without publishing them to the host, for example `3000` or `8000-8010`. | Core spec |
 | [`links`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#links) | The links to other services, as `service` or `service:alias`. | Core spec |
 | [`external_links`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#external_links) | The links to containers started outside this file, as `container` or `container:alias`. | Core spec |
-| [`volumes_from`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes_from) | The services or containers to mount all volumes from, as `service`, `service:ro` or `container:name`. | Core spec |
-| [`tmpfs`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#tmpfs) | The temporary filesystems to mount, as paths with optional options. | Core spec |
-| [`cpus`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpus) | The number of CPUs the container can use, for example `0.5`. | Core spec |
-| [`cpu_count`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_count) | The number of usable CPUs (Windows). | Core spec |
-| [`cpu_percent`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_percent) | The percentage of usable CPU (Windows), from 0 to 100. | Core spec |
-| [`cpu_shares`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_shares) | The relative CPU weight. | Core spec |
-| [`cpu_quota`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_quota) | The CFS CPU quota in microseconds. | Core spec |
-| [`cpu_period`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_period) | The CFS CPU period in microseconds. | Core spec |
-| [`cpu_rt_period`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_rt_period) | The CPU real-time period in microseconds. | Core spec |
-| [`cpu_rt_runtime`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpu_rt_runtime) | The CPU real-time runtime in microseconds. | Core spec |
-| [`cpuset`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#cpuset) | The CPUs the container may run on, for example `0-3` or `0,1`. | Core spec |
-| [`mem_limit`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mem_limit) | The memory limit, as a compose-spec byte value such as `512m`. | Core spec |
-| [`mem_reservation`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mem_reservation) | The soft memory limit, as a compose-spec byte value such as `256m`. | Core spec |
-| [`memswap_limit`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#memswap_limit) | The memory plus swap limit, as a compose-spec byte value; `-1` is unlimited swap. | Core spec |
-| [`mem_swappiness`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#mem_swappiness) | How readily the kernel swaps container memory, from 0 to 100. | Core spec |
-| [`oom_kill_disable`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#oom_kill_disable) | Whether to disable the out-of-memory killer for the container. | Core spec |
-| [`oom_score_adj`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#oom_score_adj) | The out-of-memory preference, from -1000 to 1000. | Core spec |
-| [`pids_limit`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pids_limit) | The maximum number of processes, or `-1` for unlimited. | Core spec |
-| [`shm_size`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#shm_size) | The size of `/dev/shm`, as a compose-spec byte value such as `64m`. | Core spec |
-| [`blkio_config`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#blkio_config) | The block I/O configuration. | Core spec |
-| [`credential_spec`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#credential_spec) | The credential spec for a managed service account. | Core spec |
-| [`devices`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#devices) | The host devices made available in the container. | Core spec |
-| [`extra_hosts`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#extra_hosts) | The additional hostnames added to the container's `/etc/hosts`, keyed by hostname with the address as the value. | Core spec |
-| [`gpus`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#gpus) | The GPUs the container may use. | Core spec |
-| [`storage_opt`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#storage_opt) | The storage driver options for the container. | Core spec |
-| [`sysctls`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#sysctls) | The kernel parameters to set in the container. | Core spec |
-| [`ulimits`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ulimits) | The resource limits for processes in the container, keyed by limit name such as `nofile`. | Core spec |
-| [`annotations`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#annotations) | The annotations attached to the container. | Core spec |
-| [`post_start`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#post_start) | The commands run after the container starts. | Core spec |
-| [`pre_stop`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop) | The commands run before the container stops. | Core spec |
+| [`volumes_from`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes_from) | The services or containers to mount all volumes from, as `service`, `service:ro` or `container:name`. | Core spec |
+| [`tmpfs`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#tmpfs) | The temporary filesystems to mount, as paths with optional options. | Core spec |
+| [`cpus`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpus) | The number of CPUs the container can use, for example `0.5`. | Core spec |
+| [`cpu_count`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_count) | The number of usable CPUs (Windows). | Core spec |
+| [`cpu_percent`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_percent) | The percentage of usable CPU (Windows), from 0 to 100. | Core spec |
+| [`cpu_shares`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_shares) | The relative CPU weight. | Core spec |
+| [`cpu_quota`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_quota) | The CFS CPU quota in microseconds. | Core spec |
+| [`cpu_period`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_period) | The CFS CPU period in microseconds. | Core spec |
+| [`cpu_rt_period`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_rt_period) | The CPU real-time period in microseconds. | Core spec |
+| [`cpu_rt_runtime`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpu_rt_runtime) | The CPU real-time runtime in microseconds. | Core spec |
+| [`cpuset`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#cpuset) | The CPUs the container may run on, for example `0-3` or `0,1`. | Core spec |
+| [`mem_limit`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#mem_limit) | The memory limit, as a compose-spec byte value such as `512m`. | Core spec |
+| [`mem_reservation`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#mem_reservation) | The soft memory limit, as a compose-spec byte value such as `256m`. | Core spec |
+| [`memswap_limit`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#memswap_limit) | The memory plus swap limit, as a compose-spec byte value; `-1` is unlimited swap. | Core spec |
+| [`mem_swappiness`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#mem_swappiness) | How readily the kernel swaps container memory, from 0 to 100. | Core spec |
+| [`oom_kill_disable`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#oom_kill_disable) | Whether to disable the out-of-memory killer for the container. | Core spec |
+| [`oom_score_adj`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#oom_score_adj) | The out-of-memory preference, from -1000 to 1000. | Core spec |
+| [`pids_limit`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#pids_limit) | The maximum number of processes, or `-1` for unlimited. | Core spec |
+| [`shm_size`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#shm_size) | The size of `/dev/shm`, as a compose-spec byte value such as `64m`. | Core spec |
+| [`blkio_config`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#blkio_config) | The block I/O configuration. | Core spec |
+| [`credential_spec`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#credential_spec) | The credential spec for a managed service account. | Core spec |
+| [`devices`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#devices) | The host devices made available in the container. | Core spec |
+| [`extra_hosts`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#extra_hosts) | The additional hostnames added to the container's `/etc/hosts`, keyed by hostname with the address as the value. | Core spec |
+| [`gpus`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#gpus) | The GPUs the container may use. | 2.30.0+ |
+| [`storage_opt`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#storage_opt) | The storage driver options for the container. | Core spec |
+| [`sysctls`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#sysctls) | The kernel parameters to set in the container. | Core spec |
+| [`ulimits`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#ulimits) | The resource limits for processes in the container, keyed by limit name such as `nofile`. | Core spec |
+| [`annotations`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#annotations) | The annotations attached to the container. | 2.18.0+ |
+| [`post_start`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#post_start) | The commands run after the container starts. | 2.30.0+ |
+| [`pre_stop`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_stop) | The commands run before the container stops. | 2.30.0+ |
 | [`build`](https://github.com/compose-spec/compose-spec/blob/main/build.md) | How to build the service's image from source. | Core spec |
 | [`develop`](https://github.com/compose-spec/compose-spec/blob/main/develop.md) | The settings that help while developing the service, such as rules that react to file changes. | 2.22.0+ |
 | [`pre_start`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#pre_start) | The init-container steps run to completion before the service starts, in order. | 5.3.0+ |
@@ -155,7 +155,7 @@ specification Compose accepts.
 | :--- | :--- | :--- |
 | `cpus` | The number of CPU cores the container can use. | Core spec |
 | `memory` | The amount of memory the container can allocate, as a compose-spec byte value such as `50M`. | Core spec |
-| `pids` | The container's PID limit. | Core spec |
+| `pids` | The container's PID limit. | 2.3.0+ |
 
 ### Deploy resource reservations (`services.<name>.deploy.resources.reservations`)
 
@@ -220,19 +220,19 @@ specification Compose accepts.
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
-| `source` | The path of the device on the host. | Core spec |
-| `target` | The path the device is mapped to in the container. | Core spec |
+| `source` | The path of the device on the host. | 2.29.3+ |
+| `target` | The path the device is mapped to in the container. | 2.29.3+ |
 | `permissions` | The cgroup permissions for the device, a combination of `r`, `w` and `m`. | Core spec |
 
 ### GPU request (`services.<name>.gpus`)
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
-| `capabilities` | The capabilities the GPU must have. | Core spec |
-| `count` | The number of GPUs to use. | Core spec |
-| `device_ids` | The IDs of the specific GPUs to use. | Core spec |
-| `driver` | The GPU driver to use. | Core spec |
-| `options` | Driver-specific options as key-value pairs. | Core spec |
+| `capabilities` | The capabilities the GPU must have. | 2.30.0+ |
+| `count` | The number of GPUs to use. | 2.30.0+ |
+| `device_ids` | The IDs of the specific GPUs to use. | 2.30.0+ |
+| `driver` | The GPU driver to use. | 2.30.0+ |
+| `options` | Driver-specific options as key-value pairs. | 2.30.0+ |
 
 ### Ulimit, long syntax (`services.<name>.ulimits.<name>`)
 
@@ -270,29 +270,29 @@ specification Compose accepts.
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
-| [`additional_contexts`](https://github.com/compose-spec/compose-spec/blob/main/build.md#additional_contexts) | The additional named build contexts, keyed by name with the location as the value. | Core spec |
+| [`additional_contexts`](https://github.com/compose-spec/compose-spec/blob/main/build.md#additional_contexts) | The additional named build contexts, keyed by name with the location as the value. | 2.17.0+ |
 | [`args`](https://github.com/compose-spec/compose-spec/blob/main/build.md#args) | The build arguments, keyed by name. | Core spec |
 | [`cache_from`](https://github.com/compose-spec/compose-spec/blob/main/build.md#cache_from) | The sources to use as the image cache. | Core spec |
-| [`cache_to`](https://github.com/compose-spec/compose-spec/blob/main/build.md#cache_to) | The locations to export the build cache to. | Core spec |
+| [`cache_to`](https://github.com/compose-spec/compose-spec/blob/main/build.md#cache_to) | The locations to export the build cache to. | 2.4.0+ |
 | [`context`](https://github.com/compose-spec/compose-spec/blob/main/build.md#context) | The path to the build context: a directory containing a Dockerfile, or a git repository URL. | Core spec |
 | [`dockerfile`](https://github.com/compose-spec/compose-spec/blob/main/build.md#dockerfile) | The Dockerfile to build from, relative to the context. | Core spec |
-| [`dockerfile_inline`](https://github.com/compose-spec/compose-spec/blob/main/build.md#dockerfile_inline) | The Dockerfile contents, defined inline. | Core spec |
+| [`dockerfile_inline`](https://github.com/compose-spec/compose-spec/blob/main/build.md#dockerfile_inline) | The Dockerfile contents, defined inline. | 2.17.0+ |
 | [`entitlements`](https://github.com/compose-spec/compose-spec/blob/main/build.md#entitlements) | The extra privileged entitlements the build is granted, for example `network.host`. | 2.27.0+ |
 | [`extra_hosts`](https://github.com/compose-spec/compose-spec/blob/main/build.md#extra_hosts) | The additional hostnames added to the build containers' `/etc/hosts`, keyed by hostname with the address as the value. | Core spec |
 | [`isolation`](https://github.com/compose-spec/compose-spec/blob/main/build.md#isolation) | The container isolation technology used for the build; supported values are platform-specific. | Core spec |
 | [`labels`](https://github.com/compose-spec/compose-spec/blob/main/build.md#labels) | The labels applied to the built image. | Core spec |
 | [`network`](https://github.com/compose-spec/compose-spec/blob/main/build.md#network) | The network the build containers use during `RUN` instructions. | Core spec |
-| [`no_cache`](https://github.com/compose-spec/compose-spec/blob/main/build.md#no_cache) | Whether to build without using the cache. | Core spec |
+| [`no_cache`](https://github.com/compose-spec/compose-spec/blob/main/build.md#no_cache) | Whether to build without using the cache. | 2.4.0+ |
 | [`no_cache_filter`](https://github.com/compose-spec/compose-spec/blob/main/build.md#no_cache) | The stages that are built without the cache. | 5.0.0+ |
-| [`platforms`](https://github.com/compose-spec/compose-spec/blob/main/build.md#platforms) | The platforms to build the image for, for example `linux/amd64`. | Core spec |
-| [`privileged`](https://github.com/compose-spec/compose-spec/blob/main/build.md#privileged) | Whether the build runs with extended privileges. | Core spec |
+| [`platforms`](https://github.com/compose-spec/compose-spec/blob/main/build.md#platforms) | The platforms to build the image for, for example `linux/amd64`. | 2.10.0+ |
+| [`privileged`](https://github.com/compose-spec/compose-spec/blob/main/build.md#privileged) | Whether the build runs with extended privileges. | 2.15.0+ |
 | [`provenance`](https://github.com/compose-spec/compose-spec/blob/main/build.md#provenance) | The provenance attestation to add to the image: `true`, `false` or a setting such as `mode=max`. | 2.39.0+ |
-| [`pull`](https://github.com/compose-spec/compose-spec/blob/main/build.md#pull) | Whether to always pull newer versions of the base images. | Core spec |
+| [`pull`](https://github.com/compose-spec/compose-spec/blob/main/build.md#pull) | Whether to always pull newer versions of the base images. | 2.4.0+ |
 | [`sbom`](https://github.com/compose-spec/compose-spec/blob/main/build.md#sbom) | The SBOM attestation to add to the image: `true`, `false` or a setting. | 2.39.0+ |
-| [`secrets`](https://github.com/compose-spec/compose-spec/blob/main/build.md#secrets) | The secrets the build can access. | Core spec |
+| [`secrets`](https://github.com/compose-spec/compose-spec/blob/main/build.md#secrets) | The secrets the build can access. | 2.5.0+ |
 | [`shm_size`](https://github.com/compose-spec/compose-spec/blob/main/build.md#shm_size) | The size of `/dev/shm` for the build, as a compose-spec byte value such as `64m`. | Core spec |
-| [`ssh`](https://github.com/compose-spec/compose-spec/blob/main/build.md#ssh) | The SSH agent sockets or keys the build can use, as `default` or `id=path`. | Core spec |
-| [`tags`](https://github.com/compose-spec/compose-spec/blob/main/build.md#tags) | The extra tags to apply to the built image. | Core spec |
+| [`ssh`](https://github.com/compose-spec/compose-spec/blob/main/build.md#ssh) | The SSH agent sockets or keys the build can use, as `default` or `id=path`. | 2.4.0+ |
+| [`tags`](https://github.com/compose-spec/compose-spec/blob/main/build.md#tags) | The extra tags to apply to the built image. | 2.5.1+ |
 | [`target`](https://github.com/compose-spec/compose-spec/blob/main/build.md#target) | The Dockerfile stage to build. | Core spec |
 | [`ulimits`](https://github.com/compose-spec/compose-spec/blob/main/build.md#ulimits) | The resource limits for the build containers, keyed by limit name such as `nofile`. | Core spec |
 
@@ -300,16 +300,16 @@ specification Compose accepts.
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
-| [`watch`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#watch) | The rules that update the service when local files change. | Core spec |
+| [`watch`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#watch) | The rules that update the service when local files change. | 2.22.0+ |
 
 ### Develop watch rule (`services.<name>.develop.watch`)
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
-| [`path`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#path) | The path to watch, relative to the project directory. | Core spec |
-| [`action`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#action) | What to do when a change is detected. | Core spec |
-| [`target`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#target) | The path in the container that changed files are synchronised to. | Core spec |
-| [`ignore`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#ignore) | The patterns of paths that do not trigger the action. | Core spec |
+| [`path`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#path) | The path to watch, relative to the project directory. | 2.22.0+ |
+| [`action`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#action) | What to do when a change is detected. | 2.22.0+ |
+| [`target`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#target) | The path in the container that changed files are synchronised to. | 2.22.0+ |
+| [`ignore`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#ignore) | The patterns of paths that do not trigger the action. | 2.22.0+ |
 | [`include`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#include) | The patterns of paths that are watched. | 2.34.0+ |
 | [`exec`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#exec) | The command to run in the container after synchronising. | 2.32.0+ |
 | [`initial_sync`](https://github.com/compose-spec/compose-spec/blob/main/develop.md#initial_sync) | Whether to check that files in existing containers are up to date when a watch session starts. | 2.39.4+ |
@@ -330,11 +330,11 @@ specification Compose accepts.
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
-| `command` | The command to run. | Core spec |
-| `user` | The user to run the command as. | Core spec |
-| `privileged` | Whether the command runs with extended privileges. | Core spec |
-| `working_dir` | The working directory for the command. | Core spec |
-| `environment` | The environment variables for the command. | Core spec |
+| `command` | The command to run. | 2.30.0+ |
+| `user` | The user to run the command as. | 2.30.0+ |
+| `privileged` | Whether the command runs with extended privileges. | 2.30.0+ |
+| `working_dir` | The working directory for the command. | 2.30.0+ |
+| `environment` | The environment variables for the command. | 2.30.0+ |
 
 ### Deploy generic resource (`services.<name>.deploy.resources.reservations.generic_resources`)
 
@@ -353,27 +353,27 @@ specification Compose accepts.
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
-| [`disable`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | Whether the healthcheck set by the image is disabled. | Core spec |
-| [`interval`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | The time between checks, as a compose-spec duration such as `1m30s`. | Core spec |
-| [`retries`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | The number of consecutive failures before the container is considered unhealthy. | Core spec |
-| [`start_interval`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | The time between checks during the start period, as a compose-spec duration. | 2.20.2+ |
-| [`start_period`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | How long the container has to start before failed checks count, as a compose-spec duration. | Core spec |
-| [`test`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | The command that checks the container's health. | Core spec |
-| [`timeout`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#healthcheck) | How long a single check may run before it counts as failed, as a compose-spec duration. | Core spec |
+| [`disable`](https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck) | Whether the healthcheck set by the image is disabled. | Core spec |
+| [`interval`](https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck) | The time between checks, as a compose-spec duration such as `1m30s`. | Core spec |
+| [`retries`](https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck) | The number of consecutive failures before the container is considered unhealthy. | Core spec |
+| [`start_interval`](https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck) | The time between checks during the start period, as a compose-spec duration. | 2.20.2+ |
+| [`start_period`](https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck) | How long the container has to start before failed checks count, as a compose-spec duration. | Core spec |
+| [`test`](https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck) | The command that checks the container's health. | Core spec |
+| [`timeout`](https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#healthcheck) | How long a single check may run before it counts as failed, as a compose-spec duration. | Core spec |
 
 ### Service dependency, long syntax (`services.<name>.depends_on.<name>`)
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
-| [`condition`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#long-syntax) | When the dependency is considered satisfied. | Core spec |
-| [`restart`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#long-syntax) | Whether this service is restarted when the dependency is restarted by a Compose operation. | 2.17.0+ |
-| [`required`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#long-syntax) | Whether the dependency must be available. When `false`, Compose only warns if it is missing. | 2.20.0+ |
+| [`condition`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#long-syntax) | When the dependency is considered satisfied. | Core spec |
+| [`restart`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#long-syntax) | Whether this service is restarted when the dependency is restarted by a Compose operation. | 2.17.0+ |
+| [`required`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#long-syntax) | Whether the dependency must be available. When `false`, Compose only warns if it is missing. | 2.20.0+ |
 
 ### Env file entry, long syntax (`services.<name>.env_file`)
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
-| [`format`](https://github.com/compose-spec/compose-spec/blob/main/05-services.md#format) | The alternative parsing format for the file. | 2.30.0+ |
+| [`format`](https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#format) | The alternative parsing format for the file. | 2.30.0+ |
 
 ### Extends, long syntax (`services.<name>.extends`)
 
@@ -397,7 +397,7 @@ specification Compose accepts.
 | `app_protocol` | The application protocol this port is used for, such as `http`. | 2.26.0+ |
 | `host_ip` | The host IP address to bind to. | Core spec |
 | `mode` | How the port is published. | Core spec |
-| `name` | A human-readable name documenting the port's use. | Core spec |
+| `name` | A human-readable name documenting the port's use. | 2.24.0+ |
 | `protocol` | The port protocol. | Core spec |
 | `published` | The publicly exposed port, or a range such as `8000-9000`. | Core spec |
 
@@ -435,14 +435,14 @@ specification Compose accepts.
 | :--- | :--- | :--- |
 | `create_host_path` | Whether to create a directory at the source path on the host if it does not exist. | Core spec |
 | `propagation` | The propagation mode used for the bind. | Core spec |
-| `selinux` | The SELinux re-labelling option. | Core spec |
+| `selinux` | The SELinux re-labelling option. | 2.3.0+ |
 
 ### Named volume mount options (`services.<name>.volumes[].volume`)
 
 | Property | Description | Since Compose |
 | :--- | :--- | :--- |
 | `nocopy` | Whether to disable copying data from the container when the volume is created. | Core spec |
-| `subpath` | A path inside the volume to mount instead of the volume root. | Core spec |
+| `subpath` | A path inside the volume to mount instead of the volume root. | 2.24.0+ |
 
 ### Tmpfs mount options (`services.<name>.volumes[].tmpfs`)
 

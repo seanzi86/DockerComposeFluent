@@ -6,19 +6,21 @@ namespace DockerComposeFluent.Models
     /// A host device made available inside the container (an entry of <c>services.&lt;name&gt;.devices</c>).
     /// It is written as the short <c>source:target:permissions</c> string whenever that can express it, and as
     /// a mapping otherwise.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#devices"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#devices"/>
     /// </summary>
     public sealed record DeviceMappingDefinition
     {
         /// <summary>
         /// The path of the device on the host, as specified by <c>source</c>.
         /// </summary>
+        /// <remarks>Requires Compose 2.29.3 or later.</remarks>
         public string? Source { get; init; }
 
         /// <summary>
         /// The path the device is mapped to in the container, as specified by <c>target</c>. Defaults to the
         /// source path.
         /// </summary>
+        /// <remarks>Requires Compose 2.29.3 or later.</remarks>
         public string? Target { get; init; }
 
         /// <summary>

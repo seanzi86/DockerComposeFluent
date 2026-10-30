@@ -4,7 +4,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds an <see cref="EnvFileEntry"/>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#env_file"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#env_file"/>
     /// </summary>
     public sealed class EnvFileEntryBuilder
     {
@@ -24,7 +24,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets whether the file must exist. When <c>false</c>, Compose silently ignores a missing file.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#required"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#required"/>
         /// </summary>
         /// <remarks>Requires Compose 2.24.0 or later.</remarks>
         /// <param name="required"><c>false</c> to make the file optional.</param>
@@ -37,7 +37,7 @@ namespace DockerComposeFluent.Builders
 
         /// <summary>
         /// Sets the alternative parsing format for the file.
-        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#format"/>
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#format"/>
         /// </summary>
         /// <remarks>Requires Compose 2.30.0 or later.</remarks>
         /// <param name="format">The format.</param>

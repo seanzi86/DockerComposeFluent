@@ -7,7 +7,7 @@ namespace DockerComposeFluent.Builders
     /// <summary>
     /// Fluently builds a long-syntax <see cref="MountDefinition"/>. A type and a target are required, and
     /// the option groups must match the type.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
     /// </summary>
     public sealed class MountBuilder
     {

@@ -4,7 +4,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds <see cref="BindOptions"/>.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#volumes"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/container_spec.md#volumes"/>
     /// </summary>
     public sealed class BindOptionsBuilder
     {
@@ -35,6 +35,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets the SELinux re-labelling option.
         /// </summary>
+        /// <remarks>Requires Compose 2.3.0 or later.</remarks>
         /// <param name="selinux">The SELinux option.</param>
         /// <returns>This builder.</returns>
         public BindOptionsBuilder WithSelinux(SelinuxLabel selinux)

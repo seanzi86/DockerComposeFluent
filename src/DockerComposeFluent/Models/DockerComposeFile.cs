@@ -22,6 +22,7 @@ namespace DockerComposeFluent.Models
         /// property. Included files are resolved before the rest of this file. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
         /// </summary>
+        /// <remarks>Requires Compose 2.19.1 or later.</remarks>
         public IReadOnlyList<IncludeDefinition> Includes
         {
             get { return _includes; }

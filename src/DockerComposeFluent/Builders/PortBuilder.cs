@@ -7,7 +7,7 @@ namespace DockerComposeFluent.Builders
 {
     /// <summary>
     /// Fluently builds a long-syntax <see cref="PortDefinition"/>. A target port is required.
-    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md#ports"/>
+    /// <see href="https://github.com/compose-spec/compose-spec/blob/main/workload_spec.md#ports"/>
     /// </summary>
     public sealed class PortBuilder
     {
@@ -118,6 +118,7 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Sets a human-readable name documenting the port's use.
         /// </summary>
+        /// <remarks>Requires Compose 2.24.0 or later.</remarks>
         /// <param name="name">The port name.</param>
         /// <returns>This builder.</returns>
         public PortBuilder WithName(string name)
