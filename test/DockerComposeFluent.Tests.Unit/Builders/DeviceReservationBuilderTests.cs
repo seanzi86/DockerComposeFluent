@@ -4,12 +4,12 @@ using DockerComposeFluent.Models;
 
 namespace DockerComposeFluent.Tests.Unit.Builders
 {
-    public class DeviceBuilderTests
+    public class DeviceReservationBuilderTests
     {
         [Fact]
         public void WithCapability_AddsIt()
         {
-            DeviceDefinition device = new DeviceBuilder().WithCapabilities("gpu").Build();
+            DeviceReservationDefinition device = new DeviceReservationBuilder().WithCapabilities("gpu").Build();
 
             Assert.Equal(new[] { "gpu" }, device.Capabilities);
         }
@@ -17,7 +17,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithCapabilities_AddsThem()
         {
-            DeviceDefinition device = new DeviceBuilder().WithCapabilities(new[] { "gpu", "tpu" }).Build();
+            DeviceReservationDefinition device = new DeviceReservationBuilder().WithCapabilities(new[] { "gpu", "tpu" }).Build();
 
             Assert.Equal(new[] { "gpu", "tpu" }, device.Capabilities);
         }
@@ -25,7 +25,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithDriver_SetsIt()
         {
-            DeviceDefinition device = new DeviceBuilder().WithCapabilities("gpu").WithDriver("nvidia").Build();
+            DeviceReservationDefinition device = new DeviceReservationBuilder().WithCapabilities("gpu").WithDriver("nvidia").Build();
 
             Assert.Equal("nvidia", device.Driver);
         }
@@ -33,7 +33,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithCount_SetsIt()
         {
-            DeviceDefinition device = new DeviceBuilder().WithCapabilities("gpu").WithCount(2).Build();
+            DeviceReservationDefinition device = new DeviceReservationBuilder().WithCapabilities("gpu").WithCount(2).Build();
 
             Assert.Equal(2, device.Count);
             Assert.Empty(device.DeviceIds);
@@ -42,7 +42,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithDeviceId_AddsIt()
         {
-            DeviceDefinition device = new DeviceBuilder().WithCapabilities("gpu").WithDeviceIds("GPU-1").Build();
+            DeviceReservationDefinition device = new DeviceReservationBuilder().WithCapabilities("gpu").WithDeviceIds("GPU-1").Build();
 
             Assert.Equal(new[] { "GPU-1" }, device.DeviceIds);
             Assert.Null(device.Count);
@@ -51,7 +51,7 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void WithOption_SetsIt()
         {
-            DeviceDefinition device = new DeviceBuilder().WithCapabilities("gpu").WithOption("virtualization", "false").Build();
+            DeviceReservationDefinition device = new DeviceReservationBuilder().WithCapabilities("gpu").WithOption("virtualization", "false").Build();
 
             Assert.Equal("false", device.Options["virtualization"]);
         }
@@ -59,25 +59,25 @@ namespace DockerComposeFluent.Tests.Unit.Builders
         [Fact]
         public void Build_NoCapability_Throws()
         {
-            Assert.Throws<InvalidOperationException>(() => new DeviceBuilder().Build());
+            Assert.Throws<InvalidOperationException>(() => new DeviceReservationBuilder().Build());
         }
 
         [Fact]
         public void Build_CountAndDeviceId_Throws()
         {
-            Assert.Throws<InvalidOperationException>(() => new DeviceBuilder().WithCapabilities("gpu").WithCount(1).WithDeviceIds("GPU-1").Build());
+            Assert.Throws<InvalidOperationException>(() => new DeviceReservationBuilder().WithCapabilities("gpu").WithCount(1).WithDeviceIds("GPU-1").Build());
         }
 
         [Fact]
         public void WithCount_NotPositive_Throws()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new DeviceBuilder().WithCount(0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new DeviceReservationBuilder().WithCount(0));
         }
 
         [Fact]
         public void InvalidInput_Throws()
         {
-            DeviceBuilder builder = new DeviceBuilder();
+            DeviceReservationBuilder builder = new DeviceReservationBuilder();
 
             Assert.Throws<ArgumentException>(() => builder.WithCapabilities(" "));
             Assert.Throws<ArgumentException>(() => builder.WithDriver(" "));

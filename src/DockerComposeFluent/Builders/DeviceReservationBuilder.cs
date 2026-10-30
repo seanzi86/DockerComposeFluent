@@ -5,12 +5,12 @@ using DockerComposeFluent.Models;
 namespace DockerComposeFluent.Builders
 {
     /// <summary>
-    /// Fluently builds a <see cref="DeviceDefinition"/>.
+    /// Fluently builds a <see cref="DeviceReservationDefinition"/>.
     /// <see href="https://github.com/compose-spec/compose-spec/blob/main/deploy.md#devices"/>
     /// </summary>
-    public sealed class DeviceBuilder
+    public sealed class DeviceReservationBuilder
     {
-        private DeviceDefinition _definition = new DeviceDefinition();
+        private DeviceReservationDefinition _definition = new DeviceReservationDefinition();
 
         /// <summary>
         /// Adds a capability the device must satisfy.
@@ -18,7 +18,7 @@ namespace DockerComposeFluent.Builders
         /// <param name="capability">The capability, for example <c>gpu</c> or a driver-specific value such as
         /// <c>nvidia-compute</c>.</param>
         /// <returns>This builder.</returns>
-        public DeviceBuilder WithCapabilities(string capability)
+        public DeviceReservationBuilder WithCapabilities(string capability)
         {
             Guard.NotNullOrWhiteSpace(capability, nameof(capability));
             _definition = _definition with { Capabilities = Collections.Append(_definition.Capabilities, capability) };
@@ -30,7 +30,7 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="capabilities">The capabilities.</param>
         /// <returns>This builder.</returns>
-        public DeviceBuilder WithCapabilities(IEnumerable<string> capabilities)
+        public DeviceReservationBuilder WithCapabilities(IEnumerable<string> capabilities)
         {
             Guard.NotNull(capabilities, nameof(capabilities));
 
@@ -47,7 +47,7 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="driver">The driver name, for example <c>nvidia</c>.</param>
         /// <returns>This builder.</returns>
-        public DeviceBuilder WithDriver(string driver)
+        public DeviceReservationBuilder WithDriver(string driver)
         {
             Guard.NotNullOrWhiteSpace(driver, nameof(driver));
             _definition = _definition with { Driver = driver };
@@ -59,7 +59,7 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="count">The number of devices, which must be positive.</param>
         /// <returns>This builder.</returns>
-        public DeviceBuilder WithCount(int count)
+        public DeviceReservationBuilder WithCount(int count)
         {
             if (count < 1)
             {
@@ -75,7 +75,7 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="deviceId">The device ID.</param>
         /// <returns>This builder.</returns>
-        public DeviceBuilder WithDeviceIds(string deviceId)
+        public DeviceReservationBuilder WithDeviceIds(string deviceId)
         {
             Guard.NotNullOrWhiteSpace(deviceId, nameof(deviceId));
             _definition = _definition with { DeviceIds = Collections.Append(_definition.DeviceIds, deviceId) };
@@ -88,7 +88,7 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="deviceIds">The device IDs.</param>
         /// <returns>This builder.</returns>
-        public DeviceBuilder WithDeviceIds(IEnumerable<string> deviceIds)
+        public DeviceReservationBuilder WithDeviceIds(IEnumerable<string> deviceIds)
         {
             Guard.NotNull(deviceIds, nameof(deviceIds));
 
@@ -106,7 +106,7 @@ namespace DockerComposeFluent.Builders
         /// <param name="key">The option name.</param>
         /// <param name="value">The option value.</param>
         /// <returns>This builder.</returns>
-        public DeviceBuilder WithOption(string key, string value)
+        public DeviceReservationBuilder WithOption(string key, string value)
         {
             Guard.NotNullOrWhiteSpace(key, nameof(key));
             Guard.NotNull(value, nameof(value));
@@ -123,7 +123,7 @@ namespace DockerComposeFluent.Builders
         /// <param name="key">The field key, which must start with <c>x-</c>.</param>
         /// <param name="value">The field value, serialised as-is.</param>
         /// <returns>This builder.</returns>
-        public DeviceBuilder WithExtension(string key, object? value)
+        public DeviceReservationBuilder WithExtension(string key, object? value)
         {
             _definition = _definition with { Extensions = ExtensionsMutator.Set(_definition.Extensions, key, value, nameof(key)) };
             return this;
@@ -132,10 +132,10 @@ namespace DockerComposeFluent.Builders
         /// <summary>
         /// Creates the device definition from the values set so far.
         /// </summary>
-        /// <returns>An immutable <see cref="DeviceDefinition"/>.</returns>
+        /// <returns>An immutable <see cref="DeviceReservationDefinition"/>.</returns>
         /// <exception cref="InvalidOperationException">No capability was set, or both
         /// <see cref="WithCount(int)"/> and a device ID were set.</exception>
-        public DeviceDefinition Build()
+        public DeviceReservationDefinition Build()
         {
             if (_definition.Capabilities.Count == 0)
             {

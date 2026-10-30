@@ -30,19 +30,37 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// The devices to reserve, as specified by <c>devices</c>. Empty when none are set.
         /// </summary>
-        public IReadOnlyList<DeviceDefinition> Devices { get; init; } = Array.Empty<DeviceDefinition>();
+        public IReadOnlyList<DeviceReservationDefinition> Devices
+        {
+            get { return _devices; }
+            init { _devices = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<DeviceReservationDefinition> _devices = Collections.EmptyList<DeviceReservationDefinition>();
 
         /// <summary>
         /// The user-defined resources to reserve, as specified by <c>generic_resources</c>. Empty when none are
         /// set.
         /// </summary>
-        public IReadOnlyList<GenericResourceDefinition> GenericResources { get; init; } = Array.Empty<GenericResourceDefinition>();
+        public IReadOnlyList<GenericResourceDefinition> GenericResources
+        {
+            get { return _genericResources; }
+            init { _genericResources = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<GenericResourceDefinition> _genericResources = Collections.EmptyList<GenericResourceDefinition>();
 
         /// <summary>
         /// The extension fields defined on <c>deploy.resources.reservations</c>, keyed by their <c>x-</c>
         /// name. Compose ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
+        public IReadOnlyDictionary<string, object?> Extensions
+        {
+            get { return _extensions; }
+            init { _extensions = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, object?> _extensions = Collections.EmptyDictionary<object?>();
     }
 }

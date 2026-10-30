@@ -22,6 +22,12 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// The specific GPU requests. Empty when <see cref="All"/> is set.
         /// </summary>
-        public IReadOnlyList<GpuDefinition> Devices { get; init; } = Array.Empty<GpuDefinition>();
+        public IReadOnlyList<GpuDefinition> Devices
+        {
+            get { return _devices; }
+            init { _devices = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<GpuDefinition> _devices = Collections.EmptyList<GpuDefinition>();
     }
 }

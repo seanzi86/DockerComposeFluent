@@ -18,30 +18,60 @@ namespace DockerComposeFluent.Models
         /// The block I/O weight for specific devices, as specified by <c>weight_device</c>. Empty when none
         /// are set.
         /// </summary>
-        public IReadOnlyList<BlkioWeightDefinition> WeightDevice { get; init; } = Array.Empty<BlkioWeightDefinition>();
+        public IReadOnlyList<BlkioWeightDefinition> WeightDevice
+        {
+            get { return _weightDevice; }
+            init { _weightDevice = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<BlkioWeightDefinition> _weightDevice = Collections.EmptyList<BlkioWeightDefinition>();
 
         /// <summary>
         /// The read rate limits in bytes per second, as specified by <c>device_read_bps</c>. Empty when none
         /// are set.
         /// </summary>
-        public IReadOnlyList<BlkioLimitDefinition> DeviceReadBps { get; init; } = Array.Empty<BlkioLimitDefinition>();
+        public IReadOnlyList<BlkioLimitDefinition> DeviceReadBps
+        {
+            get { return _deviceReadBps; }
+            init { _deviceReadBps = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<BlkioLimitDefinition> _deviceReadBps = Collections.EmptyList<BlkioLimitDefinition>();
 
         /// <summary>
         /// The read rate limits in operations per second, as specified by <c>device_read_iops</c>. Empty
         /// when none are set.
         /// </summary>
-        public IReadOnlyList<BlkioLimitDefinition> DeviceReadIops { get; init; } = Array.Empty<BlkioLimitDefinition>();
+        public IReadOnlyList<BlkioLimitDefinition> DeviceReadIops
+        {
+            get { return _deviceReadIops; }
+            init { _deviceReadIops = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<BlkioLimitDefinition> _deviceReadIops = Collections.EmptyList<BlkioLimitDefinition>();
 
         /// <summary>
         /// The write rate limits in bytes per second, as specified by <c>device_write_bps</c>. Empty when
         /// none are set.
         /// </summary>
-        public IReadOnlyList<BlkioLimitDefinition> DeviceWriteBps { get; init; } = Array.Empty<BlkioLimitDefinition>();
+        public IReadOnlyList<BlkioLimitDefinition> DeviceWriteBps
+        {
+            get { return _deviceWriteBps; }
+            init { _deviceWriteBps = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<BlkioLimitDefinition> _deviceWriteBps = Collections.EmptyList<BlkioLimitDefinition>();
 
         /// <summary>
         /// The write rate limits in operations per second, as specified by <c>device_write_iops</c>. Empty
         /// when none are set.
         /// </summary>
-        public IReadOnlyList<BlkioLimitDefinition> DeviceWriteIops { get; init; } = Array.Empty<BlkioLimitDefinition>();
+        public IReadOnlyList<BlkioLimitDefinition> DeviceWriteIops
+        {
+            get { return _deviceWriteIops; }
+            init { _deviceWriteIops = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<BlkioLimitDefinition> _deviceWriteIops = Collections.EmptyList<BlkioLimitDefinition>();
     }
 }

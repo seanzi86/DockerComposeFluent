@@ -12,7 +12,13 @@ namespace DockerComposeFluent.Models
         /// Auxiliary addresses used by the network driver, as a mapping from hostname to IP address,
         /// as specified by <c>aux_addresses</c>.
         /// </summary>
-        public IReadOnlyDictionary<string, string> AuxAddresses { get; init; } = Collections.EmptyDictionary<string>();
+        public IReadOnlyDictionary<string, string> AuxAddresses
+        {
+            get { return _auxAddresses; }
+            init { _auxAddresses = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string> _auxAddresses = Collections.EmptyDictionary<string>();
 
         /// <summary>
         /// The IPv4 or IPv6 gateway for the subnet, as specified by <c>gateway</c>.
@@ -35,6 +41,12 @@ namespace DockerComposeFluent.Models
         /// these; they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
+        public IReadOnlyDictionary<string, object?> Extensions
+        {
+            get { return _extensions; }
+            init { _extensions = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, object?> _extensions = Collections.EmptyDictionary<object?>();
     }
 }

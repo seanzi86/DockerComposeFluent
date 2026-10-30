@@ -47,7 +47,13 @@ namespace DockerComposeFluent.Models
         /// Environment variables added to, or overriding, the service's own for this step, as specified by
         /// <c>environment</c>. Empty when none are set.
         /// </summary>
-        public IReadOnlyDictionary<string, string> Environment { get; init; } = Collections.EmptyDictionary<string>();
+        public IReadOnlyDictionary<string, string> Environment
+        {
+            get { return _environment; }
+            init { _environment = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string> _environment = Collections.EmptyDictionary<string>();
 
         /// <summary>
         /// Whether the step runs once for each replica of the service instead of once for the whole service, as
@@ -61,6 +67,12 @@ namespace DockerComposeFluent.Models
         /// they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
+        public IReadOnlyDictionary<string, object?> Extensions
+        {
+            get { return _extensions; }
+            init { _extensions = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, object?> _extensions = Collections.EmptyDictionary<object?>();
     }
 }

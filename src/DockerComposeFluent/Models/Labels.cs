@@ -13,7 +13,13 @@ namespace DockerComposeFluent.Models
         /// <summary>
         /// The labels in the order they were added.
         /// </summary>
-        public IReadOnlyDictionary<string, string> Values { get; init; } = Collections.EmptyDictionary<string>();
+        public IReadOnlyDictionary<string, string> Values
+        {
+            get { return _values; }
+            init { _values = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string> _values = Collections.EmptyDictionary<string>();
 
         /// <summary>
         /// Whether the labels are written as a list of <c>KEY=value</c> strings rather than a mapping.

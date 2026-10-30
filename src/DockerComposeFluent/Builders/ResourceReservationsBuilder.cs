@@ -56,7 +56,7 @@ namespace DockerComposeFluent.Builders
         /// </summary>
         /// <param name="device">The device definition.</param>
         /// <returns>This builder.</returns>
-        public ResourceReservationsBuilder WithDevice(DeviceDefinition device)
+        public ResourceReservationsBuilder WithDevice(DeviceReservationDefinition device)
         {
             Guard.NotNull(device, nameof(device));
             _definition = _definition with { Devices = Collections.Append(_definition.Devices, device) };
@@ -64,15 +64,15 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
-        /// Adds a device to reserve, configured through a <see cref="DeviceBuilder"/>.
+        /// Adds a device to reserve, configured through a <see cref="DeviceReservationBuilder"/>.
         /// </summary>
         /// <param name="configure">Configures the device.</param>
         /// <returns>This builder.</returns>
-        public ResourceReservationsBuilder WithDevice(Action<DeviceBuilder> configure)
+        public ResourceReservationsBuilder WithDevice(Action<DeviceReservationBuilder> configure)
         {
             Guard.NotNull(configure, nameof(configure));
 
-            DeviceBuilder builder = new DeviceBuilder();
+            DeviceReservationBuilder builder = new DeviceReservationBuilder();
             configure(builder);
             return WithDevice(builder.Build());
         }

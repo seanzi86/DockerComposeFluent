@@ -22,44 +22,86 @@ namespace DockerComposeFluent.Models
         /// property. Included files are resolved before the rest of this file. Empty when none are set.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/14-include.md"/>
         /// </summary>
-        public IReadOnlyList<IncludeDefinition> Includes { get; init; } = Array.Empty<IncludeDefinition>();
+        public IReadOnlyList<IncludeDefinition> Includes
+        {
+            get { return _includes; }
+            init { _includes = Collections.Seal(value); }
+        }
+
+        private IReadOnlyList<IncludeDefinition> _includes = Collections.EmptyList<IncludeDefinition>();
 
         /// <summary>
         /// The services defined under the top-level <c>services</c> property, keyed by service name.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/05-services.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, ServiceDefinition> Services { get; init; } = Collections.EmptyDictionary<ServiceDefinition>();
+        public IReadOnlyDictionary<string, ServiceDefinition> Services
+        {
+            get { return _services; }
+            init { _services = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, ServiceDefinition> _services = Collections.EmptyDictionary<ServiceDefinition>();
 
         /// <summary>
         /// The networks defined under the top-level <c>networks</c> property, keyed by network name.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/06-networks.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, NetworkDefinition> Networks { get; init; } = Collections.EmptyDictionary<NetworkDefinition>();
+        public IReadOnlyDictionary<string, NetworkDefinition> Networks
+        {
+            get { return _networks; }
+            init { _networks = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, NetworkDefinition> _networks = Collections.EmptyDictionary<NetworkDefinition>();
 
         /// <summary>
         /// The volumes defined under the top-level <c>volumes</c> property, keyed by volume name.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/07-volumes.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, VolumeDefinition> Volumes { get; init; } = Collections.EmptyDictionary<VolumeDefinition>();
+        public IReadOnlyDictionary<string, VolumeDefinition> Volumes
+        {
+            get { return _volumes; }
+            init { _volumes = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, VolumeDefinition> _volumes = Collections.EmptyDictionary<VolumeDefinition>();
 
         /// <summary>
         /// The secrets defined under the top-level <c>secrets</c> property, keyed by secret name.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/09-secrets.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, SecretDefinition> Secrets { get; init; } = Collections.EmptyDictionary<SecretDefinition>();
+        public IReadOnlyDictionary<string, SecretDefinition> Secrets
+        {
+            get { return _secrets; }
+            init { _secrets = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, SecretDefinition> _secrets = Collections.EmptyDictionary<SecretDefinition>();
 
         /// <summary>
         /// The configs defined under the top-level <c>configs</c> property, keyed by config name.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/08-configs.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, ConfigDefinition> Configs { get; init; } = Collections.EmptyDictionary<ConfigDefinition>();
+        public IReadOnlyDictionary<string, ConfigDefinition> Configs
+        {
+            get { return _configs; }
+            init { _configs = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, ConfigDefinition> _configs = Collections.EmptyDictionary<ConfigDefinition>();
 
         /// <summary>
         /// The extension fields defined at the top level of the file, keyed by their <c>x-</c> name. Compose
         /// ignores these; they exist for the file's own reuse (YAML anchors) or for tooling.
         /// <see href="https://github.com/compose-spec/compose-spec/blob/main/11-extension.md"/>
         /// </summary>
-        public IReadOnlyDictionary<string, object?> Extensions { get; init; } = Collections.EmptyDictionary<object?>();
+        public IReadOnlyDictionary<string, object?> Extensions
+        {
+            get { return _extensions; }
+            init { _extensions = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, object?> _extensions = Collections.EmptyDictionary<object?>();
 
         /// <summary>
         /// Checks the file as a whole for mistakes that individual builders cannot see, such as a service that

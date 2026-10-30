@@ -14,7 +14,13 @@ namespace DockerComposeFluent.Models
         /// here, so Compose takes it from the environment of the machine running it and removes it from the
         /// container when it is not set there.
         /// </summary>
-        public IReadOnlyDictionary<string, string?> Variables { get; init; } = Collections.EmptyDictionary<string?>();
+        public IReadOnlyDictionary<string, string?> Variables
+        {
+            get { return _variables; }
+            init { _variables = Collections.Seal(value); }
+        }
+
+        private IReadOnlyDictionary<string, string?> _variables = Collections.EmptyDictionary<string?>();
 
         /// <summary>
         /// Whether the variables are written as a list of <c>KEY=value</c> strings rather than a mapping.
