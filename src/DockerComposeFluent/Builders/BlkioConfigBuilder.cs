@@ -89,6 +89,20 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Adds a read limit in bytes per second for a device, configured through a <see cref="BlkioLimitBuilder"/>.
+        /// </summary>
+        /// <param name="configure">Configures the limit.</param>
+        /// <returns>This builder.</returns>
+        public BlkioConfigBuilder WithDeviceReadBps(Action<BlkioLimitBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            BlkioLimitBuilder builder = new BlkioLimitBuilder();
+            configure(builder);
+            return WithDeviceReadBps(builder.Build());
+        }
+
+        /// <summary>
         /// Adds a read limit in operations per second for a device.
         /// </summary>
         /// <param name="path">The device path.</param>
@@ -109,6 +123,20 @@ namespace DockerComposeFluent.Builders
             Guard.NotNull(limit, nameof(limit));
             _definition = _definition with { DeviceReadIops = Collections.Append(_definition.DeviceReadIops, limit) };
             return this;
+        }
+
+        /// <summary>
+        /// Adds a read limit in operations per second for a device, configured through a <see cref="BlkioLimitBuilder"/>.
+        /// </summary>
+        /// <param name="configure">Configures the limit.</param>
+        /// <returns>This builder.</returns>
+        public BlkioConfigBuilder WithDeviceReadIops(Action<BlkioLimitBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            BlkioLimitBuilder builder = new BlkioLimitBuilder();
+            configure(builder);
+            return WithDeviceReadIops(builder.Build());
         }
 
         /// <summary>
@@ -135,6 +163,20 @@ namespace DockerComposeFluent.Builders
         }
 
         /// <summary>
+        /// Adds a write limit in bytes per second for a device, configured through a <see cref="BlkioLimitBuilder"/>.
+        /// </summary>
+        /// <param name="configure">Configures the limit.</param>
+        /// <returns>This builder.</returns>
+        public BlkioConfigBuilder WithDeviceWriteBps(Action<BlkioLimitBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            BlkioLimitBuilder builder = new BlkioLimitBuilder();
+            configure(builder);
+            return WithDeviceWriteBps(builder.Build());
+        }
+
+        /// <summary>
         /// Adds a write limit in operations per second for a device.
         /// </summary>
         /// <param name="path">The device path.</param>
@@ -155,6 +197,20 @@ namespace DockerComposeFluent.Builders
             Guard.NotNull(limit, nameof(limit));
             _definition = _definition with { DeviceWriteIops = Collections.Append(_definition.DeviceWriteIops, limit) };
             return this;
+        }
+
+        /// <summary>
+        /// Adds a write limit in operations per second for a device, configured through a <see cref="BlkioLimitBuilder"/>.
+        /// </summary>
+        /// <param name="configure">Configures the limit.</param>
+        /// <returns>This builder.</returns>
+        public BlkioConfigBuilder WithDeviceWriteIops(Action<BlkioLimitBuilder> configure)
+        {
+            Guard.NotNull(configure, nameof(configure));
+
+            BlkioLimitBuilder builder = new BlkioLimitBuilder();
+            configure(builder);
+            return WithDeviceWriteIops(builder.Build());
         }
 
         /// <summary>

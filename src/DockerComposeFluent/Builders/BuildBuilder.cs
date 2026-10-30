@@ -513,6 +513,7 @@ namespace DockerComposeFluent.Builders
         public BuildBuilder WithSecret(SecretReference secret)
         {
             Guard.NotNull(secret, nameof(secret));
+            Guard.NotNullOrWhiteSpace(secret.Source, "source");
             _definition = _definition with { Secrets = Collections.Append(_definition.Secrets, secret) };
             return this;
         }
@@ -570,6 +571,23 @@ namespace DockerComposeFluent.Builders
             Guard.NotNull(ulimit, nameof(ulimit));
             _definition = _definition with { Ulimits = Collections.With(_definition.Ulimits, name, ulimit) };
             return this;
+        }
+
+        /// <summary>
+        /// Sets a resource limit, configured through a <see cref="UlimitBuilder"/>.
+        /// <see href="https://github.com/compose-spec/compose-spec/blob/main/build.md#ulimits"/>
+        /// </summary>
+        /// <param name="name">The limit name, which must be lower-case letters.</param>
+        /// <param name="configure">Configures the limit.</param>
+        /// <returns>This builder.</returns>
+        public BuildBuilder WithUlimit(string name, Action<UlimitBuilder> configure)
+        {
+            Guard.UlimitName(name, nameof(name));
+            Guard.NotNull(configure, nameof(configure));
+
+            UlimitBuilder builder = new UlimitBuilder();
+            configure(builder);
+            return WithUlimit(name, builder.Build());
         }
 
         /// <summary>
